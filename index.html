@@ -152,6 +152,29 @@ a.test:active{transform:translateY(1px)}
 .discont:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
 .avail-note{margin:12px 2px 0;font-size:13px;color:var(--ink-soft)}
 
+/* ---------- history ---------- */
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 14px}
+.section-head.second{margin-top:32px}
+.section-head .section-label{margin:0}
+.clear-hist{
+  background:transparent;border:none;padding:0;cursor:pointer;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+  color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;
+  transition:color .12s
+}
+.clear-hist:hover{color:var(--bad)}
+.clear-hist:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hist-item{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px
+}
+.hist-top{display:flex;align-items:baseline;gap:8px 10px;flex-wrap:wrap;margin-bottom:3px}
+.hist-title{font-family:var(--display);font-weight:600;font-size:15.5px;margin:0}
+.hist-score{margin-left:auto;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--violet);flex:none}
+.hist-report{margin:0;font-size:13px;color:var(--ink-soft)}
+.hist-meta{margin:6px 0 0;font-size:12px;color:var(--slate)}
+
 .foot{text-align:center;color:var(--slate);font-size:12.5px;margin:34px 0 0}
 
 @media (max-width:400px){
@@ -193,6 +216,12 @@ a.test:active{transform:translateY(1px)}
   <ul class="tests" id="avail"></ul>
   <p class="avail-note" id="availNote" hidden>Finish or discontinue your current test to start another — only one test can be open at a time.</p>
 
+  <div class="section-head second">
+    <p class="section-label">History</p>
+    <button type="button" class="clear-hist" id="clearHist" hidden>Clear history</button>
+  </div>
+  <ul class="hist" id="histList"></ul>
+
   <p class="foot">Everything runs in your browser. Nothing is sent anywhere.</p>
 </div>
 
@@ -201,6 +230,7 @@ a.test:active{transform:translateY(1px)}
 const EW = (() => {
   const NAME = "eggwhite:name";
   const ACTIVE = "eggwhite:active";
+  const HISTORY = "eggwhite:history";
   const rec = f => "eggwhite:test:" + f;
   const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
   const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
@@ -216,6 +246,9 @@ const EW = (() => {
     getRecord: f => gj(rec(f), null),
     saveRecord: (f, r) => sj(rec(f), r),
     clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
   };
 })();
 
@@ -241,6 +274,7 @@ const TESTS = [
 ];
 
 /* ============ RENDER ============ */
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function fmtWhen(ms){
   if(!ms) return "";
   const d = new Date(ms), now = new Date();
@@ -300,6 +334,31 @@ function render(){
       : '<li><a class="test" href="' + t.file + '">' + inner + '</a></li>';
   }).join("");
   document.getElementById("availNote").hidden = !locked;
+
+  /* --- history section --- */
+  renderHistory();
+}
+
+function renderHistory(){
+  const hist = EW.getHistory();
+  const listBox = document.getElementById("histList");
+  const clearBtn = document.getElementById("clearHist");
+  clearBtn.hidden = hist.length === 0;
+  if(hist.length === 0){
+    listBox.innerHTML = '<p class="filler">No tests completed yet. Finished attempts will show up here.</p>';
+    return;
+  }
+  listBox.innerHTML = hist.map(h => {
+    const meta = TESTS.find(t => t.file === h.file) || { title: h.title || h.file };
+    return '<li class="hist-item">'
+      +   '<div class="hist-top">'
+      +     '<h3 class="hist-title">' + esc(meta.title) + '</h3>'
+      +     '<span class="hist-score">' + esc(h.summary && h.summary.line || "") + '</span>'
+      +   '</div>'
+      +   (h.report ? '<p class="hist-report">' + esc(h.report) + '</p>' : '')
+      +   '<p class="hist-meta">' + (h.name ? esc(h.name) + " · " : "") + fmtWhen(h.completedAt) + '</p>'
+      + '</li>';
+  }).join("");
 }
 
 /* ============ WIRING ============ */
@@ -315,6 +374,12 @@ document.getElementById("active").addEventListener("click", e => {
   EW.clearRecord(b.dataset.file);
   EW.clearActive();
   render();
+});
+
+document.getElementById("clearHist").addEventListener("click", () => {
+  if(!confirm("Clear your test history? This removes all saved results and cannot be undone.")) return;
+  EW.clearHistory();
+  renderHistory();
 });
 
 /* keep the landing page fresh if another tab changes things */

@@ -234,6 +234,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 const EW = (() => {
   const NAME = "eggwhite:name";
   const ACTIVE = "eggwhite:active";
+  const HISTORY = "eggwhite:history";
   const rec = f => "eggwhite:test:" + f;
   const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
   const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
@@ -247,6 +248,9 @@ const EW = (() => {
     getRecord: f => gj(rec(f), null),
     saveRecord: (f, r) => sj(rec(f), r),
     clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
   };
 })();
 
@@ -603,7 +607,8 @@ function render(){
   const vPct=vScore/20*100;
   const overall=(mailPct+vPct)/2;
   const band=BANDS.find(b=>overall<=b.max)||BANDS[BANDS.length-1];
-  ewComplete(band.code+" · "+overall.toFixed(0)+"%", Math.round(overall));
+  ewComplete(band.code+" · "+overall.toFixed(0)+"%", Math.round(overall),
+    "Emails "+mailPct.toFixed(0)+"% · Vocabulary "+vScore+"/20 · "+band.name);
 
   let li="";LADDER.forEach(l=>{
     const you=(l[0]===band.code.slice(0,2));
@@ -689,12 +694,20 @@ function persist(){
   REC.progress = { done: Object.keys(picks).length, total: 20 };
   EW.saveRecord(EW_SELF, REC);
 }
-function ewComplete(line, pct){
+function ewComplete(line, pct, report){
   if(!REC) return;
+  const already = REC.status === "completed";
   REC.status = "completed";
   REC.answers = { flagged: flagged, picks: picks };
   REC.summary = { line: line, pct: pct };
   EW.saveRecord(EW_SELF, REC);
+  if(!already){
+    EW.addHistory({
+      file: EW_SELF, title: REC.title, name: REC.name || "",
+      startedAt: REC.startedAt, completedAt: Date.now(),
+      summary: REC.summary, report: report || ""
+    });
+  }
 }
 function ewDiscontinue(){
   if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
