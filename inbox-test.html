@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Business English Test — Editing &amp; Vocabulary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F1E1;--card:#FFFFFF;--ink:#2B2721;--ink-soft:#7C7160;--line:#E9E0CB;
+  --violet:#B5831C;--violet-soft:#FBEECB;--ochre:#CF7A2E;--ochre-soft:#FBE9D6;
+  --slate:#A99E88;--good:#2A6E52;--good-soft:#E2F0EA;--bad:#B23A1B;--bad-soft:#FBE7E0;
+  --yolk:#F2B60C;--nav-h:52px;
+  --display:"Fraunces",Georgia,serif;
+  --brand:"Bangers","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-top:var(--nav-h);padding-bottom:100px;overflow-wrap:break-word}
+
+/* ---------- fixed navbar ---------- */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line);text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
+.nav-name{font-family:var(--brand);font-size:23px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+.masthead{padding:20px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin:0 0 10px}
+.masthead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,37px);line-height:1.06;margin:0 0 12px;letter-spacing:-.022em}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--violet)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:46ch}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0 0}
+.howto h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 11px;font-weight:600}
+.howto p{margin:0 0 9px;font-size:14.5px;color:var(--ink-soft)}
+.howto p:last-child{margin-bottom:0}
+.howto b{color:var(--ink);font-weight:600}
+
+.progress{position:sticky;top:var(--nav-h);z-index:20;background:rgba(247,241,225,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:24px}
+.progress-in{max-width:640px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.pc{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.pt{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.pf{height:100%;width:0;background:var(--yolk);border-radius:99px;transition:width .25s}
+
+.part{padding:34px 0 8px}
+.part-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.part-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet);letter-spacing:.1em}
+.part-head h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;letter-spacing:-.015em}
+.part-note{margin:0 0 20px;color:var(--ink-soft);font-size:14px}
+.tier{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ochre);font-weight:600;margin:26px 0 12px;display:flex;align-items:center;gap:10px}
+.tier::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ---- email ---- */
+.mail{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:16px}
+.mail-hd{padding:14px 16px;border-bottom:1px solid var(--line);background:#FBF8F1}
+.mail-hd .row{display:flex;gap:8px;font-size:13px;margin-bottom:3px}
+.mail-hd .row:last-child{margin-bottom:0}
+.mail-hd .lab{font-family:var(--mono);font-size:11px;color:var(--slate);width:42px;flex:none;padding-top:2px}
+.mail-hd .val{color:var(--ink)}
+.mail-hd .val b{font-weight:600}
+.mail-bd{padding:17px 16px;font-size:15.5px;line-height:1.95}
+.seg{cursor:pointer;border-radius:4px;padding:3px 1px;transition:background .12s,box-shadow .12s;display:inline}
+.seg:hover{background:#F3EEE1}
+.seg.on{background:var(--ochre-soft);box-shadow:inset 0 -2px 0 var(--ochre);font-weight:500}
+.mail-ft{border-top:1px dashed var(--line);padding:14px 16px;background:#FBF8F1}
+.mail-ft h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;font-weight:600}
+.fixrow{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fixrow:last-child{margin-bottom:0}
+.fixrow .was{font-size:13px;color:var(--ink-soft)}
+.fixrow .was b{color:var(--ochre);font-weight:600}
+.fixrow input{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:11px 12px;font-family:var(--body);font-size:16px;color:var(--ink);background:#fff}
+.fixrow input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft)}
+.empty{font-size:13.5px;color:var(--slate);margin:0}
+
+/* ---- vocab ---- */
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px 16px;margin-bottom:14px;scroll-margin-top:120px}
+.q.flag{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.q-head{display:flex;gap:11px;align-items:baseline;margin-bottom:6px}
+.q-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none;padding-top:3px}
+.q-word{font-family:var(--display);font-weight:600;font-size:23px;letter-spacing:-.015em;margin:0}
+.q-ctx{margin:0 0 14px 23px;font-size:14px;color:var(--ink-soft);font-style:italic;line-height:1.45}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:#FBF8F1;border:1.5px solid var(--line);border-radius:11px;padding:12px 13px;font-family:var(--body);font-size:15.5px;color:var(--ink);cursor:pointer;line-height:1.35;transition:border-color .12s,background .12s;min-height:46px}
+.opt:hover{border-color:var(--slate)}
+.opt:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.opt-l{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);padding-top:2px;flex:none}
+.opt.on{background:var(--violet-soft);border-color:var(--violet)}
+.opt.on .opt-l{color:var(--violet)}
+
+.submit-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,241,225,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.submit-in{max-width:640px;margin:0 auto}
+.btn{width:100%;background:var(--yolk);color:var(--ink);border:none;border-radius:12px;padding:15px;font-family:var(--body);font-size:16px;font-weight:700;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--violet);border:1.5px solid var(--violet)}
+.warn{margin:0 0 9px;font-size:13.5px;color:var(--bad);text-align:center;display:none}
+.warn.show{display:block}
+.btn-exit{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);margin-top:8px;font-weight:500;font-size:14px;padding:11px}
+.btn-exit:hover{border-color:var(--bad);color:var(--bad)}
+.taking{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--violet);letter-spacing:.02em}
+
+/* ---- results ---- */
+.results{display:none;padding:20px 0 40px}
+.results.show{display:block}
+.scorecard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 20px;margin-bottom:16px}
+.score-big{font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,58px);line-height:.95;letter-spacing:-.03em;margin:0}
+.score-big span{font-size:25px;color:var(--slate);font-weight:400}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin:8px 0 0}
+.grade-line{margin:22px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.grade-band{font-family:var(--display);font-weight:800;font-size:clamp(31px,9.5vw,40px);margin:0;letter-spacing:-.02em;color:var(--violet)}
+.grade-name{margin:2px 0 0;font-size:16px;font-weight:600}
+.grade-desc{margin:9px 0 0;color:var(--ink-soft);font-size:14.5px}
+.ladder{margin:26px 0 0}
+.ladder-track{display:flex;gap:3px;height:38px;position:relative}
+.rung{flex:1;background:var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-soft);transition:background .4s ease .2s}
+.rung.filled{background:#F3DFA0;color:var(--violet)}
+.rung.here{background:var(--yolk);color:var(--ink)}
+.marker{position:absolute;top:-16px;transform:translateX(-50%);font-size:13px;color:var(--violet);transition:left .5s cubic-bezier(.34,1.2,.64,1);left:0}
+.ladder-ends{display:flex;justify-content:space-between;margin-top:7px}
+.ladder-ends span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px;font-weight:600}
+.tile p{margin:0;font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:-.02em}
+.tile p span{font-size:14px;color:var(--slate);font-weight:400}
+.tile small{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 14px}
+.levels{margin:0;padding:0;list-style:none}
+.levels li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.levels li:first-child{border-top:none}
+.levels li.you{background:var(--violet-soft);margin:0 -18px;padding-left:18px;padding-right:18px;border-radius:8px;border-top-color:transparent}
+.lv-code{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--violet);flex:none;width:34px;padding-top:2px}
+.lv-body b{display:block;font-weight:600;margin-bottom:1px}
+.lv-body span{color:var(--ink-soft);font-size:13.5px}
+.you-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--violet);text-transform:uppercase;margin-left:6px}
+.review{margin:0;padding:0;list-style:none}
+.rev{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
+.rev:first-child{border-top:none}
+.rev-i{flex:none;width:22px;font-size:15px;padding-top:1px}
+.rev-b{flex:1;min-width:0}
+.rev-b .from{color:var(--bad);text-decoration:line-through;font-weight:500}
+.rev-b .to{color:var(--good);font-weight:600}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:4px;line-height:1.45}
+.rev-b .yours{font-family:var(--mono);font-size:12px;color:var(--slate);display:block;margin-top:3px}
+.pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
+.pts-2{background:var(--good-soft);color:var(--good)}
+.pts-15{background:var(--violet-soft);color:var(--violet)}
+.pts-1{background:var(--ochre-soft);color:var(--ochre)}
+.pts-0{background:var(--bad-soft);color:var(--bad)}
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
+@media (max-width:460px){
+  .split{grid-template-columns:1fr}
+}
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .progress-in{padding:11px 14px}
+  .part{padding:26px 0 8px}
+  .mail-bd{font-size:15px;padding:16px 14px;line-height:2.05}
+  .mail-hd,.mail-ft{padding-left:14px;padding-right:14px}
+  .q{padding:16px 14px 14px}
+  .scorecard{padding:22px 16px}
+  .panel{padding:18px 15px}
+  .levels li.you{margin:0 -15px;padding-left:15px;padding-right:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Round 2 · Editing &amp; corporate vocabulary</p>
+    <h1>How sharp is your <em>working English</em>?</h1>
+    <p class="lede">Two parts: catch and fix the wrong phrases hiding in three workplace emails, then twenty corporate vocabulary questions. Harder than the level test — a low score here is expected.</p>
+    <div class="howto">
+      <h2>How it works</h2>
+      <p><b>Part I — Editing.</b> Tap any phrase you think is wrong. A box appears below the email — type what it should say instead.</p>
+      <p><b>Scoring:</b> spotting an error earns 1 point, a partly right fix earns 1&frac12;, a correct fix earns 2. <b>Tapping something already correct costs you 1 point</b>, so don't tap everything.</p>
+      <p><b>Part II — Vocabulary.</b> Twenty words from everyday corporate use. Ten medium, ten advanced.</p>
+    </div>
+    <p class="taking" id="taking" hidden></p>
+  </header>
+</div>
+
+<div class="progress">
+  <div class="progress-in">
+    <span class="pc"><span id="pDone">0</span>/20 words · <span id="pFlag">0</span> flagged</span>
+    <span class="pt"><span class="pf" id="pFill"></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="paper">
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART I</span><h2>Spot the errors</h2></div>
+      <p class="part-note">Tap the phrases that don't belong in professional English.</p>
+      <div id="mails"></div>
+    </section>
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART II</span><h2>Corporate Vocabulary</h2></div>
+      <p class="part-note">Choose the meaning closest to the word as it's used.</p>
+      <div id="vocab"></div>
+    </section>
+  </main>
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+
+<div class="submit-bar">
+  <div class="submit-in">
+    <p class="warn" id="warn"></p>
+    <button class="btn" id="go">Score my answers</button>
+    <button type="button" class="btn btn-exit" id="btnDiscont">Discontinue test</button>
+  </div>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const ACTIVE = "eggwhite:active";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    getName: () => gs(NAME),
+    getActive: () => gs(ACTIVE),
+    setActive: f => { try { localStorage.setItem(ACTIVE, f); } catch (e) {} },
+    clearActive: () => rm(ACTIVE),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+  };
+})();
+
+/* ================= EMAILS ================= */
+const E=(t,fix,near,why)=>({t:t,fix:fix,near:near,why:why});
+const MAILS=[
+{from:"Arun Nagarajan",to:"Priya (Engineering Manager)",subj:"Payment module \u2014 status",body:[
+ "Hi Priya,\n\n","I ",
+ E("am working",
+   ["have been working","have been","i have been working","have worked","have been working on it"],
+   ["worked","was working","am having worked","have working"],
+   "\u201CThree weeks\u201D measures a stretch of time reaching up to now, so this needs the present perfect continuous."),
+ " on the payment module ",
+ E("since three weeks",
+   ["for three weeks","for the last three weeks","for the past three weeks","over the last three weeks","for 3 weeks","for three weeks now","these three weeks"],
+   ["since three weeks ago","since the last three weeks","from three weeks"],
+   "\u201CSince\u201D takes a starting point \u2014 since 3 March. A length of time takes \u201Cfor\u201D."),
+ ", and ",
+ E("I have completed",
+   ["i completed","i finished","completed","finished","i wrapped up","i closed out"],
+   ["i had completed","i have finished","i complete","i was completing"],
+   "\u201CYesterday\u201D is finished past time, so it takes the simple past. The present perfect cannot sit with a specific past time."),
+ " the integration part ","yesterday.\n\n",
+ E("Myself and Karthik",
+   ["karthik and i","karthik and i have","i and karthik"],
+   ["karthik and me","me and karthik","karthik and myself","myself and karthik have"],
+   "\u201CMyself\u201D cannot be a subject. Use \u201CI\u201D \u2014 and convention puts the other person first."),
+ " ",
+ E("has tested",
+   ["have tested","tested","have both tested","have already tested"],
+   ["have been testing","are testing","had tested","have test"],
+   "Two people are the subject, so the verb is plural."),
+ " it on staging ","and the results look fine.\n\n","There is ",
+ E("one doubt",
+   ["one question","a question","question","one query","a query","query","one clarification","a clarification","one thing"],
+   ["some doubt","a small doubt","one confusion"],
+   "In English a doubt is disbelief in something. A thing you want explained is a question."),
+ " regarding the refund flow \u2014 ",
+ E("kindly clarify the same",
+   ["please clarify","could you clarify","please clarify this","can you clarify","could you please clarify","please could you clarify","please clarify it","would you clarify","please explain","could you explain","please advise","can you explain"],
+   ["kindly clarify","please clarify the same","clarify","please clarify same"],
+   "\u201CKindly \u2026 the same\u201D is dated officialese. Plain \u201Ccould you clarify\u201D is what a colleague would write."),
+ ".\n\n","Also, ",
+ E("I will revert back to you",
+   ["i will get back to you","i'll get back to you","i will get back","i'll get back","i will follow up","i'll follow up","i will come back to you","i will reply","i will send it","i will share it","i'll come back to you"],
+   ["i will revert to you","i will revert","i'll revert","i will revert back","i will get back to you soon"],
+   "\u201CRevert\u201D means return to an earlier state, and \u201Crevert back\u201D doubles it. Say \u201Cget back to you\u201D."),
+ " with the final estimate ","by tomorrow EOD.\n\n","Regards,\nArun"]},
+
+{from:"Meera Iyer",to:"David Chen (Client)",subj:"Revised proposal",body:[
+ "Dear Mr Chen,\n\n","Thank you for your email. ",
+ E("Please find attached herewith",
+   ["please find attached","i have attached","i've attached","attached is","i am attaching","i'm attaching","please find the attached","please see attached","see attached","i attach","attached please find","here is"],
+   ["find attached","please find enclosed","attached herewith","please find attached the"],
+   "\u201CHerewith\u201D repeats what \u201Cattached\u201D already says. One or the other \u2014 and \u201CI've attached\u201D is warmer than both."),
+ " the revised proposal ",
+ E("for your kind perusal",
+   ["for your review","for review","to review","for your reference","for your consideration","for your comments","for your feedback","for you to review","for your input"],
+   ["for your kind review","for perusal","for your perusal","for your kind reference"],
+   "Ornamental officialese. \u201CFor your review\u201D is the modern equivalent."),
+ ".\n\n","As discussed, we can ",
+ E("prepone",
+   ["move up","bring forward","move forward","advance","bring it forward","move it up","move earlier","pull forward","reschedule earlier","bring it earlier","move it forward"],
+   ["shift","move","bring","preone","reschedule"],
+   "\u201CPrepone\u201D is Indian English and will not be understood outside South Asia. Use \u201Cmove up\u201D or \u201Cbring forward\u201D."),
+ " the kickoff to next Tuesday ",
+ E("if the same is convenient",
+   ["if that works","if that is convenient","if that suits you","if this works","if that works for you","if this is convenient","if that suits","if it is convenient","if that is suitable","if you are available","if that is okay"],
+   ["if the same works","if convenient","if same is convenient","if it suits"],
+   "\u201CThe same\u201D standing in for a noun is legal drafting, not correspondence. Just say \u201Cthat\u201D."),
+ " for you.\n\n","Our team has already started ","the discovery work, ","and we are confident of delivering ",
+ E("more better",
+   ["better","much better","far better","significantly better","considerably better"],
+   ["more good","most better","best","more improved"],
+   "\u201CBetter\u201D is already the comparative form. Adding \u201Cmore\u201D doubles it."),
+ " results than the previous vendor.\n\n",
+ E("Kindly do the needful",
+   ["please confirm","please go ahead","please arrange this","please proceed","please let us know","please take this forward","could you confirm","please action this","please review and confirm","please advise"],
+   ["kindly confirm","do the needful","please do this","please do the needful","kindly proceed"],
+   "Opaque outside India, and it never states what you actually want done. Say the action."),
+ " and confirm.\n\n","Best regards,\nMeera"]},
+
+{from:"Rohit Desai",to:"#platform-team",subj:"Production build failure",body:[
+ "Team,\n\n",
+ E("Yesterday night",
+   ["last night","late last night","overnight"],
+   ["yesterday evening","last evening","yesterday at night","the last night"],
+   "English has \u201Clast night\u201D, not \u201Cyesterday night\u201D."),
+ " the build failed on production. ",
+ E("I have informed",
+   ["i informed","i told","i notified","i alerted","i flagged it to","i raised it with","informed","i pinged"],
+   ["i had informed","i have told","i have notified","i was informing"],
+   "A specific finished time \u2014 11 PM \u2014 takes the simple past."),
+ " ",
+ E("the same to DevOps",
+   ["devops","the devops team","them","this to devops","it to devops","devops team","the issue to devops"],
+   ["the devops","same to devops","this to the devops"],
+   "\u201CThe same\u201D as a pronoun is officialese. Name the thing, or drop it."),
+ " at 11 PM, ","but nobody responded.\n\n",
+ E("Each of the leads have",
+   ["each of the leads has","each lead has","every lead has","all the leads have","all leads have","each of the leads needs"],
+   ["each of the lead has","each leads has","the leads have","each of leads has"],
+   "\u201CEach\u201D is singular however plural the noun after it looks."),
+ " to review the rollback plan ","before we deploy again.\n\n","There are ",
+ E("less number of bugs",
+   ["fewer bugs","fewer defects","fewer issues","a smaller number of bugs","fewer bugs now"],
+   ["less bugs","lesser bugs","fewer number of bugs","a lower number of bugs","less no of bugs"],
+   "Countable things take \u201Cfewer\u201D, and \u201Cnumber of\u201D is redundant on top of it."),
+ " now compared to last sprint, ","but we still need to ",
+ E("discuss about",
+   ["discuss","to discuss","talk about","agree on","go over","settle","review","align on"],
+   ["discuss on","discuss regarding","discuss over","have a discussion about"],
+   "\u201CDiscuss\u201D already contains the sense of \u201Cabout\u201D."),
+ " the release criteria.\n\n","Also, please ",
+ E("intimate me",
+   ["let me know","tell me","inform me","update me","notify me","let us know","flag it to me","give me a heads up"],
+   ["intimate","inform","notify","let me known","information me"],
+   "\u201CIntimate\u201D meaning \u201Cinform\u201D is Indian-English officialese. Elsewhere it means to hint at something."),
+ " if anyone is ",
+ E("out of station",
+   ["out of town","away","travelling","traveling","on leave","out of office","unavailable","not around","off","away from town","not in town"],
+   ["out of city","out of the station","outstation","out of the office","out"],
+   "\u201COut of station\u201D is Indian English. Say \u201Cout of town\u201D or \u201Caway\u201D."),
+ " next week."]}
+];
+
+/* ================= VOCAB ================= */
+const VOCAB=[
+["Leverage","We should leverage our existing client relationships.",["Make full use of","Carefully protect","Slowly build up","Openly question"],0],
+["Mitigate","The team added tests to mitigate the deployment risk.",["Clearly document","Formally approve","Reduce the effect","Delay for later"],2],
+["Streamline","We need to streamline the onboarding process.",["Record in fine detail","Make more efficient","Split across teams","Pause for full review"],1],
+["Escalate","If the client doesn't respond, escalate it.",["Note it down in writing","Quietly set it to one side","Repeat it once again later","Take to a senior person"],3],
+["Contingency","Keep a contingency in case the vendor delays.",["A backup arrangement","A written complaint","A final agreement","A running summary"],0],
+["Consensus","We reached a consensus after two hours of debate.",["A fixed final deadline","A general agreement","A formal written warning","A rough cost estimate"],1],
+["Delegate","As a lead you must learn to delegate routine work.",["Finish ahead of time","Record for later use","Set aside for review","Hand to someone else"],3],
+["Feasible","The timeline is tight, but feasible.",["Open to change","Fixed in advance","Able to be done","Agreed by all"],2],
+["Redundant","After the merger, several roles became redundant.",["Highly demanding","No longer needed","Newly created","Formally listed"],1],
+["Discrepancy","There's a discrepancy between the invoice and the PO.",["A mismatch in detail","A shared purpose","A signed approval","A delay in payment"],0],
+["Attrition","Attrition in the support team has risen this quarter.",["Sudden rise in cost","Steady gain in speed","Long delay in hiring","Gradual loss of staff"],3],
+["Caveat","I'll approve it, with one caveat about the timeline.",["A minor correction","A private opinion","A stated condition","A formal request"],2],
+["Granular","Can you give me a more granular breakdown of costs?",["Finely detailed","Broadly grouped","Roughly ordered","Newly updated"],0],
+["Contingent","The bonus is contingent on hitting the Q3 target.",["Unrelated to it","Conditional on it","Much larger than","Delayed by it"],1],
+["Precedent","Approving this would set a precedent for other teams.",["A strict deadline","A common budget","An earlier example","A formal warning"],2],
+["Discretionary","The travel budget is discretionary, not guaranteed.",["Fixed by policy","Shared by teams","Paid in advance","Left to judgment"],3],
+["Onerous","The compliance checks are onerous but unavoidable.",["Quick and simple","Heavy and tiring","Rare and unusual","Cheap and quick"],1],
+["Purview","That decision falls outside my purview.",["Range of authority","Length of service","Field of interest","Level of funding"],0],
+["Tacit","There was tacit approval from the leadership.",["Loudly announced","Formally recorded","Briefly delayed","Silently understood"],3],
+["Ostensible","The ostensible reason was cost, but morale was the issue.",["Proven and certain","Hidden from view","Apparent, not real","Agreed by everyone"],2]
+];
+
+const LETTERS=["A","B","C","D"];
+const flagged={};   // segId -> correction string
+const picks={};     // vocab idx -> option idx
+
+/* ================= RENDER ================= */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function nl(s){return esc(s).replace(/\n/g,"<br>");}
+
+let mh="";
+MAILS.forEach((m,mi)=>{
+  mh+='<article class="mail"><div class="mail-hd">'
+    +'<div class="row"><span class="lab">From</span><span class="val"><b>'+esc(m.from)+'</b></span></div>'
+    +'<div class="row"><span class="lab">To</span><span class="val">'+esc(m.to)+'</span></div>'
+    +'<div class="row"><span class="lab">Subject</span><span class="val"><b>'+esc(m.subj)+'</b></span></div>'
+    +'</div><div class="mail-bd" id="bd'+mi+'">';
+  m.body.forEach((s,si)=>{
+    const txt=(typeof s==="string")?s:s.t;
+    mh+='<span class="seg" data-id="'+mi+'-'+si+'">'+nl(txt)+'</span>';
+  });
+  mh+='</div><div class="mail-ft"><h4>Your corrections</h4><div id="fx'+mi+'"><p class="empty">Nothing flagged in this email yet.</p></div></div></article>';
+});
+document.getElementById("mails").innerHTML=mh;
+
+let vh="";
+VOCAB.forEach((v,i)=>{
+  if(i===0) vh+='<p class="tier">Medium</p>';
+  if(i===10) vh+='<p class="tier">Advanced</p>';
+  vh+='<article class="q" id="q'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")
+    +'</span><p class="q-word">'+v[0]+'</p></div><p class="q-ctx">&ldquo;'+esc(v[1])+'&rdquo;</p><div class="opts">';
+  v[2].forEach((o,j)=>{
+    vh+='<button type="button" class="opt" data-v="'+i+'" data-j="'+j+'"><span class="opt-l">'+LETTERS[j]+'</span><span>'+esc(o)+'</span></button>';
+  });
+  vh+='</div></article>';
+});
+document.getElementById("vocab").innerHTML=vh;
+
+/* ================= INTERACTION ================= */
+document.getElementById("paper").addEventListener("click",e=>{
+  const seg=e.target.closest(".seg");
+  if(seg){
+    const id=seg.dataset.id;
+    if(id in flagged){delete flagged[id];seg.classList.remove("on");}
+    else{flagged[id]="";seg.classList.add("on");}
+    drawFix(+id.split("-")[0]);
+    tick();persist();return;
+  }
+  const opt=e.target.closest(".opt");
+  if(opt){
+    const i=+opt.dataset.v,j=+opt.dataset.j;
+    picks[i]=j;
+    const card=document.getElementById("q"+i);
+    card.classList.remove("flag");
+    card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===j));
+    tick();persist();
+  }
+});
+
+function drawFix(mi){
+  const box=document.getElementById("fx"+mi);
+  const ids=Object.keys(flagged).filter(k=>+k.split("-")[0]===mi)
+    .sort((a,b)=>+a.split("-")[1]-+b.split("-")[1]);
+  if(!ids.length){box.innerHTML='<p class="empty">Nothing flagged in this email yet.</p>';return;}
+  let h="";
+  ids.forEach(id=>{
+    const si=+id.split("-")[1],s=MAILS[mi].body[si];
+    const txt=(typeof s==="string")?s:s.t;
+    h+='<div class="fixrow"><span class="was">Replace <b>'+esc(txt.trim())+'</b> with</span>'
+      +'<input type="text" data-fx="'+id+'" value="'+esc(flagged[id])+'" placeholder="type the correction" autocomplete="off" autocapitalize="off" spellcheck="false"></div>';
+  });
+  box.innerHTML=h;
+}
+document.getElementById("paper").addEventListener("input",e=>{
+  if(e.target.dataset.fx!==undefined){ flagged[e.target.dataset.fx]=e.target.value; persist(); }
+});
+
+function tick(){
+  const n=Object.keys(picks).length;
+  document.getElementById("pDone").textContent=n;
+  document.getElementById("pFlag").textContent=Object.keys(flagged).length;
+  document.getElementById("pFill").style.width=(n/20*100)+"%";
+}
+tick();
+
+/* ================= SCORING ================= */
+const CONTR=[[/\bi'?ll\b/g,"i will"],[/\bi'?ve\b/g,"i have"],[/\bi'?m\b/g,"i am"],
+ [/\bdon'?t\b/g,"do not"],[/\bdoesn'?t\b/g,"does not"],[/\bdidn'?t\b/g,"did not"],
+ [/\bwon'?t\b/g,"will not"],[/\bcan'?t\b/g,"cannot"],[/\bit'?s\b/g,"it is"],
+ [/\bthat'?s\b/g,"that is"],[/\bwe'?re\b/g,"we are"],[/\byou'?re\b/g,"you are"],
+ [/\bwe'?ll\b/g,"we will"],[/\bhe'?s\b/g,"he is"],[/\bshe'?s\b/g,"she is"]];
+function norm(s){
+  let x=(s||"").toLowerCase()
+    .replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"');
+  CONTR.forEach(c=>{x=x.replace(c[0],c[1]);});
+  x=x.replace(/[.,;:!?"()\u2014\u2013-]/g," ").replace(/'/g,"")
+     .replace(/\s+/g," ").trim();
+  x=x.split(" ").filter(w=>w&&w!=="a"&&w!=="an"&&w!=="the").join(" ");
+  return x.replace(/^to\s+/,"").trim();
+}
+function lev(a,b){
+  if(a===b)return 0;
+  const m=a.length,n=b.length;
+  if(!m||!n)return m||n;
+  let prev=Array.from({length:n+1},(_,i)=>i),cur=new Array(n+1);
+  for(let i=1;i<=m;i++){cur[0]=i;
+    for(let j=1;j<=n;j++){
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    }
+    [prev,cur]=[cur,prev];
+  }
+  return prev[n];
+}
+function tol(s){return s.length>10?2:(s.length>4?1:0);}
+function grade(ans,s){
+  const u=norm(ans);
+  if(!u) return 1;                       // flagged but left blank
+  if(u===norm(s.t)) return 1;            // just restated the error
+  for(const f of s.fix){const n=norm(f);
+    if(u===n) return 2;
+    if(lev(u,n)<=tol(n)) return 2;       // typo tolerance
+  }
+  for(const f of (s.near||[])){const n=norm(f);
+    if(u===n||lev(u,n)<=tol(n)) return 1.5;
+  }
+  const ut=u.split(" ");
+  for(const f of s.fix){
+    const ft=norm(f).split(" ").filter(Boolean);
+    if(!ft.length) continue;
+    const overlap=ft.filter(t=>ut.includes(t)).length/ft.length;
+    if(overlap>=0.5) return 1.5;         // right idea, wrong form
+  }
+  return 1;
+}
+const BANDS=[
+ {max:17,code:"A2",name:"Elementary or below",seg:1,desc:"The foundation is still being built. Focus on high-frequency words and basic tense forms before register."},
+ {max:34,code:"B1",name:"Intermediate",seg:2,desc:"You handle everyday work English, but formal register and embedded errors slip past unnoticed."},
+ {max:54,code:"B2",name:"Upper Intermediate",seg:3,desc:"You read and write professionally without much strain. Where you lose ground is the officialese that sounds correct because everyone around you writes it."},
+ {max:69,code:"B2+",name:"Upper Intermediate, approaching C1",seg:3,desc:"Strong, dependable English with real reach into advanced usage. Precision in formal register is the remaining gap."},
+ {max:84,code:"C1",name:"Advanced",seg:4,desc:"You catch register as well as grammar, and you can tell the difference between what is wrong and what is merely dated."},
+ {max:100,code:"C2",name:"Mastery",seg:5,desc:"Near-native control of idiom, register and nuance — including the errors that have become invisible through local habit."}
+];
+const LADDER=[
+ ["A1","Beginner","Basic phrases and immediate needs. Around 500\u20131,000 words."],
+ ["A2","Elementary","Simple routine exchanges on familiar topics. Around 1,500\u20132,500 words."],
+ ["B1","Intermediate","Handles daily work situations and describes experiences. Around 2,500\u20133,500 words."],
+ ["B2","Upper Intermediate","Reads and writes professionally, argues a viewpoint. Around 4,000\u20136,000 words."],
+ ["C1","Advanced","Handles literature, academic writing and register shifts with ease. Around 8,000\u201310,000 words."],
+ ["C2","Mastery","Near-native precision in idiom, connotation and nuance. 12,000+ words."]
+];
+
+document.getElementById("go").addEventListener("click",()=>{
+  const miss=[];for(let i=0;i<20;i++) if(!(i in picks)) miss.push(i);
+  const warn=document.getElementById("warn");
+  if(miss.length){
+    warn.textContent=miss.length+" vocabulary question"+(miss.length>1?"s":"")+" still unanswered.";
+    warn.classList.add("show");
+    const c=document.getElementById("q"+miss[0]);
+    c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  warn.classList.remove("show");
+  render();
+});
+
+function render(){
+  let found=0,fixedOK=0,partial=0,falseFlags=0,total=0,ptsSum=0,rev="";
+  MAILS.forEach((m,mi)=>{
+    m.body.forEach((s,si)=>{
+      const id=mi+"-"+si,isErr=(typeof s!=="string"),hit=(id in flagged);
+      if(isErr){
+        total++;
+        let pts=0;
+        if(hit){found++;pts=grade(flagged[id],s);
+          if(pts===2)fixedOK++; else if(pts===1.5)partial++;
+        }
+        ptsSum+=pts;
+        const cls=pts===2?"2":(pts===1.5?"15":(pts===1?"1":"0"));
+        const ic=pts===2?"\u2713":(pts===1.5?"\u2248":(pts===1?"\u25B3":"\u2717"));
+        rev+='<li class="rev"><span class="rev-i">'+ic+'</span>'
+          +'<span class="rev-b"><span class="from">'+esc(s.t.trim())+'</span> &rarr; <span class="to">'+esc(s.fix[0])+'</span>'
+          +(hit&&pts<2?'<span class="yours">you wrote: '+(esc(flagged[id])||"\u2014")+'</span>':'')
+          +'<em>'+s.why+'</em></span>'
+          +'<span class="pts pts-'+cls+'">'+pts+'</span></li>';
+      } else if(hit){
+        falseFlags++;
+        rev+='<li class="rev"><span class="rev-i">\u2717</span><span class="rev-b">'
+          +'<b>&ldquo;'+esc(s.trim())+'&rdquo;</b> was already correct.'
+          +'<em>False flag \u2014 nothing wrong with this phrase.</em></span>'
+          +'<span class="pts pts-0">\u22121</span></li>';
+      }
+    });
+  });
+  const mailMax=total*2;
+  const mailRaw=Math.max(0,ptsSum-falseFlags);
+  const mailPct=mailRaw/mailMax*100;
+
+  let vScore=0,vRev="";
+  VOCAB.forEach((v,i)=>{
+    const ok=picks[i]===v[3];if(ok)vScore++;
+    vRev+='<li class="rev"><span class="rev-i">'+(ok?"\u2713":"\u2717")+'</span><span class="rev-b">'
+      +'<b>'+v[0]+'</b> &mdash; <span class="to">'+esc(v[2][v[3]])+'</span>'
+      +(ok?'':'<span class="yours">you chose: '+esc(v[2][picks[i]])+'</span>')
+      +'</span><span class="pts pts-'+(ok?2:0)+'">'+(ok?1:0)+'</span></li>';
+  });
+  const vPct=vScore/20*100;
+  const overall=(mailPct+vPct)/2;
+  const band=BANDS.find(b=>overall<=b.max)||BANDS[BANDS.length-1];
+  ewComplete(band.code+" · "+overall.toFixed(0)+"%", Math.round(overall));
+
+  let li="";LADDER.forEach(l=>{
+    const you=(l[0]===band.code.slice(0,2));
+    li+='<li class="'+(you?"you":"")+'"><span class="lv-code">'+l[0]+'</span><span class="lv-body"><b>'+l[1]
+      +(you?'<span class="you-tag">you are here</span>':'')+'</b><span>'+l[2]+'</span></span></li>';
+  });
+  let rungs="";LADDER.forEach((l,i)=>{
+    rungs+='<span class="rung'+(i<band.seg?" filled":(i===band.seg?" here":""))+'">'+l[0]+'</span>';
+  });
+
+  document.getElementById("results").innerHTML=
+   '<div class="scorecard">'
+   +'<p class="score-big">'+overall.toFixed(0)+'<span>%</span></p>'
+   +'<p class="score-pct">'+found+'/'+total+' spotted \u00b7 '+fixedOK+' fixed \u00b7 '+partial+' partial \u00b7 '+falseFlags+' false flag'+(falseFlags===1?'':'s')+'</p>'
+   +'<div class="grade-line"><p class="grade-band">'+band.code+'</p><p class="grade-name">'+band.name+'</p>'
+   +'<p class="grade-desc">'+band.desc+'</p></div>'
+   +'<div class="ladder"><div class="ladder-track"><span class="marker" style="left:'+((band.seg+0.5)/6*100)+'%">\u25bc</span>'+rungs+'</div>'
+   +'<div class="ladder-ends"><span>Beginner</span><span>Mastery</span></div></div></div>'
+   +'<div class="split">'
+   +'<div class="tile"><h3>Editing</h3><p>'+mailRaw+'<span> / '+mailMax+'</span></p><small>'+mailPct.toFixed(0)+'%</small></div>'
+   +'<div class="tile"><h3>Vocabulary</h3><p>'+vScore+'<span> / 20</span></p><small>'+vPct.toFixed(0)+'%</small></div>'
+   +'</div>'
+   +'<div class="panel"><h3>The full scale</h3><ul class="levels">'+li+'</ul></div>'
+   +'<div class="panel"><h3>Every error in the emails</h3><ul class="review">'+rev+'</ul></div>'
+   +'<div class="panel"><h3>Vocabulary answers</h3><ul class="review">'+vRev+'</ul></div>'
+   +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
+   +'<button class="btn btn-exit" onclick="ewDiscontinue()">Discontinue &amp; back to all tests</button>'
+   +'<p class="foot">Corrections are matched against a wide list of accepted answers, with typos and near-misses given partial credit. Check the review before arguing with your score.</p>';
+
+  document.getElementById("results").classList.add("show");
+  document.getElementById("paper").style.display="none";
+  document.querySelector(".progress").style.display="none";
+  document.querySelector(".submit-bar").style.display="none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================================================================
+   eggwhite — session persistence & single-open-test enforcement
+   ================================================================ */
+const EW_SELF = "inbox-test.html";
+let REC = null;
+{
+  const stored = EW.getRecord(EW_SELF);
+  const other = EW.getActive();
+  if(!stored && other && other !== EW_SELF){
+    location.replace("index.html");            // another test is already open
+  } else if(stored){
+    REC = stored;
+    const a = REC.answers || {};
+    if(a.flagged) Object.assign(flagged, a.flagged);
+    if(a.picks) Object.assign(picks, a.picks);
+    document.querySelectorAll(".seg").forEach(seg=>{
+      seg.classList.toggle("on", seg.dataset.id in flagged);
+    });
+    MAILS.forEach((m,mi)=>drawFix(mi));
+    for(const i in picks){
+      const card=document.getElementById("q"+i);
+      if(card) card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===picks[i]));
+    }
+    tick();
+    if(REC.status === "completed") render();
+  } else {
+    REC = { file:EW_SELF, title:"Business English Test", startedAt:Date.now(),
+            name:EW.getName(), status:"in-progress",
+            answers:{flagged:{},picks:{}}, progress:{done:0,total:20} };
+    EW.saveRecord(EW_SELF, REC);
+    EW.setActive(EW_SELF);
+  }
+}
+
+(function(){
+  const nm = (REC && REC.name) || EW.getName();
+  if(nm){
+    const el = document.getElementById("taking");
+    el.textContent = "Taking this as " + nm + ".";
+    el.hidden = false;
+  }
+})();
+
+function persist(){
+  if(!REC || REC.status === "completed") return;
+  REC.answers = { flagged: flagged, picks: picks };
+  REC.progress = { done: Object.keys(picks).length, total: 20 };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewComplete(line, pct){
+  if(!REC) return;
+  REC.status = "completed";
+  REC.answers = { flagged: flagged, picks: picks };
+  REC.summary = { line: line, pct: pct };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewDiscontinue(){
+  if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
+  EW.clearRecord(EW_SELF);
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.href = "index.html";
+}
+function ewRetake(){
+  if(!confirm("Clear this attempt and start the test over?")) return;
+  EW.clearRecord(EW_SELF);
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.reload();
+}
+document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
+</script>
+</body>
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English Level Test — Vocabulary &amp; Grammar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F1E1;          /* egg white — primary surface */
+  --card:#FFFFFF;
+  --ink:#2B2721;
+  --ink-soft:#7C7160;
+  --line:#E9E0CB;
+  --violet:#B5831C;         /* deep yolk — accent text, borders, links */
+  --violet-soft:#FBEECB;    /* pale yolk — selected backgrounds */
+  --ochre:#CF7A2E;          /* shell orange — secondary flag accent */
+  --ochre-soft:#FBE9D6;
+  --slate:#A99E88;
+  --good:#2A6E52;
+  --good-soft:#E2F0EA;
+  --bad:#B23A1B;
+  --bad-soft:#FBE7E0;
+  --yolk:#F2B60C;           /* egg yellow — secondary, fills & buttons */
+  --nav-h:52px;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --brand:"Bangers","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.5;
+  padding-top:var(--nav-h);
+  padding-bottom:96px;
+  overflow-wrap:break-word;
+}
+
+/* ---------- fixed navbar ---------- */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;gap:10px;
+  height:var(--nav-h);padding:0 16px;
+  background:var(--paper);border-bottom:1px solid var(--line);
+  text-decoration:none
+}
+.nav-logo{
+  width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;
+  border:1.5px solid var(--yolk);background:#fff
+}
+.nav-name{
+  font-family:var(--brand);font-size:23px;line-height:1;
+  letter-spacing:.045em;color:var(--violet);padding-top:3px
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+/* ---------- header ---------- */
+.masthead{padding:20px 0 22px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--violet);margin:0 0 10px
+}
+.masthead h1{
+  font-family:var(--display);font-weight:800;font-size:clamp(26px,7.4vw,36px);line-height:1.06;
+  margin:0 0 12px;letter-spacing:-.02em
+}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--violet)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:46ch}
+
+.howto{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px;margin:20px 0 8px
+}
+.howto h2{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 12px;font-weight:600
+}
+.howto dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 12px;align-items:baseline}
+.howto dt{margin:0}
+.howto dd{margin:0;font-size:14.5px;color:var(--ink-soft)}
+.howto dd b{color:var(--ink);font-weight:600}
+.key{
+  font-family:var(--mono);font-size:12px;font-weight:600;
+  border-radius:6px;padding:3px 8px;display:inline-block;line-height:1.3
+}
+.key-k{background:var(--violet-soft);color:var(--violet)}
+.key-v{background:var(--ochre-soft);color:var(--ochre)}
+.key-n{background:#EAE3D3;color:var(--ink-soft)}
+
+/* ---------- progress ---------- */
+.progress{
+  position:sticky;top:var(--nav-h);z-index:20;background:rgba(247,241,225,.94);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);margin-top:24px
+}
+.progress-in{max-width:640px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.progress-count{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.progress-track{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:var(--yolk);border-radius:99px;transition:width .25s ease}
+
+/* ---------- sections ---------- */
+.part{padding:34px 0 8px}
+.part-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.part-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet);letter-spacing:.1em}
+.part-head h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;letter-spacing:-.01em}
+.part-note{margin:0 0 20px;color:var(--ink-soft);font-size:14px}
+
+/* ---------- question ---------- */
+.q{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 16px 14px;margin-bottom:14px;scroll-margin-top:120px
+}
+.q.flag{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.q-head{display:flex;gap:11px;align-items:baseline;margin-bottom:14px}
+.q-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none;padding-top:2px}
+.q-text{margin:0;font-size:17px;line-height:1.42}
+.q-word{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em}
+.q-sent{font-style:italic}
+.q-tag{
+  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ochre);margin-bottom:5px;font-weight:600
+}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{
+  display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;
+  background:#FBF8F1;border:1.5px solid var(--line);border-radius:11px;
+  padding:12px 13px;font-family:var(--body);font-size:15.5px;color:var(--ink);
+  cursor:pointer;line-height:1.35;transition:border-color .12s,background .12s;
+  min-height:46px
+}
+.opt:hover{border-color:var(--slate)}
+.opt:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.opt-l{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);padding-top:2px;flex:none}
+.opt.on{background:var(--violet-soft);border-color:var(--violet)}
+.opt.on .opt-l{color:var(--violet)}
+.opt.mute{opacity:.4}
+
+.conf{display:flex;gap:7px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.chip{
+  flex:1;background:#FBF8F1;border:1.5px solid var(--line);border-radius:9px;
+  padding:10px 4px;cursor:pointer;font-family:var(--body);font-size:12.5px;
+  font-weight:500;color:var(--ink-soft);transition:all .12s;line-height:1.25;
+  min-height:48px
+}
+.chip b{display:block;font-family:var(--mono);font-size:13px;font-weight:600;margin-bottom:1px}
+.chip:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.chip[data-c="K"].on{background:var(--violet-soft);border-color:var(--violet);color:var(--violet)}
+.chip[data-c="V"].on{background:var(--ochre-soft);border-color:var(--ochre);color:var(--ochre)}
+.chip[data-c="N"].on{background:#E7DFCC;border-color:var(--slate);color:var(--ink)}
+
+/* ---------- submit ---------- */
+.submit-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:rgba(247,241,225,.95);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom))
+}
+.submit-in{max-width:640px;margin:0 auto}
+.btn{
+  width:100%;background:var(--yolk);color:var(--ink);border:none;border-radius:12px;
+  padding:15px;font-family:var(--body);font-size:16px;font-weight:700;cursor:pointer
+}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--violet);border:1.5px solid var(--violet)}
+.warn{
+  margin:0 0 9px;font-size:13.5px;color:var(--bad);text-align:center;
+  display:none
+}
+.warn.show{display:block}
+.btn-exit{
+  background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);
+  margin-top:8px;font-weight:500;font-size:14px;padding:11px
+}
+.btn-exit:hover{border-color:var(--bad);color:var(--bad)}
+.taking{
+  margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--violet);
+  letter-spacing:.02em
+}
+
+/* ---------- results ---------- */
+.results{display:none;padding:20px 0 40px}
+.results.show{display:block}
+.scorecard{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:26px 20px;margin-bottom:16px
+}
+.score-big{
+  font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,60px);line-height:.95;
+  letter-spacing:-.03em;margin:0
+}
+.score-big span{font-size:26px;color:var(--slate);font-weight:400}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin:8px 0 0}
+.grade-line{margin:22px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.grade-band{font-family:var(--display);font-weight:800;font-size:clamp(31px,9.5vw,40px);margin:0;letter-spacing:-.02em;color:var(--violet)}
+.grade-name{margin:2px 0 0;font-size:16px;font-weight:600}
+.grade-desc{margin:9px 0 0;color:var(--ink-soft);font-size:14.5px}
+
+/* signature: CEFR ladder */
+.ladder{margin:26px 0 0}
+.ladder-track{display:flex;gap:3px;height:38px;position:relative}
+.rung{
+  flex:1;background:var(--line);border-radius:5px;display:flex;
+  align-items:center;justify-content:center;font-family:var(--mono);
+  font-size:11px;font-weight:600;color:var(--ink-soft);transition:background .4s ease .2s
+}
+.rung.filled{background:#F3DFA0;color:var(--violet)}
+.rung.here{background:var(--yolk);color:var(--ink)}
+.marker{
+  position:absolute;top:-16px;transform:translateX(-50%);
+  font-size:13px;color:var(--violet);transition:left .5s cubic-bezier(.34,1.2,.64,1);left:0
+}
+.ladder-ends{display:flex;justify-content:space-between;margin-top:7px}
+.ladder-ends span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px;font-weight:600}
+.tile p{margin:0;font-family:var(--display);font-weight:600;font-size:27px;letter-spacing:-.02em}
+.tile p span{font-size:15px;color:var(--slate);font-weight:400}
+.tile small{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 14px}
+.levels{margin:0;padding:0;list-style:none}
+.levels li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.levels li:first-child{border-top:none}
+.levels li.you{background:var(--violet-soft);margin:0 -18px;padding-left:18px;padding-right:18px;border-radius:8px;border-top-color:transparent}
+.lv-code{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--violet);flex:none;width:34px;padding-top:2px}
+.lv-body b{display:block;font-weight:600;margin-bottom:1px}
+.lv-body span{color:var(--ink-soft);font-size:13.5px}
+.you-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--violet);text-transform:uppercase;margin-left:6px}
+
+.review{margin:0;padding:0;list-style:none}
+.rev{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
+.rev:first-child{border-top:none}
+.rev-n{font-family:var(--mono);font-size:11.5px;color:var(--slate);flex:none;width:26px;padding-top:3px}
+.rev-b{flex:1;min-width:0}
+.rev-b b{font-weight:600}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:3px}
+.pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
+.pts-1{background:var(--good-soft);color:var(--good)}
+.pts-h{background:var(--ochre-soft);color:var(--ochre)}
+.pts-0{background:var(--bad-soft);color:var(--bad)}
+.pts-n{background:#EAE3D3;color:var(--ink-soft)}
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
+
+@media (max-width:460px){
+  .split{grid-template-columns:1fr}
+}
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .progress-in{padding:11px 14px}
+  .part{padding:26px 0 8px}
+  .q{padding:16px 14px 12px}
+  .chip{font-size:11.5px}
+  .chip b{font-size:12.5px}
+  .scorecard{padding:22px 16px}
+  .panel{padding:18px 15px}
+  .levels li.you{margin:0 -15px;padding-left:15px;padding-right:15px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Vocabulary &amp; Grammar · 60 questions</p>
+    <h1>How good is <em>your</em> English, really?</h1>
+    <p class="lede">A self-scoring test that measures what you actually know — not what you can guess. Answer honestly and you get a CEFR level at the end.</p>
+
+    <div class="howto">
+      <h2>How to answer</h2>
+      <dl>
+        <dt><span class="key key-k">K</span></dt>
+        <dd><b>I know it.</b> Correct answer earns 1 point.</dd>
+        <dt><span class="key key-v">V</span></dt>
+        <dd><b>I vaguely know it.</b> Correct answer earns ½ point.</dd>
+        <dt><span class="key key-n">N</span></dt>
+        <dd><b>I don't know it.</b> Scores 0 — but keeps your result accurate. Don't guess.</dd>
+      </dl>
+    </div>
+    <p class="taking" id="taking" hidden></p>
+  </header>
+</div>
+
+<div class="progress">
+  <div class="progress-in">
+    <span class="progress-count"><span id="pDone">0</span>/60</span>
+    <span class="progress-track"><span class="progress-fill" id="pFill"></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="paper">
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART I</span><h2>Vocabulary</h2></div>
+      <p class="part-note">Choose the meaning closest to the word.</p>
+      <div id="vocab"></div>
+    </section>
+
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART II</span><h2>Grammar</h2></div>
+      <p class="part-note">Complete the sentence, or find the error where marked.</p>
+      <div id="gram"></div>
+    </section>
+  </main>
+
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+
+<div class="submit-bar">
+  <div class="submit-in">
+    <p class="warn" id="warn"></p>
+    <button class="btn" id="go">Evaluate my English</button>
+    <button type="button" class="btn btn-exit" id="btnDiscont">Discontinue test</button>
+  </div>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const ACTIVE = "eggwhite:active";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    getName: () => gs(NAME),
+    getActive: () => gs(ACTIVE),
+    setActive: f => { try { localStorage.setItem(ACTIVE, f); } catch (e) {} },
+    clearActive: () => rm(ACTIVE),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+  };
+})();
+
+/* ============ QUESTION BANK ============ */
+const VOCAB = [
+ ["Reluctant",["Extremely tired","Shining brightly","Unwilling to act","Filled to excess"],2],
+ ["Meticulous",["Careful with detail","Doubtful of others","Slow and very heavy","Willing to deceive"],0],
+ ["Candid",["Sweet to taste","Nervously eager","Brightly coloured","Open and honest"],3],
+ ["Diligent",["Distracted and restless","Hardworking and careful","Clever but untrained","Willing to compromise"],1],
+ ["Trivial",["Of little importance","Occurring three times","Difficult to resolve","Relating to a trial"],0],
+ ["Obsolete",["Beyond all doubt","Rarely ever seen","No longer in use","Filled completely"],2],
+ ["Tenacious",["Thin and stretched","Sour to the smell","Easily made angry","Holding on firmly"],3],
+ ["Coherent",["Sticky to the touch","Clearly connected","Working as a group","Forced against will"],1],
+ ["Scrutinise",["To condemn harshly","To write carelessly","To examine closely","To avoid on purpose"],2],
+ ["Inevitable",["Unable to be avoided","Impossible to notice","Not worth mentioning","Extremely valuable"],0],
+ ["Alleviate",["To raise up higher","To accuse falsely","To set someone free","To make less severe"],3],
+ ["Nuance",["A loud disturbance","A slight difference","An irritating person","A formal statement"],1],
+ ["Complacent",["Smugly self-satisfied","Eager to please others","Given to complaining","Easily bent or shaped"],0],
+ ["Arbitrary",["Decided by a judge","Fair to every side","At regular intervals","Chosen without reason"],3],
+ ["Prudent",["Excessively proud","Physically powerful","Careful and sensible","Strict about rules"],2],
+ ["Tangible",["Twisted together","Able to be touched","Bitter to the taste","Ready for purchase"],1],
+ ["Plausible",["Deserving applause","Able to be shaped","Open to the public","Seemingly reasonable"],3],
+ ["Rhetoric",["Skill in persuasion","A repeated failure","A formal apology","A rhythm in music"],0],
+ ["Superfluous",["Flowing very fast","Deeply impressive","More than needed","Floating on top"],2],
+ ["Sycophant",["A tropical creeper","A servile flatterer","A mental therapist","A wind instrument"],1],
+ ["Ubiquitous",["Found everywhere","Rarely ever found","Highly poisonous","Easily broken up"],0],
+ ["Innocuous",["Newly invented","Easily catching","Extremely loud","Causing no harm"],3],
+ ["Astute",["Very steep and high","Shrewd and perceptive","Bitterly cold and raw","Relating to the stars"],1],
+ ["Ephemeral",["Relating to the sky","Deeply emotional","Lasting a short time","Made up of layers"],2],
+ ["Salient",["Salty and briny","Silent and swift","Suddenly jumping","Most noticeable"],3],
+ ["Tacit",["Silently understood","Rude and tactless","Sticky to handle","Done in slow stages"],0],
+ ["Tenuous",["Lasting ten years","Held under tension","Slight and flimsy","Stubborn and firm"],2],
+ ["Esoteric",["Extremely ancient","Known to only a few","Strangely beautiful","Relating to nature"],1],
+ ["Perfunctory",["Working flawlessly","Perfectly well timed","Full of small holes","Done without care"],3],
+ ["Sanguine",["Relating to blood","Deeply resentful","Cheerfully hopeful","Smoothly flowing"],2]
+];
+
+const GRAM = [
+ ["I ___ at this company since 2019.",["have been working","am working","work","worked"],0,0],
+ ["He's been married ___ Sarah for ten years.",["with","by","to","for"],2,0],
+ ["Each of the students ___ submitted the assignment.",["have","were","are","has"],3,0],
+ ["The information you sent me ___ very helpful.",["were","was","are","have been"],1,0],
+ ["Despite of the heavy rain, we went ahead with the picnic.",["Despite of","the heavy rain","we went ahead","No error"],0,1],
+ ["If she ___ the email, she would have known about the meeting.",["read","would read","had read","has read"],2,0],
+ ["By the time we arrived, the film ___ already ___.",["has / started","was / starting","did / start","had / started"],3,0],
+ ["She suggested ___ the meeting until Monday.",["to postpone","postponing","postpone","that we postponing"],1,0],
+ ["I am working here since three years.",["I am working","here","since three years","No error"],2,1],
+ ["Neither the manager nor the employees ___ aware of the change.",["was","were","is","has been"],1,0],
+ ["He has been working there ___ five years.",["since","from","for","during"],2,0],
+ ["When I got to the station, I realised I ___ my wallet at home.",["had left","left","have left","was leaving"],0,0],
+ ["She ___ here for six months before she was promoted.",["had worked","was working","has been working","had been working"],3,0],
+ ["I ___ him tomorrow at three.",["meet","am meeting","would meet","will have met"],1,0],
+ ["He told that he would be late for the meeting.",["He told","that he would","be late","No error"],0,1],
+ ["By next June, I ___ in this role for five years.",["will be","would have been","will have been","am"],2,0],
+ ["The report ___ by the team last week.",["completed","is completing","has completed","was completed"],3,0],
+ ["She asked me where ___.",["did I live","I lived","do I live","have I lived"],1,0],
+ ["___ harder, he would have passed the exam.",["If he studied","If he studies","Had he studied","He had studied"],2,0],
+ ["He denied ___ the money.",["taking","to take","take","that he taking"],0,0],
+ ["Can you tell me what time ___?",["does the train leave","is the train leaving","the train leaves","leaves the train"],2,0],
+ ["I ___ to Japan three times.",["went","was going","had gone","have been"],3,0],
+ ["She is one of those people who always arrive early.",["one of those","who always","arrive early","No error"],3,1],
+ ["It's high time we ___ about this problem.",["do something","did something","will do something","doing something"],1,0],
+ ["I wish I ___ more time to finish the project.",["have","would have","had","am having"],2,0],
+ ["She ___ living in Delhi for two years when the pandemic started.",["had been","was","has been","is"],0,0],
+ ["He avoided ___ eye contact throughout the interview.",["to make","make","made","making"],3,0],
+ ["Hardly I had finished my lunch when the phone rang.",["Hardly I had finished","my lunch","when the phone rang","No error"],0,1],
+ ["Supposing you ___ the lottery, what would you do?",["win","won","have won","will win"],1,0],
+ ["I'd rather you ___ that to anyone.",["didn't mention","don't mention","won't mention","not mentioning"],0,0]
+];
+
+const LETTERS=["A","B","C","D"];
+const state={}; // id -> {pick:int|null, conf:'K'|'V'|'N'|null}
+
+/* ============ BUILD ============ */
+function build(list,mount,prefix,offset,isGram){
+  const box=document.getElementById(mount);
+  let html="";
+  list.forEach((item,i)=>{
+    const id=prefix+i, n=offset+i+1;
+    state[id]={pick:null,conf:null};
+    const opts=isGram?item[1]:item[1];
+    const isErr=isGram&&item[3]===1;
+    let stem;
+    if(isGram){
+      stem=isErr
+        ? '<span class="q-tag">Find the error</span><span class="q-sent">&ldquo;'+item[0]+'&rdquo;</span>'
+        : item[0];
+    } else {
+      stem='<span class="q-word">'+item[0]+'</span>';
+    }
+    html+='<article class="q" id="q-'+id+'"><div class="q-head"><span class="q-num">'+String(n).padStart(2,"0")+'</span><p class="q-text">'+stem+'</p></div><div class="opts">';
+    opts.forEach((o,j)=>{
+      html+='<button type="button" class="opt" data-id="'+id+'" data-j="'+j+'"><span class="opt-l">'+LETTERS[j]+'</span><span>'+o+'</span></button>';
+    });
+    html+='</div><div class="conf">'
+      +'<button type="button" class="chip" data-id="'+id+'" data-c="K"><b>K</b>I know</button>'
+      +'<button type="button" class="chip" data-id="'+id+'" data-c="V"><b>V</b>Vaguely</button>'
+      +'<button type="button" class="chip" data-id="'+id+'" data-c="N"><b>N</b>Don\u2019t know</button>'
+      +'</div></article>';
+  });
+  box.innerHTML=html;
+}
+build(VOCAB,"vocab","v",0,false);
+build(GRAM,"gram","g",30,true);
+
+/* ============ INTERACTION ============ */
+document.getElementById("paper").addEventListener("click",e=>{
+  const opt=e.target.closest(".opt"), chip=e.target.closest(".chip");
+  if(opt){
+    const id=opt.dataset.id, j=+opt.dataset.j, s=state[id];
+    if(s.conf==="N"){s.conf=null;}
+    s.pick=(s.pick===j)?null:j;
+    paint(id);
+  }
+  if(chip){
+    const id=chip.dataset.id, c=chip.dataset.c, s=state[id];
+    s.conf=(s.conf===c)?null:c;
+    if(s.conf==="N") s.pick=null;
+    paint(id);
+  }
+  tick();
+  persist();
+});
+
+function paint(id){
+  const card=document.getElementById("q-"+id), s=state[id];
+  card.classList.remove("flag");
+  card.querySelectorAll(".opt").forEach(b=>{
+    b.classList.toggle("on", s.pick===+b.dataset.j);
+    b.classList.toggle("mute", s.conf==="N");
+  });
+  card.querySelectorAll(".chip").forEach(b=>{
+    b.classList.toggle("on", s.conf===b.dataset.c);
+  });
+}
+
+function done(id){
+  const s=state[id];
+  return s.conf==="N" || (s.pick!==null && (s.conf==="K"||s.conf==="V"));
+}
+function tick(){
+  const ids=Object.keys(state), n=ids.filter(done).length;
+  document.getElementById("pDone").textContent=n;
+  document.getElementById("pFill").style.width=(n/ids.length*100)+"%";
+}
+tick();
+
+/* ============ SCORING ============ */
+const BANDS=[
+ {max:17,code:"A2",name:"Elementary or below",seg:1,
+  desc:"Simple, familiar exchanges. The foundation is still being built \u2014 focus on the 1,000 most frequent words and basic tense forms."},
+ {max:34,code:"B1",name:"Intermediate",seg:2,
+  desc:"You handle everyday situations and describe experiences, but longer or more formal texts still slow you down."},
+ {max:54,code:"B2",name:"Upper Intermediate",seg:3,
+  desc:"You read news and non-fiction comfortably and can work in English without much strain. This is where most fluent non-native professionals sit."},
+ {max:69,code:"B2+",name:"Upper Intermediate, approaching C1",seg:3,
+  desc:"Strong, dependable English with visible reach into advanced territory. What separates you from C1 is formal Latinate vocabulary and precision in complex structures."},
+ {max:84,code:"C1",name:"Advanced",seg:4,
+  desc:"You read literature and academic writing with ease, catch implicit meaning, and shift register at will."},
+ {max:100,code:"C2",name:"Mastery",seg:5,
+  desc:"Near-native precision, including idiom, connotation and nuance in unfamiliar subject areas."}
+];
+const LADDER=[
+ ["A1","Beginner","Basic phrases, introductions, immediate needs. Around 500\u20131,000 words."],
+ ["A2","Elementary","Simple routine exchanges on familiar topics. Around 1,500\u20132,500 words."],
+ ["B1","Intermediate","Handles travel and daily situations, describes experiences. Around 2,500\u20133,500 words."],
+ ["B2","Upper Intermediate","Reads newspapers and non-fiction, argues a viewpoint, works professionally in English. Around 4,000\u20136,000 words."],
+ ["C1","Advanced","Reads literature and academic writing with ease, catches implicit meaning. Around 8,000\u201310,000 words."],
+ ["C2","Mastery","Near-native precision in idiom, connotation and nuance. 12,000+ words."]
+];
+
+function scoreOne(id,ans){
+  const s=state[id];
+  if(s.conf==="N"||s.pick===null) return {p:0,k:"n"};
+  if(s.pick!==ans) return {p:0,k:"0"};
+  return s.conf==="K"?{p:1,k:"1"}:{p:.5,k:"h"};
+}
+
+document.getElementById("go").addEventListener("click",()=>{
+  const ids=Object.keys(state), missing=ids.filter(i=>!done(i));
+  const warn=document.getElementById("warn");
+  if(missing.length){
+    warn.textContent=missing.length+" question"+(missing.length>1?"s":"")+" still need"+(missing.length>1?"":"s")+" an answer. Tap to jump to the first one.";
+    warn.classList.add("show");
+    warn.onclick=()=>{
+      const c=document.getElementById("q-"+missing[0]);
+      c.classList.add("flag"); c.scrollIntoView({behavior:"smooth",block:"center"});
+    };
+    const c=document.getElementById("q-"+missing[0]);
+    c.classList.add("flag"); c.scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  warn.classList.remove("show");
+  render();
+});
+
+function render(){
+  let vs=0,gs=0,vRev="",gRev="";
+  VOCAB.forEach((it,i)=>{
+    const r=scoreOne("v"+i,it[2]); vs+=r.p;
+    vRev+=revRow(i+1,it[0],it[1][it[2]],r);
+  });
+  GRAM.forEach((it,i)=>{
+    const r=scoreOne("g"+i,it[2]); gs+=r.p;
+    const label=it[3]===1?"Error: "+it[0]:it[0];
+    gRev+=revRow(i+31,label,it[1][it[2]],r);
+  });
+
+  const total=vs+gs, pct=total/60*100;
+  const band=BANDS.find(b=>pct<=b.max)||BANDS[BANDS.length-1];
+  ewComplete(band.code+" · "+fmt(total)+"/60", Math.round(pct));
+
+  let li="";
+  LADDER.forEach((l,i)=>{
+    const you=(l[0]===band.code.slice(0,2));
+    li+='<li class="'+(you?"you":"")+'"><span class="lv-code">'+l[0]+'</span><span class="lv-body"><b>'+l[1]
+      +(you?'<span class="you-tag">you are here</span>':'')+'</b><span>'+l[2]+'</span></span></li>';
+  });
+
+  let rungs="";
+  LADDER.forEach((l,i)=>{
+    const cls=i<band.seg?"rung filled":(i===band.seg?"rung here":"rung");
+    rungs+='<span class="'+cls+'">'+l[0]+'</span>';
+  });
+  const markerLeft=((band.seg+0.5)/6*100);
+
+  document.getElementById("results").innerHTML=
+   '<div class="scorecard">'
+   +'<p class="score-big">'+fmt(total)+'<span> / 60</span></p>'
+   +'<p class="score-pct">'+pct.toFixed(0)+'% \u00b7 scored on confidence, not guesswork</p>'
+   +'<div class="grade-line"><p class="grade-band">'+band.code+'</p>'
+   +'<p class="grade-name">'+band.name+'</p><p class="grade-desc">'+band.desc+'</p></div>'
+   +'<div class="ladder"><div class="ladder-track"><span class="marker" style="left:'+markerLeft+'%">\u25bc</span>'+rungs+'</div>'
+   +'<div class="ladder-ends"><span>Beginner</span><span>Mastery</span></div></div>'
+   +'</div>'
+   +'<div class="split">'
+   +'<div class="tile"><h3>Vocabulary</h3><p>'+fmt(vs)+'<span> / 30</span></p><small>'+(vs/30*100).toFixed(0)+'% correct</small></div>'
+   +'<div class="tile"><h3>Grammar</h3><p>'+fmt(gs)+'<span> / 30</span></p><small>'+(gs/30*100).toFixed(0)+'% correct</small></div>'
+   +'</div>'
+   +'<div class="panel"><h3>The full scale</h3><ul class="levels">'+li+'</ul></div>'
+   +'<div class="panel"><h3>Vocabulary answers</h3><ul class="review">'+vRev+'</ul></div>'
+   +'<div class="panel"><h3>Grammar answers</h3><ul class="review">'+gRev+'</ul></div>'
+   +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
+   +'<button class="btn btn-exit" onclick="ewDiscontinue()">Discontinue &amp; back to all tests</button>'
+   +'<p class="foot">CEFR bands are indicative. This tests recognition \u2014 what you produce in your own writing is usually a step behind.</p>';
+
+  document.getElementById("results").classList.add("show");
+  document.getElementById("paper").style.display="none";
+  document.querySelector(".progress").style.display="none";
+  document.querySelector(".submit-bar").style.display="none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function fmt(n){return n%1===0?n:n.toFixed(1);}
+function revRow(n,q,correct,r){
+  const cls={"1":"pts-1","h":"pts-h","0":"pts-0","n":"pts-n"}[r.k];
+  const txt={"1":"1","h":"\u00bd","0":"0","n":"\u2014"}[r.k];
+  return '<li class="rev"><span class="rev-n">'+String(n).padStart(2,"0")+'</span>'
+    +'<span class="rev-b"><b>'+q+'</b><em>'+correct+'</em></span>'
+    +'<span class="pts '+cls+'">'+txt+'</span></li>';
+}
+
+/* ================================================================
+   eggwhite \u2014 session persistence & single-open-test enforcement
+   ================================================================ */
+const EW_SELF = "english-level-test.html";
+let REC = null;
+{
+  const stored = EW.getRecord(EW_SELF);
+  const other = EW.getActive();
+  if(!stored && other && other !== EW_SELF){
+    location.replace("index.html");            // another test is already open
+  } else if(stored){
+    REC = stored;
+    if(REC.answers){
+      for(const id in REC.answers){
+        if(id in state){ state[id] = REC.answers[id]; paint(id); }
+      }
+    }
+    tick();
+    if(REC.status === "completed") render();
+  } else {
+    REC = { file:EW_SELF, title:"English Level Test", startedAt:Date.now(),
+            name:EW.getName(), status:"in-progress", answers:{}, progress:{done:0,total:60} };
+    EW.saveRecord(EW_SELF, REC);
+    EW.setActive(EW_SELF);
+  }
+}
+
+(function(){
+  const nm = (REC && REC.name) || EW.getName();
+  if(nm){
+    const el = document.getElementById("taking");
+    el.textContent = "Taking this as " + nm + ".";
+    el.hidden = false;
+  }
+})();
+
+function persist(){
+  if(!REC || REC.status === "completed") return;
+  REC.answers = state;
+  const ids = Object.keys(state);
+  REC.progress = { done: ids.filter(done).length, total: ids.length };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewComplete(line, pct){
+  if(!REC) return;
+  REC.status = "completed";
+  REC.answers = state;
+  REC.summary = { line: line, pct: pct };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewDiscontinue(){
+  if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
+  EW.clearRecord(EW_SELF);
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.href = "index.html";
+}
+function ewRetake(){
+  if(!confirm("Clear this attempt and start the test over?")) return;
+  EW.clearRecord(EW_SELF);
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.reload();
+}
+document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
+</script>
+</body>
+</html>

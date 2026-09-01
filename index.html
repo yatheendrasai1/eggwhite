@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>eggwhite — English Tests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F1E1;          /* egg white — primary surface */
+  --card:#FFFFFF;
+  --ink:#2B2721;
+  --ink-soft:#7C7160;
+  --line:#E9E0CB;
+  --violet:#B5831C;         /* deep yolk — accent text, borders, links */
+  --violet-soft:#FBEECB;    /* pale yolk — selected backgrounds */
+  --ochre:#CF7A2E;          /* shell orange — secondary flag accent */
+  --ochre-soft:#FBE9D6;
+  --slate:#A99E88;
+  --bad:#B23A1B;
+  --yolk:#F2B60C;           /* egg yellow — secondary, fills & buttons */
+  --nav-h:52px;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --brand:"Bangers","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+
+/* ---------- fixed navbar ---------- */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;gap:10px;
+  height:var(--nav-h);padding:0 16px;
+  background:var(--paper);border-bottom:1px solid var(--line);
+  text-decoration:none
+}
+.nav-logo{
+  width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;
+  border:1.5px solid var(--yolk);background:#fff
+}
+.nav-name{
+  font-family:var(--brand);font-size:23px;line-height:1;
+  letter-spacing:.045em;color:var(--violet);padding-top:3px
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.5;
+  padding-top:var(--nav-h);
+  padding-bottom:64px;
+  overflow-wrap:break-word;
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+/* ---------- header ---------- */
+.masthead{padding:26px 0 20px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--violet);margin:0 0 10px
+}
+.masthead h1{
+  font-family:var(--display);font-weight:800;font-size:clamp(27px,7.6vw,38px);line-height:1.05;
+  margin:0 0 12px;letter-spacing:-.02em
+}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--violet)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:48ch}
+
+/* ---------- name ---------- */
+.namebox{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px;margin:4px 0 30px
+}
+.namebox label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:600;display:block;margin-bottom:9px
+}
+.namebox input{
+  width:100%;border:1.5px solid var(--line);border-radius:9px;padding:12px 13px;
+  font-family:var(--body);font-size:16px;color:var(--ink);background:#fff
+}
+.namebox input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft)}
+.namebox .hint{margin:9px 0 0;font-size:12.5px;color:var(--slate)}
+
+/* ---------- section labels ---------- */
+.section-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 14px;font-weight:600
+}
+.section-label.second{margin-top:32px}
+
+/* ---------- test cards ---------- */
+.tests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.test{
+  display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px 18px;text-decoration:none;color:inherit;
+  transition:border-color .12s,box-shadow .12s,transform .12s
+}
+a.test:hover{border-color:var(--violet);box-shadow:0 6px 22px rgba(181,131,28,.14)}
+a.test:active{transform:translateY(1px)}
+.test:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.test-top{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.test-idx{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none}
+.test-title{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;margin:0}
+.test-desc{margin:0 0 14px;color:var(--ink-soft);font-size:14.5px}
+.test-foot{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap}
+.tag{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;border-radius:6px;padding:4px 8px
+}
+.tag-v{background:var(--violet-soft);color:var(--violet)}
+.tag-o{background:var(--ochre-soft);color:var(--ochre)}
+.go{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet)}
+.go-mute{color:var(--slate)}
+
+/* active */
+.test-active{border-color:var(--violet);box-shadow:0 4px 18px rgba(181,131,28,.16)}
+.badge{
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  border-radius:6px;padding:4px 8px;flex:none
+}
+.badge-open{background:var(--violet-soft);color:var(--violet)}
+.badge-done{background:#E2F0EA;color:#2A6E52}
+
+/* locked */
+.test-locked{opacity:.55;cursor:default}
+.test-locked:hover{border-color:var(--line);box-shadow:none}
+
+/* filler + discontinue */
+.filler{
+  background:var(--card);border:1px dashed var(--line);border-radius:14px;
+  padding:20px 18px;margin:0;color:var(--ink-soft);font-size:14px;text-align:center
+}
+.discont{
+  width:100%;margin-top:10px;background:transparent;color:var(--ink-soft);
+  border:1.5px solid var(--line);border-radius:11px;padding:12px;
+  font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;
+  transition:border-color .12s,color .12s
+}
+.discont:hover{border-color:var(--bad);color:var(--bad)}
+.discont:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.avail-note{margin:12px 2px 0;font-size:13px;color:var(--ink-soft)}
+
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:34px 0 0}
+
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .test{padding:18px 15px}
+  .namebox{padding:15px 15px}
+  .section-label.second{margin-top:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">eggwhite · English practice</p>
+    <h1>Test <em>your</em> English</h1>
+    <p class="lede">A small collection of self-scoring tests for grammar and vocabulary. Your progress is saved in this browser, so you can close the tab and come back to it.</p>
+  </header>
+
+  <div class="namebox">
+    <label for="name">Your name <span style="text-transform:none;letter-spacing:0;color:var(--slate)">(optional)</span></label>
+    <input type="text" id="name" placeholder="e.g. Priya" autocomplete="name" autocapitalize="words" spellcheck="false">
+    <p class="hint">Used only to label your results. Stays on this device.</p>
+  </div>
+
+  <p class="section-label">Active test</p>
+  <div id="active"></div>
+
+  <p class="section-label second">Available tests</p>
+  <ul class="tests" id="avail"></ul>
+  <p class="avail-note" id="availNote" hidden>Finish or discontinue your current test to start another — only one test can be open at a time.</p>
+
+  <p class="foot">Everything runs in your browser. Nothing is sent anywhere.</p>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const ACTIVE = "eggwhite:active";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    rec,
+    getName: () => gs(NAME),
+    setName: v => { try { v ? localStorage.setItem(NAME, v) : rm(NAME); } catch (e) {} },
+    getActive: () => gs(ACTIVE),
+    setActive: f => { try { localStorage.setItem(ACTIVE, f); } catch (e) {} },
+    clearActive: () => rm(ACTIVE),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+  };
+})();
+
+/* ============ TEST REGISTRY ============
+   Add a new test by appending one entry here. */
+const TESTS = [
+  {
+    file: "english-level-test.html",
+    title: "English Level Test",
+    desc: "Vocabulary and grammar across 60 questions. Answer with a confidence rating and get a CEFR level (A2–C2) at the end.",
+    meta: "60 questions",
+    tag: "Vocabulary & Grammar",
+    kind: "v"
+  },
+  {
+    file: "inbox-test.html",
+    title: "Business English Test",
+    desc: "Two parts: catch and fix the wrong phrases in three workplace emails, then 20 corporate vocabulary questions. Harder than the level test.",
+    meta: "Editing + 20 words · Round 2",
+    tag: "Corporate English",
+    kind: "o"
+  }
+];
+
+/* ============ RENDER ============ */
+function fmtWhen(ms){
+  if(!ms) return "";
+  const d = new Date(ms), now = new Date();
+  const t = d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+  if(d.toDateString() === now.toDateString()) return "today " + t;
+  return d.toLocaleDateString([], {month:"short", day:"numeric"}) + ", " + t;
+}
+
+function render(){
+  let activeFile = EW.getActive();
+  let rec = activeFile ? EW.getRecord(activeFile) : null;
+  if(activeFile && !rec){ EW.clearActive(); activeFile = ""; }   // stale pointer
+
+  /* --- active section --- */
+  const activeBox = document.getElementById("active");
+  if(rec){
+    const meta = TESTS.find(t => t.file === activeFile) || { title: rec.title || activeFile };
+    const done = rec.status === "completed";
+    let status = done
+      ? "Completed" + (rec.summary && rec.summary.line ? " · " + rec.summary.line : "")
+      : "In progress" + (rec.progress ? " · " + rec.progress.done + "/" + rec.progress.total + " answered" : "");
+    if(rec.startedAt) status += " · started " + fmtWhen(rec.startedAt);
+    activeBox.innerHTML =
+      '<a class="test test-active" href="' + activeFile + '">'
+      +   '<div class="test-top">'
+      +     '<span class="badge ' + (done ? "badge-done" : "badge-open") + '">' + (done ? "Completed" : "Open") + '</span>'
+      +     '<h3 class="test-title">' + meta.title + '</h3>'
+      +   '</div>'
+      +   '<p class="test-desc">' + status + '</p>'
+      +   '<div class="test-foot">'
+      +     (rec.name ? '<span class="tag tag-v">' + rec.name + '</span>' : '')
+      +     '<span class="go">' + (done ? "View results" : "Resume") + ' &rarr;</span>'
+      +   '</div>'
+      + '</a>'
+      + '<button type="button" class="discont" data-file="' + activeFile + '">Discontinue test</button>';
+  } else {
+    activeBox.innerHTML = '<p class="filler">No test open. Start any available test below.</p>';
+  }
+
+  /* --- available section --- */
+  const locked = !!rec;
+  const availBox = document.getElementById("avail");
+  const rows = TESTS.filter(t => t.file !== activeFile);
+  availBox.innerHTML = rows.map((t, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    const inner =
+      '<div class="test-top"><span class="test-idx">' + n + '</span>'
+      + '<h3 class="test-title">' + t.title + '</h3></div>'
+      + '<p class="test-desc">' + t.desc + '</p>'
+      + '<div class="test-foot">'
+      +   '<span class="tag tag-' + t.kind + '">' + t.tag + '</span>'
+      +   '<span class="test-idx">' + t.meta + '</span>'
+      +   '<span class="go' + (locked ? ' go-mute' : '') + '">' + (locked ? 'Locked' : 'Start &rarr;') + '</span>'
+      + '</div>';
+    return locked
+      ? '<li><div class="test test-locked">' + inner + '</div></li>'
+      : '<li><a class="test" href="' + t.file + '">' + inner + '</a></li>';
+  }).join("");
+  document.getElementById("availNote").hidden = !locked;
+}
+
+/* ============ WIRING ============ */
+const nameInput = document.getElementById("name");
+nameInput.value = EW.getName();
+nameInput.addEventListener("input", () => EW.setName(nameInput.value.trim()));
+
+document.getElementById("active").addEventListener("click", e => {
+  const b = e.target.closest(".discont");
+  if(!b) return;
+  e.preventDefault();
+  if(!confirm("Discontinue this test? The saved answers and result for it will be erased.")) return;
+  EW.clearRecord(b.dataset.file);
+  EW.clearActive();
+  render();
+});
+
+/* keep the landing page fresh if another tab changes things */
+window.addEventListener("storage", render);
+window.addEventListener("pageshow", render);
+
+render();
+</script>
+</body>
+</html>
