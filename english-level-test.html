@@ -247,15 +247,26 @@ body{
 .review{margin:0;padding:0;list-style:none}
 .rev{display:flex;gap:11px;padding:11px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
 .rev:first-child{border-top:none}
-.rev-n{font-family:var(--mono);font-size:11.5px;color:var(--slate);flex:none;width:26px;padding-top:3px}
+.rev-i{flex:none;width:20px;font-size:15px;padding-top:1px}
 .rev-b{flex:1;min-width:0}
-.rev-b b{font-weight:600}
-.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:3px}
+.rev-b b{font-weight:600;display:block;margin-bottom:2px}
+.rev-b .to{color:var(--good);font-weight:600;display:block}
+.rev-b .yours{font-family:var(--mono);font-size:12px;color:var(--slate);display:block;margin-top:3px}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:4px;line-height:1.45}
 .pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
 .pts-1{background:var(--good-soft);color:var(--good)}
 .pts-h{background:var(--ochre-soft);color:var(--ochre)}
 .pts-0{background:var(--bad-soft);color:var(--bad)}
 .pts-n{background:#EAE3D3;color:var(--ink-soft)}
+
+.acc{margin-top:10px}
+.acc>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-soft);padding:10px 0;user-select:none}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary::before{content:"▸";color:var(--violet);transition:transform .15s;font-size:11px}
+.acc[open]>summary::before{transform:rotate(90deg)}
+.acc>summary:hover{color:var(--ink)}
+.acc .review{margin-top:2px}
+
 .foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
 
 @media (max-width:460px){
@@ -366,69 +377,99 @@ const EW = (() => {
 
 /* ============ QUESTION BANK ============ */
 const VOCAB = [
- ["Reluctant",["Extremely tired","Shining brightly","Unwilling to act","Filled to excess"],2],
- ["Meticulous",["Careful with detail","Doubtful of others","Slow and very heavy","Willing to deceive"],0],
- ["Candid",["Sweet to taste","Nervously eager","Brightly coloured","Open and honest"],3],
- ["Diligent",["Distracted and restless","Hardworking and careful","Clever but untrained","Willing to compromise"],1],
- ["Trivial",["Of little importance","Occurring three times","Difficult to resolve","Relating to a trial"],0],
- ["Obsolete",["Beyond all doubt","Rarely ever seen","No longer in use","Filled completely"],2],
- ["Tenacious",["Thin and stretched","Sour to the smell","Easily made angry","Holding on firmly"],3],
- ["Coherent",["Sticky to the touch","Clearly connected","Working as a group","Forced against will"],1],
- ["Scrutinise",["To condemn harshly","To write carelessly","To examine closely","To avoid on purpose"],2],
- ["Inevitable",["Unable to be avoided","Impossible to notice","Not worth mentioning","Extremely valuable"],0],
- ["Alleviate",["To raise up higher","To accuse falsely","To set someone free","To make less severe"],3],
- ["Nuance",["A loud disturbance","A slight difference","An irritating person","A formal statement"],1],
- ["Complacent",["Smugly self-satisfied","Eager to please others","Given to complaining","Easily bent or shaped"],0],
- ["Arbitrary",["Decided by a judge","Fair to every side","At regular intervals","Chosen without reason"],3],
- ["Prudent",["Excessively proud","Physically powerful","Careful and sensible","Strict about rules"],2],
- ["Tangible",["Twisted together","Able to be touched","Bitter to the taste","Ready for purchase"],1],
- ["Plausible",["Deserving applause","Able to be shaped","Open to the public","Seemingly reasonable"],3],
- ["Rhetoric",["Skill in persuasion","A repeated failure","A formal apology","A rhythm in music"],0],
- ["Superfluous",["Flowing very fast","Deeply impressive","More than needed","Floating on top"],2],
- ["Sycophant",["A tropical creeper","A servile flatterer","A mental therapist","A wind instrument"],1],
- ["Ubiquitous",["Found everywhere","Rarely ever found","Highly poisonous","Easily broken up"],0],
- ["Innocuous",["Newly invented","Easily catching","Extremely loud","Causing no harm"],3],
- ["Astute",["Very steep and high","Shrewd and perceptive","Bitterly cold and raw","Relating to the stars"],1],
- ["Ephemeral",["Relating to the sky","Deeply emotional","Lasting a short time","Made up of layers"],2],
- ["Salient",["Salty and briny","Silent and swift","Suddenly jumping","Most noticeable"],3],
- ["Tacit",["Silently understood","Rude and tactless","Sticky to handle","Done in slow stages"],0],
- ["Tenuous",["Lasting ten years","Held under tension","Slight and flimsy","Stubborn and firm"],2],
- ["Esoteric",["Extremely ancient","Known to only a few","Strangely beautiful","Relating to nature"],1],
- ["Perfunctory",["Working flawlessly","Perfectly well timed","Full of small holes","Done without care"],3],
- ["Sanguine",["Relating to blood","Deeply resentful","Cheerfully hopeful","Smoothly flowing"],2]
+ ["Reluctant",["Extremely tired","Shining brightly","Unwilling to act","Filled to excess"],2,"Often paired with “to” + verb: reluctant to leave."],
+ ["Meticulous",["Careful with detail","Doubtful of others","Slow and very heavy","Willing to deceive"],0,"Extremely careful and precise, especially about small details."],
+ ["Candid",["Sweet to taste","Nervously eager","Brightly coloured","Open and honest"],3,"Frank and truthful, without holding anything back."],
+ ["Diligent",["Distracted and restless","Hardworking and careful","Clever but untrained","Willing to compromise"],1,"Shows steady, careful effort in work or duties."],
+ ["Trivial",["Of little importance","Occurring three times","Difficult to resolve","Relating to a trial"],0,"Not worth serious attention."],
+ ["Obsolete",["Beyond all doubt","Rarely ever seen","No longer in use","Filled completely"],2,"Outdated — replaced by something newer."],
+ ["Tenacious",["Thin and stretched","Sour to the smell","Easily made angry","Holding on firmly"],3,"Persistent; doesn’t give up easily."],
+ ["Coherent",["Sticky to the touch","Clearly connected","Working as a group","Forced against will"],1,"Logical and easy to follow, with ideas that fit together."],
+ ["Scrutinise",["To condemn harshly","To write carelessly","To examine closely","To avoid on purpose"],2,"To inspect something in careful, critical detail."],
+ ["Inevitable",["Unable to be avoided","Impossible to notice","Not worth mentioning","Extremely valuable"],0,"Certain to happen; unavoidable."],
+ ["Alleviate",["To raise up higher","To accuse falsely","To set someone free","To make less severe"],3,"To reduce pain, suffering, or the severity of a problem."],
+ ["Nuance",["A loud disturbance","A slight difference","An irritating person","A formal statement"],1,"A subtle distinction in meaning, tone, or feeling."],
+ ["Complacent",["Smugly self-satisfied","Eager to please others","Given to complaining","Easily bent or shaped"],0,"Too comfortable with success to feel the need to improve."],
+ ["Arbitrary",["Decided by a judge","Fair to every side","At regular intervals","Chosen without reason"],3,"Based on random choice rather than any system or reason."],
+ ["Prudent",["Excessively proud","Physically powerful","Careful and sensible","Strict about rules"],2,"Showing good judgment, especially about risk."],
+ ["Tangible",["Twisted together","Able to be touched","Bitter to the taste","Ready for purchase"],1,"Real and concrete, not abstract."],
+ ["Plausible",["Deserving applause","Able to be shaped","Open to the public","Seemingly reasonable"],3,"Believable, even if not proven true."],
+ ["Rhetoric",["Skill in persuasion","A repeated failure","A formal apology","A rhythm in music"],0,"The art of effective or persuasive speaking and writing."],
+ ["Superfluous",["Flowing very fast","Deeply impressive","More than needed","Floating on top"],2,"Extra; beyond what is needed."],
+ ["Sycophant",["A tropical creeper","A servile flatterer","A mental therapist","A wind instrument"],1,"Someone who flatters powerful people to gain favour."],
+ ["Ubiquitous",["Found everywhere","Rarely ever found","Highly poisonous","Easily broken up"],0,"Present or seen everywhere at once."],
+ ["Innocuous",["Newly invented","Easily catching","Extremely loud","Causing no harm"],3,"Harmless; not likely to offend or upset."],
+ ["Astute",["Very steep and high","Shrewd and perceptive","Bitterly cold and raw","Relating to the stars"],1,"Quick to notice and understand; sharp-minded."],
+ ["Ephemeral",["Relating to the sky","Deeply emotional","Lasting a short time","Made up of layers"],2,"Short-lived; soon gone."],
+ ["Salient",["Salty and briny","Silent and swift","Suddenly jumping","Most noticeable"],3,"The most important or prominent point."],
+ ["Tacit",["Silently understood","Rude and tactless","Sticky to handle","Done in slow stages"],0,"Implied without being stated outright."],
+ ["Tenuous",["Lasting ten years","Held under tension","Slight and flimsy","Stubborn and firm"],2,"Very weak; barely holding together."],
+ ["Esoteric",["Extremely ancient","Known to only a few","Strangely beautiful","Relating to nature"],1,"Understood only by a small, specialised group."],
+ ["Perfunctory",["Working flawlessly","Perfectly well timed","Full of small holes","Done without care"],3,"Done as a routine duty, with minimal effort or interest."],
+ ["Sanguine",["Relating to blood","Deeply resentful","Cheerfully hopeful","Smoothly flowing"],2,"Optimistic, especially in a difficult situation."]
 ];
 
 const GRAM = [
- ["I ___ at this company since 2019.",["have been working","am working","work","worked"],0,0],
- ["He's been married ___ Sarah for ten years.",["with","by","to","for"],2,0],
- ["Each of the students ___ submitted the assignment.",["have","were","are","has"],3,0],
- ["The information you sent me ___ very helpful.",["were","was","are","have been"],1,0],
- ["Despite of the heavy rain, we went ahead with the picnic.",["Despite of","the heavy rain","we went ahead","No error"],0,1],
- ["If she ___ the email, she would have known about the meeting.",["read","would read","had read","has read"],2,0],
- ["By the time we arrived, the film ___ already ___.",["has / started","was / starting","did / start","had / started"],3,0],
- ["She suggested ___ the meeting until Monday.",["to postpone","postponing","postpone","that we postponing"],1,0],
- ["I am working here since three years.",["I am working","here","since three years","No error"],2,1],
- ["Neither the manager nor the employees ___ aware of the change.",["was","were","is","has been"],1,0],
- ["He has been working there ___ five years.",["since","from","for","during"],2,0],
- ["When I got to the station, I realised I ___ my wallet at home.",["had left","left","have left","was leaving"],0,0],
- ["She ___ here for six months before she was promoted.",["had worked","was working","has been working","had been working"],3,0],
- ["I ___ him tomorrow at three.",["meet","am meeting","would meet","will have met"],1,0],
- ["He told that he would be late for the meeting.",["He told","that he would","be late","No error"],0,1],
- ["By next June, I ___ in this role for five years.",["will be","would have been","will have been","am"],2,0],
- ["The report ___ by the team last week.",["completed","is completing","has completed","was completed"],3,0],
- ["She asked me where ___.",["did I live","I lived","do I live","have I lived"],1,0],
- ["___ harder, he would have passed the exam.",["If he studied","If he studies","Had he studied","He had studied"],2,0],
- ["He denied ___ the money.",["taking","to take","take","that he taking"],0,0],
- ["Can you tell me what time ___?",["does the train leave","is the train leaving","the train leaves","leaves the train"],2,0],
- ["I ___ to Japan three times.",["went","was going","had gone","have been"],3,0],
- ["She is one of those people who always arrive early.",["one of those","who always","arrive early","No error"],3,1],
- ["It's high time we ___ about this problem.",["do something","did something","will do something","doing something"],1,0],
- ["I wish I ___ more time to finish the project.",["have","would have","had","am having"],2,0],
- ["She ___ living in Delhi for two years when the pandemic started.",["had been","was","has been","is"],0,0],
- ["He avoided ___ eye contact throughout the interview.",["to make","make","made","making"],3,0],
- ["Hardly I had finished my lunch when the phone rang.",["Hardly I had finished","my lunch","when the phone rang","No error"],0,1],
- ["Supposing you ___ the lottery, what would you do?",["win","won","have won","will win"],1,0],
- ["I'd rather you ___ that to anyone.",["didn't mention","don't mention","won't mention","not mentioning"],0,0]
+ ["I ___ at this company since 2019.",["have been working","am working","work","worked"],0,0,
+  "“Since 2019” names a starting point for an action continuing now, so it needs the present perfect continuous."],
+ ["He's been married ___ Sarah for ten years.",["with","by","to","for"],2,0,
+  "“Married to” is the fixed pattern — “to” names the other person."],
+ ["Each of the students ___ submitted the assignment.",["have","were","are","has"],3,0,
+  "“Each” is singular, however plural the noun after it looks."],
+ ["The information you sent me ___ very helpful.",["were","was","are","have been"],1,0,
+  "“Information” is uncountable and singular, so it takes “was”, not “were”."],
+ ["Despite of the heavy rain, we went ahead with the picnic.",["Despite of","the heavy rain","we went ahead","No error"],0,1,
+  "“Despite” is never followed by “of” — say “despite the rain” or “in spite of the rain”."],
+ ["If she ___ the email, she would have known about the meeting.",["read","would read","had read","has read"],2,0,
+  "Third conditional: an unreal past condition needs the past perfect in the if-clause."],
+ ["By the time we arrived, the film ___ already ___.",["has / started","was / starting","did / start","had / started"],3,0,
+  "“By the time” + a past event needs the past perfect for whatever happened earlier."],
+ ["She suggested ___ the meeting until Monday.",["to postpone","postponing","postpone","that we postponing"],1,0,
+  "“Suggest” is followed by a gerund, not a to-infinitive."],
+ ["I am working here since three years.",["I am working","here","since three years","No error"],2,1,
+  "“Since” takes a starting point (since 2021); a length of time takes “for” (for three years)."],
+ ["Neither the manager nor the employees ___ aware of the change.",["was","were","is","has been"],1,0,
+  "With “neither…nor”, the verb agrees with the nearer subject — here the plural “employees”."],
+ ["He has been working there ___ five years.",["since","from","for","during"],2,0,
+  "“For” introduces a length of time; “since” would need a starting point instead."],
+ ["When I got to the station, I realised I ___ my wallet at home.",["had left","left","have left","was leaving"],0,0,
+  "The leaving happened before the realising — an earlier past event needs the past perfect."],
+ ["She ___ here for six months before she was promoted.",["had worked","was working","has been working","had been working"],3,0,
+  "An action continuing up to another past point takes the past perfect continuous."],
+ ["I ___ him tomorrow at three.",["meet","am meeting","would meet","will have met"],1,0,
+  "A fixed future arrangement is expressed with the present continuous."],
+ ["He told that he would be late for the meeting.",["He told","that he would","be late","No error"],0,1,
+  "“Tell” needs an object (“told me”); without one, use “said” instead."],
+ ["By next June, I ___ in this role for five years.",["will be","would have been","will have been","am"],2,0,
+  "A duration completed by a future point takes the future perfect continuous."],
+ ["The report ___ by the team last week.",["completed","is completing","has completed","was completed"],3,0,
+  "The report doesn’t act — it receives the action, so the passive voice is needed."],
+ ["She asked me where ___.",["did I live","I lived","do I live","have I lived"],1,0,
+  "Reported (indirect) questions drop the question inversion and use normal word order."],
+ ["___ harder, he would have passed the exam.",["If he studied","If he studies","Had he studied","He had studied"],2,0,
+  "Inverted third conditional: “Had he studied” replaces “If he had studied”."],
+ ["He denied ___ the money.",["taking","to take","take","that he taking"],0,0,
+  "“Deny” is followed by a gerund, not a to-infinitive."],
+ ["Can you tell me what time ___?",["does the train leave","is the train leaving","the train leaves","leaves the train"],2,0,
+  "Embedded questions use normal subject-verb word order, not question inversion."],
+ ["I ___ to Japan three times.",["went","was going","had gone","have been"],3,0,
+  "An experience up to now, with no specific past time given, takes the present perfect."],
+ ["She is one of those people who always arrive early.",["one of those","who always","arrive early","No error"],3,1,
+  "The sentence is correct: “who” refers to the plural “people”, so “arrive” is right."],
+ ["It's high time we ___ about this problem.",["do something","did something","will do something","doing something"],1,0,
+  "“It's (high) time” is followed by the past simple, even though the meaning is present/future."],
+ ["I wish I ___ more time to finish the project.",["have","would have","had","am having"],2,0,
+  "A wish about the present uses the past simple, like an unreal conditional."],
+ ["She ___ living in Delhi for two years when the pandemic started.",["had been","was","has been","is"],0,0,
+  "An action in progress before another past event takes the past perfect continuous."],
+ ["He avoided ___ eye contact throughout the interview.",["to make","make","made","making"],3,0,
+  "“Avoid” is followed by a gerund, not a to-infinitive."],
+ ["Hardly I had finished my lunch when the phone rang.",["Hardly I had finished","my lunch","when the phone rang","No error"],0,1,
+  "After a fronted “hardly”, the auxiliary and subject invert: “Hardly had I finished”."],
+ ["Supposing you ___ the lottery, what would you do?",["win","won","have won","will win"],1,0,
+  "“Supposing” introduces a hypothetical, like “if”, so it takes the past simple."],
+ ["I'd rather you ___ that to anyone.",["didn't mention","don't mention","won't mention","not mentioning"],0,0,
+  "“I'd rather you” + past simple expresses a present/future preference about someone else's action."]
 ];
 
 const LETTERS=["A","B","C","D"];
@@ -539,6 +580,36 @@ function scoreOne(id,ans){
   return s.conf==="K"?{p:1,k:"1"}:{p:.5,k:"h"};
 }
 
+function buildRow(n,id,stem,options,correctIdx,why,r){
+  const s=state[id];
+  const ok=r.k==="1";
+  const icon=ok?"✓":(r.k==="h"?"≈":"✗");
+  let sub="";
+  if(r.k==="h"){
+    sub='<span class="yours">Correct, but marked “vaguely sure” — half credit.</span>';
+  } else if(r.k==="n"){
+    sub='<span class="yours">Marked “don’t know” and left unanswered.</span>';
+  } else if(r.k==="0"){
+    const yourText=(s.pick!==null)?options[s.pick]:"—";
+    sub='<span class="yours">You answered: '+yourText+'</span>';
+  }
+  const cls={"1":"pts-1","h":"pts-h","0":"pts-0","n":"pts-n"}[r.k];
+  const txt={"1":"1","h":"½","0":"0","n":"—"}[r.k];
+  const html='<li class="rev"><span class="rev-i">'+icon+'</span>'
+    +'<span class="rev-b"><b>'+stem+'</b><span class="to">'+options[correctIdx]+'</span>'
+    +sub+'<em>'+why+'</em></span>'
+    +'<span class="pts '+cls+'">'+txt+'</span></li>';
+  return {ok:ok,html:html};
+}
+function splitRev(rows){
+  const wrong=rows.filter(r=>!r.ok).map(r=>r.html).join("");
+  const correct=rows.filter(r=>r.ok).map(r=>r.html).join("");
+  const n=rows.filter(r=>r.ok).length;
+  let html=wrong?'<ul class="review">'+wrong+'</ul>':'';
+  if(n) html+='<details class="acc"><summary>'+n+' correct answer'+(n>1?"s":"")+'</summary><ul class="review">'+correct+'</ul></details>';
+  return html;
+}
+
 document.getElementById("go").addEventListener("click",()=>{
   const ids=Object.keys(state), missing=ids.filter(i=>!done(i));
   const warn=document.getElementById("warn");
@@ -558,16 +629,19 @@ document.getElementById("go").addEventListener("click",()=>{
 });
 
 function render(){
-  let vs=0,gs=0,vRev="",gRev="";
+  let vs=0,gs=0,vRows=[],gRows=[];
   VOCAB.forEach((it,i)=>{
-    const r=scoreOne("v"+i,it[2]); vs+=r.p;
-    vRev+=revRow(i+1,it[0],it[1][it[2]],r);
+    const id="v"+i;
+    const r=scoreOne(id,it[2]); vs+=r.p;
+    vRows.push(buildRow(i+1,id,it[0],it[1],it[2],it[3],r));
   });
   GRAM.forEach((it,i)=>{
-    const r=scoreOne("g"+i,it[2]); gs+=r.p;
+    const id="g"+i;
+    const r=scoreOne(id,it[2]); gs+=r.p;
     const label=it[3]===1?"Error: "+it[0]:it[0];
-    gRev+=revRow(i+31,label,it[1][it[2]],r);
+    gRows.push(buildRow(i+31,id,label,it[1],it[2],it[4],r));
   });
+  const vRev=splitRev(vRows), gRev=splitRev(gRows);
 
   const total=vs+gs, pct=total/60*100;
   const band=BANDS.find(b=>pct<=b.max)||BANDS[BANDS.length-1];
@@ -602,10 +676,10 @@ function render(){
    +'<div class="tile"><h3>Grammar</h3><p>'+fmt(gs)+'<span> / 30</span></p><small>'+(gs/30*100).toFixed(0)+'% correct</small></div>'
    +'</div>'
    +'<div class="panel"><h3>The full scale</h3><ul class="levels">'+li+'</ul></div>'
-   +'<div class="panel"><h3>Vocabulary answers</h3><ul class="review">'+vRev+'</ul></div>'
-   +'<div class="panel"><h3>Grammar answers</h3><ul class="review">'+gRev+'</ul></div>'
+   +'<div class="panel"><h3>Vocabulary answers</h3>'+vRev+'</div>'
+   +'<div class="panel"><h3>Grammar answers</h3>'+gRev+'</div>'
    +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
-   +'<button class="btn btn-exit" onclick="ewDiscontinue()">Discontinue &amp; back to all tests</button>'
+   +'<button class="btn btn-exit" onclick="ewBackHome()">Back to home</button>'
    +'<p class="foot">CEFR bands are indicative. This tests recognition \u2014 what you produce in your own writing is usually a step behind.</p>';
 
   document.getElementById("results").classList.add("show");
@@ -693,6 +767,10 @@ function ewRetake(){
   EW.clearRecord(EW_SELF);
   if(EW.getActive() === EW_SELF) EW.clearActive();
   location.reload();
+}
+function ewBackHome(){
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.href = "index.html";
 }
 document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
 </script>

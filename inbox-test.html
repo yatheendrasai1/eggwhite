@@ -157,6 +157,15 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 .pts-15{background:var(--violet-soft);color:var(--violet)}
 .pts-1{background:var(--ochre-soft);color:var(--ochre)}
 .pts-0{background:var(--bad-soft);color:var(--bad)}
+
+.acc{margin-top:10px}
+.acc>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-soft);padding:10px 0;user-select:none}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary::before{content:"▸";color:var(--violet);transition:transform .15s;font-size:11px}
+.acc[open]>summary::before{transform:rotate(90deg)}
+.acc>summary:hover{color:var(--ink)}
+.acc .review{margin-top:2px}
+
 .foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
 @media (max-width:460px){
   .split{grid-template-columns:1fr}
@@ -379,26 +388,26 @@ const MAILS=[
 
 /* ================= VOCAB ================= */
 const VOCAB=[
-["Leverage","We should leverage our existing client relationships.",["Make full use of","Carefully protect","Slowly build up","Openly question"],0],
-["Mitigate","The team added tests to mitigate the deployment risk.",["Clearly document","Formally approve","Reduce the effect","Delay for later"],2],
-["Streamline","We need to streamline the onboarding process.",["Record in fine detail","Make more efficient","Split across teams","Pause for full review"],1],
-["Escalate","If the client doesn't respond, escalate it.",["Note it down in writing","Quietly set it to one side","Repeat it once again later","Take to a senior person"],3],
-["Contingency","Keep a contingency in case the vendor delays.",["A backup arrangement","A written complaint","A final agreement","A running summary"],0],
-["Consensus","We reached a consensus after two hours of debate.",["A fixed final deadline","A general agreement","A formal written warning","A rough cost estimate"],1],
-["Delegate","As a lead you must learn to delegate routine work.",["Finish ahead of time","Record for later use","Set aside for review","Hand to someone else"],3],
-["Feasible","The timeline is tight, but feasible.",["Open to change","Fixed in advance","Able to be done","Agreed by all"],2],
-["Redundant","After the merger, several roles became redundant.",["Highly demanding","No longer needed","Newly created","Formally listed"],1],
-["Discrepancy","There's a discrepancy between the invoice and the PO.",["A mismatch in detail","A shared purpose","A signed approval","A delay in payment"],0],
-["Attrition","Attrition in the support team has risen this quarter.",["Sudden rise in cost","Steady gain in speed","Long delay in hiring","Gradual loss of staff"],3],
-["Caveat","I'll approve it, with one caveat about the timeline.",["A minor correction","A private opinion","A stated condition","A formal request"],2],
-["Granular","Can you give me a more granular breakdown of costs?",["Finely detailed","Broadly grouped","Roughly ordered","Newly updated"],0],
-["Contingent","The bonus is contingent on hitting the Q3 target.",["Unrelated to it","Conditional on it","Much larger than","Delayed by it"],1],
-["Precedent","Approving this would set a precedent for other teams.",["A strict deadline","A common budget","An earlier example","A formal warning"],2],
-["Discretionary","The travel budget is discretionary, not guaranteed.",["Fixed by policy","Shared by teams","Paid in advance","Left to judgment"],3],
-["Onerous","The compliance checks are onerous but unavoidable.",["Quick and simple","Heavy and tiring","Rare and unusual","Cheap and quick"],1],
-["Purview","That decision falls outside my purview.",["Range of authority","Length of service","Field of interest","Level of funding"],0],
-["Tacit","There was tacit approval from the leadership.",["Loudly announced","Formally recorded","Briefly delayed","Silently understood"],3],
-["Ostensible","The ostensible reason was cost, but morale was the issue.",["Proven and certain","Hidden from view","Apparent, not real","Agreed by everyone"],2]
+["Leverage","We should leverage our existing client relationships.",["Make full use of","Carefully protect","Slowly build up","Openly question"],0,"To use something you already have to maximum advantage."],
+["Mitigate","The team added tests to mitigate the deployment risk.",["Clearly document","Formally approve","Reduce the effect","Delay for later"],2,"To make a risk or problem less severe."],
+["Streamline","We need to streamline the onboarding process.",["Record in fine detail","Make more efficient","Split across teams","Pause for full review"],1,"To simplify a process by removing unnecessary steps."],
+["Escalate","If the client doesn't respond, escalate it.",["Note it down in writing","Quietly set it to one side","Repeat it once again later","Take to a senior person"],3,"To pass an issue up to someone with more authority."],
+["Contingency","Keep a contingency in case the vendor delays.",["A backup arrangement","A written complaint","A final agreement","A running summary"],0,"A plan for something that might happen, held in reserve."],
+["Consensus","We reached a consensus after two hours of debate.",["A fixed final deadline","A general agreement","A formal written warning","A rough cost estimate"],1,"Broad agreement reached among a group."],
+["Delegate","As a lead you must learn to delegate routine work.",["Finish ahead of time","Record for later use","Set aside for review","Hand to someone else"],3,"To pass a task or responsibility to someone else."],
+["Feasible","The timeline is tight, but feasible.",["Open to change","Fixed in advance","Able to be done","Agreed by all"],2,"Practically possible, given the constraints."],
+["Redundant","After the merger, several roles became redundant.",["Highly demanding","No longer needed","Newly created","Formally listed"],1,"Surplus to requirements — in the job sense, no longer needed."],
+["Discrepancy","There's a discrepancy between the invoice and the PO.",["A mismatch in detail","A shared purpose","A signed approval","A delay in payment"],0,"A difference between things that should match."],
+["Attrition","Attrition in the support team has risen this quarter.",["Sudden rise in cost","Steady gain in speed","Long delay in hiring","Gradual loss of staff"],3,"The steady loss of employees over time, e.g. through resignation."],
+["Caveat","I'll approve it, with one caveat about the timeline.",["A minor correction","A private opinion","A stated condition","A formal request"],2,"A warning or condition attached to an otherwise general statement."],
+["Granular","Can you give me a more granular breakdown of costs?",["Finely detailed","Broadly grouped","Roughly ordered","Newly updated"],0,"Broken down into small, specific details rather than a broad summary."],
+["Contingent","The bonus is contingent on hitting the Q3 target.",["Unrelated to it","Conditional on it","Much larger than","Delayed by it"],1,"Dependent on something else happening first."],
+["Precedent","Approving this would set a precedent for other teams.",["A strict deadline","A common budget","An earlier example","A formal warning"],2,"A past case used to justify or guide a later decision."],
+["Discretionary","The travel budget is discretionary, not guaranteed.",["Fixed by policy","Shared by teams","Paid in advance","Left to judgment"],3,"Not fixed by rule — decided case by case."],
+["Onerous","The compliance checks are onerous but unavoidable.",["Quick and simple","Heavy and tiring","Rare and unusual","Cheap and quick"],1,"Burdensome; requiring significant effort."],
+["Purview","That decision falls outside my purview.",["Range of authority","Length of service","Field of interest","Level of funding"],0,"The scope of responsibility or control someone has."],
+["Tacit","There was tacit approval from the leadership.",["Loudly announced","Formally recorded","Briefly delayed","Silently understood"],3,"Implied without being directly stated."],
+["Ostensible","The ostensible reason was cost, but morale was the issue.",["Proven and certain","Hidden from view","Apparent, not real","Agreed by everyone"],2,"The stated or apparent reason, as opposed to the real one."]
 ];
 
 const LETTERS=["A","B","C","D"];
@@ -564,8 +573,17 @@ document.getElementById("go").addEventListener("click",()=>{
   render();
 });
 
+function splitRev(rows){
+  const wrong=rows.filter(r=>!r.ok).map(r=>r.html).join("");
+  const correct=rows.filter(r=>r.ok).map(r=>r.html).join("");
+  const n=rows.filter(r=>r.ok).length;
+  let html=wrong?'<ul class="review">'+wrong+'</ul>':'';
+  if(n) html+='<details class="acc"><summary>'+n+' correct answer'+(n>1?"s":"")+'</summary><ul class="review">'+correct+'</ul></details>';
+  return html;
+}
+
 function render(){
-  let found=0,fixedOK=0,partial=0,falseFlags=0,total=0,ptsSum=0,rev="";
+  let found=0,fixedOK=0,partial=0,falseFlags=0,total=0,ptsSum=0,mailRows=[];
   MAILS.forEach((m,mi)=>{
     m.body.forEach((s,si)=>{
       const id=mi+"-"+si,isErr=(typeof s!=="string"),hit=(id in flagged);
@@ -578,32 +596,37 @@ function render(){
         ptsSum+=pts;
         const cls=pts===2?"2":(pts===1.5?"15":(pts===1?"1":"0"));
         const ic=pts===2?"\u2713":(pts===1.5?"\u2248":(pts===1?"\u25B3":"\u2717"));
-        rev+='<li class="rev"><span class="rev-i">'+ic+'</span>'
+        const html='<li class="rev"><span class="rev-i">'+ic+'</span>'
           +'<span class="rev-b"><span class="from">'+esc(s.t.trim())+'</span> &rarr; <span class="to">'+esc(s.fix[0])+'</span>'
-          +(hit&&pts<2?'<span class="yours">you wrote: '+(esc(flagged[id])||"\u2014")+'</span>':'')
+          +(hit?(pts<2?'<span class="yours">you wrote: '+(esc(flagged[id])||"\u2014")+'</span>':''):'<span class="yours">you didn\u2019t flag this</span>')
           +'<em>'+s.why+'</em></span>'
           +'<span class="pts pts-'+cls+'">'+pts+'</span></li>';
+        mailRows.push({ok:pts===2,html:html});
       } else if(hit){
         falseFlags++;
-        rev+='<li class="rev"><span class="rev-i">\u2717</span><span class="rev-b">'
+        const html='<li class="rev"><span class="rev-i">\u2717</span><span class="rev-b">'
           +'<b>&ldquo;'+esc(s.trim())+'&rdquo;</b> was already correct.'
           +'<em>False flag \u2014 nothing wrong with this phrase.</em></span>'
           +'<span class="pts pts-0">\u22121</span></li>';
+        mailRows.push({ok:false,html:html});
       }
     });
   });
   const mailMax=total*2;
   const mailRaw=Math.max(0,ptsSum-falseFlags);
   const mailPct=mailRaw/mailMax*100;
+  const rev=splitRev(mailRows);
 
-  let vScore=0,vRev="";
+  let vScore=0,vRows=[];
   VOCAB.forEach((v,i)=>{
     const ok=picks[i]===v[3];if(ok)vScore++;
-    vRev+='<li class="rev"><span class="rev-i">'+(ok?"\u2713":"\u2717")+'</span><span class="rev-b">'
+    const html='<li class="rev"><span class="rev-i">'+(ok?"\u2713":"\u2717")+'</span><span class="rev-b">'
       +'<b>'+v[0]+'</b> &mdash; <span class="to">'+esc(v[2][v[3]])+'</span>'
       +(ok?'':'<span class="yours">you chose: '+esc(v[2][picks[i]])+'</span>')
-      +'</span><span class="pts pts-'+(ok?2:0)+'">'+(ok?1:0)+'</span></li>';
+      +'<em>'+v[4]+'</em></span><span class="pts pts-'+(ok?2:0)+'">'+(ok?1:0)+'</span></li>';
+    vRows.push({ok:ok,html:html});
   });
+  const vRev=splitRev(vRows);
   const vPct=vScore/20*100;
   const overall=(mailPct+vPct)/2;
   const band=BANDS.find(b=>overall<=b.max)||BANDS[BANDS.length-1];
@@ -632,10 +655,10 @@ function render(){
    +'<div class="tile"><h3>Vocabulary</h3><p>'+vScore+'<span> / 20</span></p><small>'+vPct.toFixed(0)+'%</small></div>'
    +'</div>'
    +'<div class="panel"><h3>The full scale</h3><ul class="levels">'+li+'</ul></div>'
-   +'<div class="panel"><h3>Every error in the emails</h3><ul class="review">'+rev+'</ul></div>'
-   +'<div class="panel"><h3>Vocabulary answers</h3><ul class="review">'+vRev+'</ul></div>'
+   +'<div class="panel"><h3>Every error in the emails</h3>'+rev+'</div>'
+   +'<div class="panel"><h3>Vocabulary answers</h3>'+vRev+'</div>'
    +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
-   +'<button class="btn btn-exit" onclick="ewDiscontinue()">Discontinue &amp; back to all tests</button>'
+   +'<button class="btn btn-exit" onclick="ewBackHome()">Back to home</button>'
    +'<p class="foot">Corrections are matched against a wide list of accepted answers, with typos and near-misses given partial credit. Check the review before arguing with your score.</p>';
 
   document.getElementById("results").classList.add("show");
@@ -720,6 +743,10 @@ function ewRetake(){
   EW.clearRecord(EW_SELF);
   if(EW.getActive() === EW_SELF) EW.clearActive();
   location.reload();
+}
+function ewBackHome(){
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.href = "index.html";
 }
 document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
 </script>
