@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Prepositions &amp; Gerunds Test — Eggwhite</title>
+<title>The Preposition Party! — Eggwhite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -178,11 +178,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 <div class="wrap">
   <header class="masthead">
     <p class="eyebrow">Round 3 · Grammar drill</p>
-    <h1>Prepositions <em>+ gerunds</em></h1>
-    <p class="lede">A preposition is always followed by the -ing form — never "to do." Two parts: type the correct form after tricky prepositions, then pick the right preposition in real collocations.</p>
+    <h1>The <em>Preposition</em> Party!</h1>
+    <p class="lede">A preposition is always followed by the -ing form — never "to do." Two parts: complete real corporate phrases from emails and meetings, then pick the right preposition in common collocations.</p>
     <div class="howto">
       <h2>How it works</h2>
-      <p><b>Part I — Fix the form.</b> Each sentence has a verb in brackets. Type it in its -ing form to complete the sentence.</p>
+      <p><b>Part I — Fix the form.</b> Each sentence has a verb in brackets. Most blanks need just the -ing form — a few need the preposition too, so read the hint under each one.</p>
       <p><b>Part II — Choose the preposition.</b> Pick the preposition that correctly leads into the gerund phrase.</p>
       <p><b>Scoring:</b> each item is worth 1 point. Spelling is checked exactly, so read your answer back before submitting.</p>
     </div>
@@ -248,31 +248,35 @@ const EW = (() => {
 
 /* ================= PART I — fix the form =================
    [before, baseVerb, after, correctGerund, why] */
+/* [before, baseVerb, after, correctAnswer, why, needsPrep]
+   needsPrep=false: the preposition is already in the sentence, type just the -ing form.
+   needsPrep=true: type the preposition AND the -ing form — real corporate phrases,
+   testing recall of the fixed expression, not just the grammar rule. */
 const FILLS = [
  ["I'm really looking forward to ","see"," you next week.","seeing",
-  "“to” here belongs to “look forward to” — it's a preposition, not the infinitive marker, so it takes the -ing form."],
+  "“to” here belongs to “look forward to” — it's a preposition, not the infinitive marker, so it takes the -ing form.",false],
  ["She strongly objects to ","change"," the schedule at the last minute.","changing",
-  "“object to” — “to” is a preposition here too, so it takes a gerund."],
+  "“object to” — “to” is a preposition here too, so it takes a gerund.",false],
  ["After years abroad, he finally got used to ","eat"," spicy food.","eating",
-  "“get/be used to” means “accustomed to” — don't confuse it with “used to do” (a past habit), which takes the base verb."],
- ["In addition to ","manage"," the budget, she also leads the design team.","managing",
-  "“in addition to” is a fixed preposition + gerund phrase."],
- ["He's not used to ","work"," such long hours.","working",
-  "Same “used to” trap — “accustomed to” takes a gerund."],
- ["When it comes to ","negotiate"," a raise, preparation matters most.","negotiating",
-  "“when it comes to” always takes a gerund."],
- ["Prior to ","join"," this company, she worked at a startup.","joining",
-  "“prior to” is a preposition meaning “before.”"],
- ["Instead of ","complain",", he just fixed it himself.","complaining",
-  "“instead of” is always followed by a gerund."],
+  "“get/be used to” means “accustomed to” — don't confuse it with “used to do” (a past habit), which takes the base verb.",false],
  ["You can't finish the report without ","check"," the numbers twice.","checking",
-  "“without” is a preposition."],
- ["Despite ","know"," the risks, they went ahead with the plan.","knowing",
-  "“despite” and “in spite of” are followed by a gerund."],
- ["By ","automate"," the process, we cut the turnaround time in half.","automating",
-  "“by” showing method or means is followed by a gerund."],
+  "“without” is a preposition.",false],
  ["Before ","send"," the email, read it one more time.","sending",
-  "“before” is a preposition here, so it takes the -ing form."]
+  "“before” is a preposition here, so it takes the -ing form.",false],
+ ["Thank you so much ","take"," the time to walk us through the proposal.","for taking",
+  "“Thank you for” + gerund — one of the most common phrases in professional emails.",true],
+ ["We sincerely apologize ","cause"," any inconvenience this delay may have caused.","for causing",
+  "“Apologize for” + gerund is the standard way to say sorry in a business email.",true],
+ ["We remain fully committed ","deliver"," the project on schedule.","to delivering",
+  "“Committed to” + gerund — “to” is a preposition here, not the infinitive marker, so it takes the -ing form.",true],
+ ["Please proceed ","onboard"," the new vendor once legal has signed off.","with onboarding",
+  "“Proceed with” + gerund is common in operational and project emails.",true],
+ ["We're excited ","announce"," the launch of our new platform.","about announcing",
+  "“Excited about” + gerund — common in marketing and company-wide emails.",true],
+ ["Our support team is responsible ","maintain"," uptime across all regions.","for maintaining",
+  "“Responsible for” + gerund — standard phrasing in role descriptions and SLAs.",true],
+ ["Please refrain ","share"," this document outside the immediate team.","from sharing",
+  "“Refrain from” + gerund is the standard phrase for a formal request not to do something.",true]
 ];
 
 /* ================= PART II — choose the preposition =================
@@ -331,7 +335,7 @@ let fh="";
 FILLS.forEach((f,i)=>{
   fh+='<article class="q" id="fq'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
     +'<p class="q-text">'+esc(f[0])+'<input type="text" class="fill" data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here">'+esc(f[2])+'</p></div>'
-    +'<p class="q-hint">Verb: <b>'+esc(f[1])+'</b></p></article>';
+    +'<p class="q-hint">Verb: <b>'+esc(f[1])+'</b>'+(f[5]?' · include the preposition':'')+'</p></article>';
 });
 document.getElementById("fills").innerHTML=fh;
 
@@ -498,7 +502,7 @@ function render(){
 /* ================================================================
    eggwhite — session persistence & single-open-test enforcement
    ================================================================ */
-const EW_SELF = "prepositions-gerunds-test.html";
+const EW_SELF = "preposition-party-test.html";
 let REC = null;
 {
   const stored = EW.getRecord(EW_SELF);
