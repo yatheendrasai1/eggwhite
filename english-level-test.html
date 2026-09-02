@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>English Level Test — Vocabulary &amp; Grammar</title>
+<title>Know Your English — Part 1 — Eggwhite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -299,7 +299,7 @@ body{
 <div class="wrap">
   <header class="masthead">
     <p class="eyebrow">Vocabulary &amp; Grammar · 60 questions</p>
-    <h1>How good is <em>your</em> English, really?</h1>
+    <h1>Know Your English - <em>Part 1</em></h1>
     <p class="lede">A self-scoring test that measures what you actually know — not what you can guess. Answer honestly and you get a CEFR level at the end.</p>
 
     <div class="howto">
@@ -718,7 +718,7 @@ let REC = null;
     tick();
     if(REC.status === "completed") render();
   } else {
-    REC = { file:EW_SELF, title:"English Level Test", startedAt:Date.now(),
+    REC = { file:EW_SELF, title:"Know Your English - Part 1", startedAt:Date.now(),
             name:EW.getName(), status:"in-progress", answers:{}, progress:{done:0,total:60} };
     EW.saveRecord(EW_SELF, REC);
     EW.setActive(EW_SELF);
