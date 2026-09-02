@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prepositions &amp; Gerunds Test — Eggwhite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:"Wigglye";
+  src:url("fonts/Wigglye.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --paper:#F7F1E1;--card:#FFFFFF;--ink:#2B2721;--ink-soft:#7C7160;--line:#E9E0CB;
+  --violet:#B5831C;--violet-soft:#FBEECB;--ochre:#CF7A2E;--ochre-soft:#FBE9D6;
+  --steel:#2E6E76;--steel-soft:#DCEBEA;
+  --slate:#A99E88;--good:#2A6E52;--good-soft:#E2F0EA;--bad:#B23A1B;--bad-soft:#FBE7E0;
+  --yolk:#F2B60C;--nav-h:52px;
+  --display:"Fraunces",Georgia,serif;
+  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-top:var(--nav-h);padding-bottom:100px;overflow-wrap:break-word}
+
+/* ---------- fixed navbar ---------- */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line);text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
+.nav-name{font-family:var(--brand);font-size:23px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+.masthead{padding:20px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel);margin:0 0 10px}
+.masthead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,37px);line-height:1.06;margin:0 0 12px;letter-spacing:-.022em}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--steel)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:46ch}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0 0}
+.howto h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 11px;font-weight:600}
+.howto p{margin:0 0 9px;font-size:14.5px;color:var(--ink-soft)}
+.howto p:last-child{margin-bottom:0}
+.howto b{color:var(--ink);font-weight:600}
+.taking{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--steel);letter-spacing:.02em}
+
+/* ---------- progress ---------- */
+.progress{position:sticky;top:var(--nav-h);z-index:20;background:rgba(247,241,225,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:24px}
+.progress-in{max-width:640px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.pc{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.pt{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.pf{height:100%;width:0;background:var(--yolk);border-radius:99px;transition:width .25s}
+
+/* ---------- sections ---------- */
+.part{padding:34px 0 8px}
+.part-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.part-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--steel);letter-spacing:.1em}
+.part-head h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;letter-spacing:-.01em}
+.part-note{margin:0 0 20px;color:var(--ink-soft);font-size:14px}
+
+/* ---------- question ---------- */
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px 16px;margin-bottom:14px;scroll-margin-top:120px}
+.q.flag{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.q-head{display:flex;gap:11px;align-items:baseline;margin-bottom:4px}
+.q-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none;padding-top:3px}
+.q-text{margin:0;font-size:16.5px;line-height:1.55}
+.q-hint{margin:8px 0 0 33px;font-size:12.5px;color:var(--slate)}
+
+.fill{
+  display:inline-block;width:150px;max-width:44vw;border:1.5px solid var(--line);border-radius:8px;
+  padding:6px 9px;font-family:var(--body);font-size:15.5px;color:var(--ink);background:#FBF8F1;
+  vertical-align:baseline
+}
+.fill:focus{outline:none;border-color:var(--steel);box-shadow:0 0 0 3px var(--steel-soft);background:#fff}
+
+.opts{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+.opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:#FBF8F1;border:1.5px solid var(--line);border-radius:11px;padding:12px 13px;font-family:var(--body);font-size:15.5px;color:var(--ink);cursor:pointer;line-height:1.35;transition:border-color .12s,background .12s;min-height:46px}
+.opt:hover{border-color:var(--slate)}
+.opt:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
+.opt-l{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);padding-top:2px;flex:none}
+.opt.on{background:var(--steel-soft);border-color:var(--steel)}
+.opt.on .opt-l{color:var(--steel)}
+
+/* ---------- submit ---------- */
+.submit-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,241,225,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.submit-in{max-width:640px;margin:0 auto}
+.btn{width:100%;background:var(--yolk);color:var(--ink);border:none;border-radius:12px;padding:15px;font-family:var(--body);font-size:16px;font-weight:700;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--steel);border:1.5px solid var(--steel)}
+.warn{margin:0 0 9px;font-size:13.5px;color:var(--bad);text-align:center;display:none}
+.warn.show{display:block}
+.btn-exit{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);margin-top:8px;font-weight:500;font-size:14px;padding:11px}
+.btn-exit:hover{border-color:var(--bad);color:var(--bad)}
+
+/* ---------- results ---------- */
+.results{display:none;padding:20px 0 40px}
+.results.show{display:block}
+.scorecard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 20px;margin-bottom:16px}
+.score-big{font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,58px);line-height:.95;letter-spacing:-.03em;margin:0}
+.score-big span{font-size:25px;color:var(--slate);font-weight:400}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin:8px 0 0}
+.grade-line{margin:22px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.grade-band{font-family:var(--display);font-weight:800;font-size:clamp(28px,8.5vw,36px);margin:0;letter-spacing:-.02em;color:var(--steel)}
+.grade-name{margin:2px 0 0;font-size:15px;font-weight:600;color:var(--ink-soft)}
+.grade-desc{margin:9px 0 0;color:var(--ink-soft);font-size:14.5px}
+.ladder{margin:26px 0 0}
+.ladder-track{display:flex;gap:3px;height:38px;position:relative}
+.rung{flex:1;background:var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink-soft);transition:background .4s ease .2s;padding:0 2px;text-align:center}
+.rung.filled{background:#CFE6E4;color:var(--steel)}
+.rung.here{background:var(--steel);color:#fff}
+.marker{position:absolute;top:-16px;transform:translateX(-50%);font-size:13px;color:var(--steel);transition:left .5s cubic-bezier(.34,1.2,.64,1);left:0}
+.ladder-ends{display:flex;justify-content:space-between;margin-top:7px}
+.ladder-ends span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px;font-weight:600}
+.tile p{margin:0;font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:-.02em}
+.tile p span{font-size:14px;color:var(--slate);font-weight:400}
+.tile small{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 14px}
+.levels{margin:0;padding:0;list-style:none}
+.levels li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.levels li:first-child{border-top:none}
+.levels li.you{background:var(--steel-soft);margin:0 -18px;padding-left:18px;padding-right:18px;border-radius:8px;border-top-color:transparent}
+.lv-code{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--steel);flex:none;width:78px;padding-top:2px}
+.lv-body b{display:block;font-weight:600;margin-bottom:1px}
+.lv-body span{color:var(--ink-soft);font-size:13.5px}
+.you-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--steel);text-transform:uppercase;margin-left:6px}
+.review{margin:0;padding:0;list-style:none}
+.rev{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
+.rev:first-child{border-top:none}
+.rev-i{flex:none;width:20px;font-size:15px;padding-top:1px}
+.rev-b{flex:1;min-width:0}
+.rev-b .from{color:var(--bad);text-decoration:line-through;font-weight:500}
+.rev-b .to{color:var(--good);font-weight:600}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:4px;line-height:1.45}
+.rev-b .yours{font-family:var(--mono);font-size:12px;color:var(--slate);display:block;margin-top:3px}
+.pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
+.pts-1{background:var(--good-soft);color:var(--good)}
+.pts-0{background:var(--bad-soft);color:var(--bad)}
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
+
+@media (max-width:460px){.split{grid-template-columns:1fr}}
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .progress-in{padding:11px 14px}
+  .part{padding:26px 0 8px}
+  .q{padding:16px 14px 14px}
+  .scorecard{padding:22px 16px}
+  .panel{padding:18px 15px}
+  .levels li.you{margin:0 -15px;padding-left:15px;padding-right:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Round 3 · Grammar drill</p>
+    <h1>Prepositions <em>+ gerunds</em></h1>
+    <p class="lede">A preposition is always followed by the -ing form — never "to do." Two parts: type the correct form after tricky prepositions, then pick the right preposition in real collocations.</p>
+    <div class="howto">
+      <h2>How it works</h2>
+      <p><b>Part I — Fix the form.</b> Each sentence has a verb in brackets. Type it in its -ing form to complete the sentence.</p>
+      <p><b>Part II — Choose the preposition.</b> Pick the preposition that correctly leads into the gerund phrase.</p>
+      <p><b>Scoring:</b> each item is worth 1 point. Spelling is checked exactly, so read your answer back before submitting.</p>
+    </div>
+    <p class="taking" id="taking" hidden></p>
+  </header>
+</div>
+
+<div class="progress">
+  <div class="progress-in">
+    <span class="pc"><span id="pDone">0</span>/32 answered</span>
+    <span class="pt"><span class="pf" id="pFill"></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="paper">
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART I</span><h2>Fix the form</h2></div>
+      <p class="part-note">Type the -ing form of the verb in brackets.</p>
+      <div id="fills"></div>
+    </section>
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART II</span><h2>Choose the preposition</h2></div>
+      <p class="part-note">Pick the preposition that belongs before the gerund.</p>
+      <div id="mcq"></div>
+    </section>
+  </main>
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+
+<div class="submit-bar">
+  <div class="submit-in">
+    <p class="warn" id="warn"></p>
+    <button class="btn" id="go">Score my answers</button>
+    <button type="button" class="btn btn-exit" id="btnDiscont">Discontinue test</button>
+  </div>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const ACTIVE = "eggwhite:active";
+  const HISTORY = "eggwhite:history";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    getName: () => gs(NAME),
+    getActive: () => gs(ACTIVE),
+    setActive: f => { try { localStorage.setItem(ACTIVE, f); } catch (e) {} },
+    clearActive: () => rm(ACTIVE),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
+  };
+})();
+
+/* ================= PART I — fix the form =================
+   [before, baseVerb, after, correctGerund, why] */
+const FILLS = [
+ ["I'm really looking forward to ","see"," you next week.","seeing",
+  "“to” here belongs to “look forward to” — it's a preposition, not the infinitive marker, so it takes the -ing form."],
+ ["She strongly objects to ","change"," the schedule at the last minute.","changing",
+  "“object to” — “to” is a preposition here too, so it takes a gerund."],
+ ["After years abroad, he finally got used to ","eat"," spicy food.","eating",
+  "“get/be used to” means “accustomed to” — don't confuse it with “used to do” (a past habit), which takes the base verb."],
+ ["In addition to ","manage"," the budget, she also leads the design team.","managing",
+  "“in addition to” is a fixed preposition + gerund phrase."],
+ ["He's not used to ","work"," such long hours.","working",
+  "Same “used to” trap — “accustomed to” takes a gerund."],
+ ["When it comes to ","negotiate"," a raise, preparation matters most.","negotiating",
+  "“when it comes to” always takes a gerund."],
+ ["Prior to ","join"," this company, she worked at a startup.","joining",
+  "“prior to” is a preposition meaning “before.”"],
+ ["Instead of ","complain",", he just fixed it himself.","complaining",
+  "“instead of” is always followed by a gerund."],
+ ["You can't finish the report without ","check"," the numbers twice.","checking",
+  "“without” is a preposition."],
+ ["Despite ","know"," the risks, they went ahead with the plan.","knowing",
+  "“despite” and “in spite of” are followed by a gerund."],
+ ["By ","automate"," the process, we cut the turnaround time in half.","automating",
+  "“by” showing method or means is followed by a gerund."],
+ ["Before ","send"," the email, read it one more time.","sending",
+  "“before” is a preposition here, so it takes the -ing form."]
+];
+
+/* ================= PART II — choose the preposition =================
+   [sentence with ___, options[4], correctIndex, why] */
+const MCQ = [
+ ["She's incredibly good ___ solving last-minute problems.",["at","in","for","on"],0,
+  "“good at” is the fixed adjective + preposition collocation."],
+ ["He's always been afraid ___ public speaking.",["from","of","about","to"],1,
+  "“afraid of” is the fixed collocation."],
+ ["I'm not really interested ___ discussing politics at work.",["at","in","on","for"],1,
+  "“interested in” is the fixed collocation."],
+ ["They're capable ___ handling much bigger projects than this.",["at","for","of","with"],2,
+  "“capable of” is the fixed collocation."],
+ ["We're all excited ___ starting the new project next month.",["for","to","about","in"],2,
+  "“excited about” is the fixed collocation."],
+ ["He seemed tired ___ answering the same question over and over.",["from","with","of","about"],2,
+  "“tired of” signals annoyance at something repeated; “tired from” would be physical exhaustion."],
+ ["She's responsible ___ onboarding every new hire.",["to","of","for","with"],2,
+  "“responsible for” is the fixed collocation."],
+ ["He insisted ___ paying for dinner himself.",["for","on","in","about"],1,
+  "“insist on” is the fixed collocation."],
+ ["After months of trying, she finally succeeded ___ convincing the board.",["at","for","in","on"],2,
+  "“succeed in” is the fixed collocation."],
+ ["He apologized ___ being late to the client call.",["about","of","for","to"],2,
+  "“apologize for” is the fixed collocation."],
+ ["You can always rely ___ having his full support.",["in","on","for","at"],1,
+  "“rely on” is the fixed collocation."],
+ ["The committee approved ___ hiring two more engineers.",["to","for","of","on"],2,
+  "“approve of” is the fixed collocation."],
+ ["He strongly objects ___ changing the process this late.",["on","to","for","about"],1,
+  "Same “to-as-preposition” trap as Part I — “object to”."],
+ ["Let's focus ___ improving the onboarding flow first.",["in","at","on","to"],2,
+  "“focus on” is the fixed collocation."],
+ ["What was your reason ___ leaving the last job?",["of","for","in","to"],1,
+  "“reason for” is the fixed collocation."],
+ ["She's always shown a real interest ___ learning new languages.",["for","on","in","at"],2,
+  "“interest in” is the fixed collocation."],
+ ["What are our chances ___ winning this bid?",["for","of","in","at"],1,
+  "“chance of” is the fixed collocation."],
+ ["They use a very hands-on method ___ teaching grammar.",["in","for","of","at"],2,
+  "“method of” is the fixed collocation."],
+ ["He has a bad habit ___ checking his phone mid-meeting.",["of","for","at","to"],0,
+  "“habit of” is the fixed collocation."],
+ ["There's real difficulty ___ understanding the new policy.",["of","for","at","in"],3,
+  "“difficulty in” is the standard form before a gerund."]
+];
+
+const LETTERS=["A","B","C","D"];
+const fills={};   // fill idx -> typed string
+const picks={};   // mcq idx -> option idx
+
+/* ================= RENDER ================= */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+let fh="";
+FILLS.forEach((f,i)=>{
+  fh+='<article class="q" id="fq'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<p class="q-text">'+esc(f[0])+'<input type="text" class="fill" data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here">'+esc(f[2])+'</p></div>'
+    +'<p class="q-hint">Verb: <b>'+esc(f[1])+'</b></p></article>';
+});
+document.getElementById("fills").innerHTML=fh;
+
+let mh="";
+MCQ.forEach((m,i)=>{
+  mh+='<article class="q" id="mq'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<p class="q-text">'+esc(m[0])+'</p></div><div class="opts">';
+  m[1].forEach((o,j)=>{
+    mh+='<button type="button" class="opt" data-m="'+i+'" data-j="'+j+'"><span class="opt-l">'+LETTERS[j]+'</span><span>'+esc(o)+'</span></button>';
+  });
+  mh+='</div></article>';
+});
+document.getElementById("mcq").innerHTML=mh;
+
+/* ================= INTERACTION ================= */
+document.getElementById("paper").addEventListener("input",e=>{
+  if(e.target.classList.contains("fill")){
+    fills[e.target.dataset.i]=e.target.value;
+    document.getElementById("fq"+e.target.dataset.i).classList.remove("flag");
+    tick();persist();
+  }
+});
+document.getElementById("paper").addEventListener("click",e=>{
+  const opt=e.target.closest(".opt");
+  if(!opt) return;
+  const i=+opt.dataset.m,j=+opt.dataset.j;
+  picks[i]=j;
+  const card=document.getElementById("mq"+i);
+  card.classList.remove("flag");
+  card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===j));
+  tick();persist();
+});
+
+function tick(){
+  const filled=Object.keys(fills).filter(k=>(fills[k]||"").trim()).length;
+  const picked=Object.keys(picks).length;
+  const n=filled+picked;
+  document.getElementById("pDone").textContent=n;
+  document.getElementById("pFill").style.width=(n/32*100)+"%";
+}
+tick();
+
+/* ================= SCORING ================= */
+function norm(s){
+  return (s||"").toLowerCase().trim().replace(/[.,;:!?]+$/,"");
+}
+const BANDS=[
+ {max:40,code:"Shaky",name:"Still guessing",
+  desc:"Regularly picks the base verb or the wrong preposition. Drill the fixed-phrase list — look forward to, object to, get used to — before anything else."},
+ {max:65,code:"Developing",name:"Getting there",
+  desc:"Reliable on the obvious triggers (after, before, without) but slips on fixed collocations and the “to” trap."},
+ {max:85,code:"Solid",name:"Reliable",
+  desc:"Consistently correct on both common triggers and most collocations, with only occasional slips on rarer combinations."},
+ {max:100,code:"Native-like",name:"Automatic",
+  desc:"Handles even the classic traps — look forward to, object to, used to vs. get used to — without hesitation."}
+];
+const LADDER=[
+ ["Shaky","Still guessing"],
+ ["Developing","Getting there"],
+ ["Solid","Reliable"],
+ ["Native-like","Automatic"]
+];
+
+document.getElementById("go").addEventListener("click",()=>{
+  const missF=[];for(let i=0;i<FILLS.length;i++) if(!(fills[i]||"").trim()) missF.push(i);
+  const missM=[];for(let i=0;i<MCQ.length;i++) if(!(i in picks)) missM.push(i);
+  const warn=document.getElementById("warn");
+  const missCount=missF.length+missM.length;
+  if(missCount){
+    warn.textContent=missCount+" item"+(missCount>1?"s":"")+" still need"+(missCount>1?"":"s")+" an answer.";
+    warn.classList.add("show");
+    if(missF.length){
+      const c=document.getElementById("fq"+missF[0]);
+      c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    } else {
+      const c=document.getElementById("mq"+missM[0]);
+      c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+    return;
+  }
+  warn.classList.remove("show");
+  render();
+});
+
+function render(){
+  let fScore=0,fRev="";
+  FILLS.forEach((f,i)=>{
+    const yours=fills[i]||"";
+    const ok=norm(yours)===norm(f[3]);
+    if(ok)fScore++;
+    fRev+='<li class="rev"><span class="rev-i">'+(ok?"✓":"✗")+'</span><span class="rev-b">'
+      +esc(f[0])+'<span class="to">'+esc(f[3])+'</span>'+esc(f[2])
+      +(ok?'':'<span class="yours">you wrote: '+(esc(yours.trim())||"—")+'</span>')
+      +'<em>'+f[4]+'</em></span><span class="pts pts-'+(ok?1:0)+'">'+(ok?1:0)+'</span></li>';
+  });
+
+  let mScore=0,mRev="";
+  MCQ.forEach((m,i)=>{
+    const ok=picks[i]===m[2];
+    if(ok)mScore++;
+    mRev+='<li class="rev"><span class="rev-i">'+(ok?"✓":"✗")+'</span><span class="rev-b">'
+      +esc(m[0]).replace("___","<b>"+esc(m[1][m[2]])+"</b>")
+      +(ok?'':'<span class="yours">you chose: '+esc(m[1][picks[i]])+'</span>')
+      +'<em>'+m[3]+'</em></span><span class="pts pts-'+(ok?1:0)+'">'+(ok?1:0)+'</span></li>';
+  });
+
+  const total=fScore+mScore, pct=total/32*100;
+  const band=BANDS.find(b=>pct<=b.max)||BANDS[BANDS.length-1];
+  const bandIdx=BANDS.indexOf(band);
+  ewComplete(band.code+" · "+total+"/32", Math.round(pct),
+    "Form "+fScore+"/12 · Prepositions "+mScore+"/20 · "+band.code);
+
+  let li="";
+  LADDER.forEach((l,i)=>{
+    const you=(i===bandIdx);
+    li+='<li class="'+(you?"you":"")+'"><span class="lv-code">'+l[0]+'</span><span class="lv-body"><b>'+l[1]
+      +(you?'<span class="you-tag">you are here</span>':'')+'</b></span></li>';
+  });
+  let rungs="";
+  LADDER.forEach((l,i)=>{
+    rungs+='<span class="rung'+(i<bandIdx?" filled":(i===bandIdx?" here":""))+'">'+l[0]+'</span>';
+  });
+
+  document.getElementById("results").innerHTML=
+   '<div class="scorecard">'
+   +'<p class="score-big">'+total+'<span> / 32</span></p>'
+   +'<p class="score-pct">'+pct.toFixed(0)+'% correct</p>'
+   +'<div class="grade-line"><p class="grade-band">'+band.code+'</p>'
+   +'<p class="grade-name">'+band.name+'</p><p class="grade-desc">'+band.desc+'</p></div>'
+   +'<div class="ladder"><div class="ladder-track"><span class="marker" style="left:'+((bandIdx+0.5)/4*100)+'%">▼</span>'+rungs+'</div>'
+   +'<div class="ladder-ends"><span>Shaky</span><span>Native-like</span></div></div>'
+   +'</div>'
+   +'<div class="split">'
+   +'<div class="tile"><h3>Form</h3><p>'+fScore+'<span> / 12</span></p><small>'+(fScore/12*100).toFixed(0)+'% correct</small></div>'
+   +'<div class="tile"><h3>Prepositions</h3><p>'+mScore+'<span> / 20</span></p><small>'+(mScore/20*100).toFixed(0)+'% correct</small></div>'
+   +'</div>'
+   +'<div class="panel"><h3>The scale</h3><ul class="levels">'+li+'</ul></div>'
+   +'<div class="panel"><h3>Part I answers</h3><ul class="review">'+fRev+'</ul></div>'
+   +'<div class="panel"><h3>Part II answers</h3><ul class="review">'+mRev+'</ul></div>'
+   +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
+   +'<button class="btn btn-exit" onclick="ewDiscontinue()">Discontinue &amp; back to all tests</button>'
+   +'<p class="foot">Spelling is checked exactly (case-insensitive). A typo counts as wrong — check the review before arguing with your score.</p>';
+
+  document.getElementById("results").classList.add("show");
+  document.getElementById("paper").style.display="none";
+  document.querySelector(".progress").style.display="none";
+  document.querySelector(".submit-bar").style.display="none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================================================================
+   eggwhite — session persistence & single-open-test enforcement
+   ================================================================ */
+const EW_SELF = "prepositions-gerunds-test.html";
+let REC = null;
+{
+  const stored = EW.getRecord(EW_SELF);
+  const other = EW.getActive();
+  if(!stored && other && other !== EW_SELF){
+    location.replace("index.html");            // another test is already open
+  } else if(stored){
+    REC = stored;
+    const a = REC.answers || {};
+    if(a.fills) Object.assign(fills, a.fills);
+    if(a.picks) Object.assign(picks, a.picks);
+    document.querySelectorAll(".fill").forEach(inp=>{
+      if(inp.dataset.i in fills) inp.value = fills[inp.dataset.i];
+    });
+    for(const i in picks){
+      const card=document.getElementById("mq"+i);
+      if(card) card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===picks[i]));
+    }
+    tick();
+    if(REC.status === "completed") render();
+  } else {
+    REC = { file:EW_SELF, title:"Prepositions & Gerunds Test", startedAt:Date.now(),
+            name:EW.getName(), status:"in-progress",
+            answers:{fills:{},picks:{}}, progress:{done:0,total:32} };
+    EW.saveRecord(EW_SELF, REC);
+    EW.setActive(EW_SELF);
+  }
+}
+
+(function(){
+  const nm = (REC && REC.name) || EW.getName();
+  if(nm){
+    const el = document.getElementById("taking");
+    el.textContent = "Taking this as " + nm + ".";
+    el.hidden = false;
+  }
+})();
+
+function persist(){
+  if(!REC || REC.status === "completed") return;
+  REC.answers = { fills: fills, picks: picks };
+  const filled=Object.keys(fills).filter(k=>(fills[k]||"").trim()).length;
+  REC.progress = { done: filled + Object.keys(picks).length, total: 32 };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewComplete(line, pct, report){
+  if(!REC) return;
+  const already = REC.status === "completed";
+  REC.status = "completed";
+  REC.answers = { fills: fills, picks: picks };
+  REC.summary = { line: line, pct: pct };
+  EW.saveRecord(EW_SELF, REC);
+  if(!already){
+    EW.addHistory({
+      file: EW_SELF, title: REC.title, name: REC.name || "",
+      startedAt: REC.startedAt, completedAt: Date.now(),
+      summary: REC.summary, report: report || ""
+    });
+  }
+}
+function ewDiscontinue(){
+  if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
+  EW.clearRecord(EW_SELF);
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.href = "index.html";
+}
+function ewRetake(){
+  if(!confirm("Clear this attempt and start the test over?")) return;
+  EW.clearRecord(EW_SELF);
+  if(EW.getActive() === EW_SELF) EW.clearActive();
+  location.reload();
+}
+document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
+</script>
+</body>
+</html>
