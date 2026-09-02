@@ -225,7 +225,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 /* ============ eggwhite storage helper ============ */
 const EW = (() => {
   const NAME = "eggwhite:name";
-  const ACTIVE = "eggwhite:active";
   const HISTORY = "eggwhite:history";
   const rec = f => "eggwhite:test:" + f;
   const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
@@ -234,9 +233,6 @@ const EW = (() => {
   const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
   return {
     getName: () => gs(NAME),
-    getActive: () => gs(ACTIVE),
-    setActive: f => { try { localStorage.setItem(ACTIVE, f); } catch (e) {} },
-    clearActive: () => rm(ACTIVE),
     getRecord: f => gj(rec(f), null),
     saveRecord: (f, r) => sj(rec(f), r),
     clearRecord: f => rm(rec(f)),
@@ -506,10 +502,7 @@ const EW_SELF = "preposition-party-test.html";
 let REC = null;
 {
   const stored = EW.getRecord(EW_SELF);
-  const other = EW.getActive();
-  if(!stored && other && other !== EW_SELF){
-    location.replace("index.html");            // another test is already open
-  } else if(stored){
+  if(stored){
     REC = stored;
     const a = REC.answers || {};
     if(a.fills) Object.assign(fills, a.fills);
@@ -524,11 +517,10 @@ let REC = null;
     tick();
     if(REC.status === "completed") render();
   } else {
-    REC = { file:EW_SELF, title:"Prepositions & Gerunds Test", startedAt:Date.now(),
+    REC = { file:EW_SELF, title:"The Preposition Party!", startedAt:Date.now(),
             name:EW.getName(), status:"in-progress",
             answers:{fills:{},picks:{}}, progress:{done:0,total:32} };
     EW.saveRecord(EW_SELF, REC);
-    EW.setActive(EW_SELF);
   }
 }
 
@@ -566,17 +558,14 @@ function ewComplete(line, pct, report){
 function ewDiscontinue(){
   if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
   EW.clearRecord(EW_SELF);
-  if(EW.getActive() === EW_SELF) EW.clearActive();
   location.href = "index.html";
 }
 function ewRetake(){
   if(!confirm("Clear this attempt and start the test over?")) return;
   EW.clearRecord(EW_SELF);
-  if(EW.getActive() === EW_SELF) EW.clearActive();
   location.reload();
 }
 function ewBackHome(){
-  if(EW.getActive() === EW_SELF) EW.clearActive();
   location.href = "index.html";
 }
 document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);

@@ -125,7 +125,6 @@ a.test:active{transform:translateY(1px)}
 .tag-o{background:var(--ochre-soft);color:var(--ochre)}
 .tag-g{background:var(--steel-soft);color:var(--steel)}
 .go{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet)}
-.go-mute{color:var(--slate)}
 
 /* active */
 .test-active{border-color:var(--violet);box-shadow:0 4px 18px rgba(181,131,28,.16)}
@@ -135,10 +134,6 @@ a.test:active{transform:translateY(1px)}
 }
 .badge-open{background:var(--violet-soft);color:var(--violet)}
 .badge-done{background:#E2F0EA;color:#2A6E52}
-
-/* locked */
-.test-locked{opacity:.55;cursor:default}
-.test-locked:hover{border-color:var(--line);box-shadow:none}
 
 /* filler + discontinue */
 .filler{
@@ -153,7 +148,6 @@ a.test:active{transform:translateY(1px)}
 }
 .discont:hover{border-color:var(--bad);color:var(--bad)}
 .discont:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-.avail-note{margin:12px 2px 0;font-size:13px;color:var(--ink-soft)}
 
 /* ---------- history ---------- */
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 14px}
@@ -212,12 +206,8 @@ a.test:active{transform:translateY(1px)}
     <p class="hint">Used only to label your results. Stays on this device.</p>
   </div>
 
-  <p class="section-label">Active test</p>
-  <div id="active"></div>
-
-  <p class="section-label second">Available tests</p>
+  <p class="section-label">Tests</p>
   <ul class="tests" id="avail"></ul>
-  <p class="avail-note" id="availNote" hidden>Finish or discontinue your current test to start another — only one test can be open at a time.</p>
 
   <div class="section-head second">
     <p class="section-label">History</p>
@@ -232,7 +222,6 @@ a.test:active{transform:translateY(1px)}
 /* ============ eggwhite storage helper ============ */
 const EW = (() => {
   const NAME = "eggwhite:name";
-  const ACTIVE = "eggwhite:active";
   const HISTORY = "eggwhite:history";
   const rec = f => "eggwhite:test:" + f;
   const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
@@ -243,9 +232,6 @@ const EW = (() => {
     rec,
     getName: () => gs(NAME),
     setName: v => { try { v ? localStorage.setItem(NAME, v) : rm(NAME); } catch (e) {} },
-    getActive: () => gs(ACTIVE),
-    setActive: f => { try { localStorage.setItem(ACTIVE, f); } catch (e) {} },
-    clearActive: () => rm(ACTIVE),
     getRecord: f => gj(rec(f), null),
     saveRecord: (f, r) => sj(rec(f), r),
     clearRecord: f => rm(rec(f)),
@@ -295,56 +281,42 @@ function fmtWhen(ms){
 }
 
 function render(){
-  let activeFile = EW.getActive();
-  let rec = activeFile ? EW.getRecord(activeFile) : null;
-  if(activeFile && !rec){ EW.clearActive(); activeFile = ""; }   // stale pointer
-
-  /* --- active section --- */
-  const activeBox = document.getElementById("active");
-  if(rec){
-    const meta = TESTS.find(t => t.file === activeFile) || { title: rec.title || activeFile };
-    const done = rec.status === "completed";
-    let status = done
-      ? "Completed" + (rec.summary && rec.summary.line ? " · " + rec.summary.line : "")
-      : "In progress" + (rec.progress ? " · " + rec.progress.done + "/" + rec.progress.total + " answered" : "");
-    if(rec.startedAt) status += " · started " + fmtWhen(rec.startedAt);
-    activeBox.innerHTML =
-      '<a class="test test-active" href="' + activeFile + '">'
-      +   '<div class="test-top">'
-      +     '<span class="badge ' + (done ? "badge-done" : "badge-open") + '">' + (done ? "Completed" : "Open") + '</span>'
-      +     '<h3 class="test-title">' + meta.title + '</h3>'
-      +   '</div>'
-      +   '<p class="test-desc">' + status + '</p>'
-      +   '<div class="test-foot">'
-      +     (rec.name ? '<span class="tag tag-v">' + rec.name + '</span>' : '')
-      +     '<span class="go">' + (done ? "View results" : "Resume") + ' &rarr;</span>'
-      +   '</div>'
-      + '</a>'
-      + '<button type="button" class="discont" data-file="' + activeFile + '">Discontinue test</button>';
-  } else {
-    activeBox.innerHTML = '<p class="filler">No test open. Start any available test below.</p>';
-  }
-
-  /* --- available section --- */
-  const locked = !!rec;
   const availBox = document.getElementById("avail");
-  const rows = TESTS.filter(t => t.file !== activeFile);
-  availBox.innerHTML = rows.map((t, i) => {
+  availBox.innerHTML = TESTS.map((t, i) => {
+    const rec = EW.getRecord(t.file);
+    const started = !!rec;
+    const done = started && rec.status === "completed";
     const n = String(i + 1).padStart(2, "0");
+
+    let status;
+    if(done){
+      status = "Completed" + (rec.summary && rec.summary.line ? " · " + rec.summary.line : "");
+    } else if(started){
+      status = "In progress" + (rec.progress ? " · " + rec.progress.done + "/" + rec.progress.total + " answered" : "");
+    } else {
+      status = t.desc;
+    }
+    if(started && rec.startedAt) status += " · started " + fmtWhen(rec.startedAt);
+
     const inner =
-      '<div class="test-top"><span class="test-idx">' + n + '</span>'
-      + '<h3 class="test-title">' + t.title + '</h3></div>'
-      + '<p class="test-desc">' + t.desc + '</p>'
+      '<div class="test-top">'
+      +   (started
+            ? '<span class="badge ' + (done ? "badge-done" : "badge-open") + '">' + (done ? "Completed" : "Open") + '</span>'
+            : '<span class="test-idx">' + n + '</span>')
+      +   '<h3 class="test-title">' + esc(t.title) + '</h3>'
+      + '</div>'
+      + '<p class="test-desc">' + status + '</p>'
       + '<div class="test-foot">'
-      +   '<span class="tag tag-' + t.kind + '">' + t.tag + '</span>'
-      +   '<span class="test-idx">' + t.meta + '</span>'
-      +   '<span class="go' + (locked ? ' go-mute' : '') + '">' + (locked ? 'Locked' : 'Start &rarr;') + '</span>'
+      +   '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
+      +   (!started ? '<span class="test-idx">' + esc(t.meta) + '</span>' : '')
+      +   '<span class="go">' + (done ? "View results" : (started ? "Resume" : "Start")) + ' &rarr;</span>'
       + '</div>';
-    return locked
-      ? '<li><div class="test test-locked">' + inner + '</div></li>'
-      : '<li><a class="test" href="' + t.file + '">' + inner + '</a></li>';
+
+    return '<li>'
+      + '<a class="test' + (started ? " test-active" : "") + '" href="' + t.file + '">' + inner + '</a>'
+      + (started ? '<button type="button" class="discont" data-file="' + t.file + '">Discontinue test</button>' : '')
+      + '</li>';
   }).join("");
-  document.getElementById("availNote").hidden = !locked;
 
   /* --- history section --- */
   renderHistory();
@@ -377,13 +349,12 @@ const nameInput = document.getElementById("name");
 nameInput.value = EW.getName();
 nameInput.addEventListener("input", () => EW.setName(nameInput.value.trim()));
 
-document.getElementById("active").addEventListener("click", e => {
+document.getElementById("avail").addEventListener("click", e => {
   const b = e.target.closest(".discont");
   if(!b) return;
   e.preventDefault();
   if(!confirm("Discontinue this test? The saved answers and result for it will be erased.")) return;
   EW.clearRecord(b.dataset.file);
-  EW.clearActive();
   render();
 });
 
