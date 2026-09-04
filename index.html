@@ -25,6 +25,8 @@
   --ochre-soft:#FBE9D6;
   --steel:#2E6E76;          /* slate teal — third flag accent */
   --steel-soft:#DCEBEA;
+  --rose:#A63D5C;           /* deep berry — fourth flag accent */
+  --rose-soft:#F6DEE6;
   --slate:#A99E88;
   --bad:#B23A1B;
   --yolk:#F2B60C;           /* egg yellow — secondary, fills & buttons */
@@ -124,6 +126,7 @@ a.test:active{transform:translateY(1px)}
 .tag-v{background:var(--violet-soft);color:var(--violet)}
 .tag-o{background:var(--ochre-soft);color:var(--ochre)}
 .tag-g{background:var(--steel-soft);color:var(--steel)}
+.tag-t{background:var(--rose-soft);color:var(--rose)}
 .go{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet)}
 
 /* active */
@@ -267,6 +270,14 @@ const TESTS = [
     meta: "32 items · Round 3",
     tag: "Grammar Drill",
     kind: "g"
+  },
+  {
+    file: "tension-test.html",
+    title: "‘Tense’ion in the Air",
+    desc: "Present perfect or simple past? Will or going to? Fix the tense in real workplace sentences, then choose the right form in context.",
+    meta: "32 items · Round 4",
+    tag: "Grammar Drill",
+    kind: "t"
   }
 ];
 

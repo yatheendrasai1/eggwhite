@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>‘Tense’ion in the Air — Eggwhite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:"Wigglye";
+  src:url("fonts/Wigglye.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --paper:#F7F1E1;--card:#FFFFFF;--ink:#2B2721;--ink-soft:#7C7160;--line:#E9E0CB;
+  --violet:#B5831C;--violet-soft:#FBEECB;--ochre:#CF7A2E;--ochre-soft:#FBE9D6;
+  --rose:#A63D5C;--rose-soft:#F6DEE6;
+  --slate:#A99E88;--good:#2A6E52;--good-soft:#E2F0EA;--bad:#B23A1B;--bad-soft:#FBE7E0;
+  --yolk:#F2B60C;--nav-h:52px;
+  --display:"Fraunces",Georgia,serif;
+  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-top:var(--nav-h);padding-bottom:100px;overflow-wrap:break-word}
+
+/* ---------- fixed navbar ---------- */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line);text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
+.nav-name{font-family:var(--brand);font-size:23px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+.masthead{padding:20px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin:0 0 10px}
+.masthead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,37px);line-height:1.06;margin:0 0 12px;letter-spacing:-.022em}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--rose)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:46ch}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0 0}
+.howto h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 11px;font-weight:600}
+.howto p{margin:0 0 9px;font-size:14.5px;color:var(--ink-soft)}
+.howto p:last-child{margin-bottom:0}
+.howto b{color:var(--ink);font-weight:600}
+.taking{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--rose);letter-spacing:.02em}
+
+/* ---------- progress ---------- */
+.progress{position:sticky;top:var(--nav-h);z-index:20;background:rgba(247,241,225,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:24px}
+.progress-in{max-width:640px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.pc{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.pt{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.pf{height:100%;width:0;background:var(--yolk);border-radius:99px;transition:width .25s}
+
+/* ---------- sections ---------- */
+.part{padding:34px 0 8px}
+.part-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.part-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--rose);letter-spacing:.1em}
+.part-head h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;letter-spacing:-.01em}
+.part-note{margin:0 0 20px;color:var(--ink-soft);font-size:14px}
+
+/* ---------- question ---------- */
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px 16px;margin-bottom:14px;scroll-margin-top:120px}
+.q.flag{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.q-head{display:flex;gap:11px;align-items:baseline;margin-bottom:4px}
+.q-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none;padding-top:3px}
+.q-text{margin:0;font-size:16.5px;line-height:1.55}
+.q-hint{margin:8px 0 0 33px;font-size:12.5px;color:var(--slate)}
+
+.fill{
+  display:inline-block;width:170px;max-width:50vw;border:1.5px solid var(--line);border-radius:8px;
+  padding:6px 9px;font-family:var(--body);font-size:15.5px;color:var(--ink);background:#FBF8F1;
+  vertical-align:baseline
+}
+.fill:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px var(--rose-soft);background:#fff}
+
+.opts{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+.opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:#FBF8F1;border:1.5px solid var(--line);border-radius:11px;padding:12px 13px;font-family:var(--body);font-size:15.5px;color:var(--ink);cursor:pointer;line-height:1.35;transition:border-color .12s,background .12s;min-height:46px}
+.opt:hover{border-color:var(--slate)}
+.opt:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.opt-l{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);padding-top:2px;flex:none}
+.opt.on{background:var(--rose-soft);border-color:var(--rose)}
+.opt.on .opt-l{color:var(--rose)}
+
+/* ---------- submit ---------- */
+.submit-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,241,225,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.submit-in{max-width:640px;margin:0 auto}
+.btn{width:100%;background:var(--yolk);color:var(--ink);border:none;border-radius:12px;padding:15px;font-family:var(--body);font-size:16px;font-weight:700;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--rose);border:1.5px solid var(--rose)}
+.warn{margin:0 0 9px;font-size:13.5px;color:var(--bad);text-align:center;display:none}
+.warn.show{display:block}
+.btn-exit{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);margin-top:8px;font-weight:500;font-size:14px;padding:11px}
+.btn-exit:hover{border-color:var(--bad);color:var(--bad)}
+
+/* ---------- results ---------- */
+.results{display:none;padding:20px 0 40px}
+.results.show{display:block}
+.scorecard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 20px;margin-bottom:16px}
+.score-big{font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,58px);line-height:.95;letter-spacing:-.03em;margin:0}
+.score-big span{font-size:25px;color:var(--slate);font-weight:400}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin:8px 0 0}
+.grade-line{margin:22px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.grade-band{font-family:var(--display);font-weight:800;font-size:clamp(28px,8.5vw,36px);margin:0;letter-spacing:-.02em;color:var(--rose)}
+.grade-name{margin:2px 0 0;font-size:15px;font-weight:600;color:var(--ink-soft)}
+.grade-desc{margin:9px 0 0;color:var(--ink-soft);font-size:14.5px}
+.ladder{margin:26px 0 0}
+.ladder-track{display:flex;gap:3px;height:38px;position:relative}
+.rung{flex:1;background:var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink-soft);transition:background .4s ease .2s;padding:0 2px;text-align:center}
+.rung.filled{background:#EFD3DB;color:var(--rose)}
+.rung.here{background:var(--rose);color:#fff}
+.marker{position:absolute;top:-16px;transform:translateX(-50%);font-size:13px;color:var(--rose);transition:left .5s cubic-bezier(.34,1.2,.64,1);left:0}
+.ladder-ends{display:flex;justify-content:space-between;margin-top:7px}
+.ladder-ends span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px;font-weight:600}
+.tile p{margin:0;font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:-.02em}
+.tile p span{font-size:14px;color:var(--slate);font-weight:400}
+.tile small{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 14px}
+.levels{margin:0;padding:0;list-style:none}
+.levels li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.levels li:first-child{border-top:none}
+.levels li.you{background:var(--rose-soft);margin:0 -18px;padding-left:18px;padding-right:18px;border-radius:8px;border-top-color:transparent}
+.lv-code{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--rose);flex:none;width:82px;padding-top:2px}
+.lv-body b{display:block;font-weight:600;margin-bottom:1px}
+.lv-body span{color:var(--ink-soft);font-size:13.5px}
+.you-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--rose);text-transform:uppercase;margin-left:6px}
+.review{margin:0;padding:0;list-style:none}
+.rev{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
+.rev:first-child{border-top:none}
+.rev-i{flex:none;width:20px;font-size:15px;padding-top:1px}
+.rev-b{flex:1;min-width:0}
+.rev-b .from{color:var(--bad);text-decoration:line-through;font-weight:500}
+.rev-b .to{color:var(--good);font-weight:600}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:4px;line-height:1.45}
+.rev-b .yours{font-family:var(--mono);font-size:12px;color:var(--slate);display:block;margin-top:3px}
+.pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
+.pts-1{background:var(--good-soft);color:var(--good)}
+.pts-0{background:var(--bad-soft);color:var(--bad)}
+
+.acc{margin-top:10px}
+.acc>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-soft);padding:10px 0;user-select:none}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary::before{content:"▸";color:var(--rose);transition:transform .15s;font-size:11px}
+.acc[open]>summary::before{transform:rotate(90deg)}
+.acc>summary:hover{color:var(--ink)}
+.acc .review{margin-top:2px}
+
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
+
+@media (max-width:460px){.split{grid-template-columns:1fr}}
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .progress-in{padding:11px 14px}
+  .part{padding:26px 0 8px}
+  .q{padding:16px 14px 14px}
+  .scorecard{padding:22px 16px}
+  .panel{padding:18px 15px}
+  .levels li.you{margin:0 -15px;padding-left:15px;padding-right:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Round 4 · Grammar drill</p>
+    <h1>‘<em>Tense</em>’ion in the Air</h1>
+    <p class="lede">Present perfect or simple past? Will or going to? The tense you pick changes what you're actually saying — and it shows in a work email. Two parts: fix the tense in real workplace sentences, then choose the right form in context.</p>
+    <div class="howto">
+      <h2>How it works</h2>
+      <p><b>Part I — Fix the tense.</b> Each sentence has a verb in brackets and a time cue (since, yesterday, by Friday…). Type the full correct verb form.</p>
+      <p><b>Part II — Choose the right form.</b> Pick the tense that fits the context from four options.</p>
+      <p><b>Scoring:</b> each item is worth 1 point. A few Part I blanks accept more than one correct phrasing — spelling is still checked exactly, so read your answer back before submitting.</p>
+    </div>
+    <p class="taking" id="taking" hidden></p>
+  </header>
+</div>
+
+<div class="progress">
+  <div class="progress-in">
+    <span class="pc"><span id="pDone">0</span>/32 answered</span>
+    <span class="pt"><span class="pf" id="pFill"></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="paper">
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART I</span><h2>Fix the tense</h2></div>
+      <p class="part-note">Type the correct tense of the verb in brackets — the time cue in the sentence tells you which one.</p>
+      <div id="fills"></div>
+    </section>
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART II</span><h2>Choose the right form</h2></div>
+      <p class="part-note">Pick the verb form that fits the context.</p>
+      <div id="mcq"></div>
+    </section>
+  </main>
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+
+<div class="submit-bar">
+  <div class="submit-in">
+    <p class="warn" id="warn"></p>
+    <button class="btn" id="go">Score my answers</button>
+    <button type="button" class="btn btn-exit" id="btnDiscont">Discontinue test</button>
+  </div>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const HISTORY = "eggwhite:history";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    getName: () => gs(NAME),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
+  };
+})();
+
+/* ================= PART I — fix the tense =================
+   [before, baseVerb, after, acceptedAnswers[], why, group]
+   group: "past" (simple past / present perfect / past perfect) or
+          "future" (future forms / reported speech) — used for the
+          results sub-skill breakdown, independent of Part I/II. */
+const FILLS = [
+ ["I ","work"," here for six years, so I know the systems well.",["have worked","have been working"],
+  "“For six years” up to now needs the present perfect (or present perfect continuous) — not the simple past.","past"],
+ ["We ","submit"," the proposal yesterday afternoon.",["submitted"],
+  "“Yesterday afternoon” is a finished past time, so it takes the simple past, not the present perfect.","past"],
+ ["She ","send"," the invoice already, so you don't need to chase it.",["has sent"],
+  "“Already” with no specific past time signals the present perfect — the action's relevant now.","past"],
+ ["Nobody ","respond"," to my email since Friday.",["has responded"],
+  "“Since Friday” marks a starting point continuing to now — present perfect.","past"],
+ ["By the way, we ","finalize"," the vendor contract last week.",["finalized"],
+  "“Last week” is a specific finished time, so it takes the simple past.","past"],
+ ["She ","lead"," this account since March, and client satisfaction has never been higher.",["has been leading","has led"],
+  "An action continuing up to now, with emphasis on duration, takes the present perfect continuous.","past"],
+ ["They ","negotiate"," with the supplier for three weeks now, with no resolution yet.",["have been negotiating","have negotiated"],
+  "“For three weeks now” with an ongoing, unfinished action needs the present perfect continuous.","past"],
+ ["By the time the client called, we ","resolve"," the issue.",["had resolved"],
+  "“By the time” + a past event needs the past perfect for whatever happened earlier.","past"],
+ ["The meeting ","start"," before I managed to join the call.",["had started"],
+  "The starting happened before the joining — the earlier of two past events takes the past perfect.","past"],
+ ["I ","meet"," the client at 3 PM tomorrow — it's already on my calendar.",["am meeting"],
+  "A fixed, pre-arranged plan is expressed with the present continuous, not “will”.","future"],
+ ["By Friday, I ","finish"," the first draft of the report.",["will have finished"],
+  "A task completed by a specific future deadline takes the future perfect.","future"],
+ ["Careful with that server — I think it ","crash"," if we push this update now.",["is going to crash"],
+  "A prediction based on something you can see right now uses “going to”, not “will”.","future"],
+ ["My manager said she ","review"," the proposal by Monday.",["would review"],
+  "“Will” shifts back to “would” when you report what someone said.","future"]
+];
+
+/* ================= PART II — choose the right form =================
+   [sentence with ___, options[4], correctIndex, why, group] */
+const MCQ = [
+ ["I ___ three emails about this already.",["wrote","have written","was writing","had written"],1,
+  "“Already” with no specific finished time signals the present perfect.","past"],
+ ["We ___ the client last Tuesday to confirm the schedule.",["have called","call","called","were calling"],2,
+  "“Last Tuesday” is a specific finished past time, so the simple past is correct.","past"],
+ ["He ___ in this role since 2020.",["worked","has worked","was working","works"],1,
+  "“Since 2020” marks a starting point continuing to now — present perfect.","past"],
+ ["___ a client presentation before?",["Did you ever give","Have you ever given","Were you ever giving","Had you ever given"],1,
+  "“Ever…before” asking about life experience up to now takes the present perfect.","past"],
+ ["The team ___ the deadline twice this quarter.",["missed","has missed","was missing","had missed"],1,
+  "“This quarter” is still an unfinished time period, so the present perfect is correct.","past"],
+ ["I ___ this report all morning — I need a break.",["wrote","have written","have been writing","was writing"],2,
+  "Emphasis on the ongoing activity and its duration takes the present perfect continuous.","past"],
+ ["Sales ___ steadily since the new campaign launched.",["have been rising","rose","had risen","rise"],0,
+  "A trend continuing up to now takes the present perfect continuous.","past"],
+ ["You look exhausted — ___ overtime again?",["did you work","have you worked","have you been working","were you working"],2,
+  "Asking about a recent, ongoing activity with a visible present result takes the present perfect continuous.","past"],
+ ["When I checked my inbox, she ___ the files already.",["sent","has sent","had sent","was sending"],2,
+  "Her sending happened before your checking — the earlier of two past events takes the past perfect.","past"],
+ ["The plane ___ by the time we reached the airport.",["left","has left","had left","was leaving"],2,
+  "“By the time” + a past event needs the past perfect for whatever happened first.","past"],
+ ["I realized I ___ my badge at home.",["forgot","have forgotten","had forgotten","was forgetting"],2,
+  "The forgetting happened before the realizing — past perfect for the earlier event.","past"],
+ ["Look at those clouds — it ___ any minute.",["will rain","is going to rain","rains","has rained"],1,
+  "A prediction based on present evidence uses “going to”, not “will”.","future"],
+ ["The train ___ at 6 PM — check the schedule.",["leaves","will leave","is going to leave","has left"],0,
+  "Timetables and fixed schedules use the present simple, not “will”.","future"],
+ ["By next year, the company ___ its headquarters twice.",["will move","will have moved","is moving","moved"],1,
+  "An action completed by a specific future point takes the future perfect.","future"],
+ ["I think I ___ you a call later today to go over the numbers.",["give","am going to give","will give","have given"],2,
+  "A decision made at the moment of speaking (“I think I…”) uses “will”, not “going to”.","future"],
+ ["She said she ___ help me the next day.",["can help","could help","will help","would help"],1,
+  "“Can” shifts back to “could” in reported speech.","future"],
+ ["He mentioned they ___ the budget.",["review","are reviewing","were reviewing","had reviewed"],2,
+  "Present continuous shifts back to past continuous in reported speech.","future"],
+ ["She told me she ___ the audit.",["finished","has finished","had finished","was finishing"],2,
+  "Present perfect shifts back to past perfect in reported speech.","future"],
+ ["He said the client ___ the next day.",["will sign","would sign","signs","had signed"],1,
+  "“Will” shifts back to “would” in reported speech.","future"]
+];
+
+const LETTERS=["A","B","C","D"];
+const fills={};   // fill idx -> typed string
+const picks={};   // mcq idx -> option idx
+
+/* ================= RENDER ================= */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+let fh="";
+FILLS.forEach((f,i)=>{
+  fh+='<article class="q" id="fq'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<p class="q-text">'+esc(f[0])+'<input type="text" class="fill" data-i="'+i+'" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here">'+esc(f[2])+'</p></div>'
+    +'<p class="q-hint">Verb: <b>'+esc(f[1])+'</b></p></article>';
+});
+document.getElementById("fills").innerHTML=fh;
+
+let mh="";
+MCQ.forEach((m,i)=>{
+  mh+='<article class="q" id="mq'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<p class="q-text">'+esc(m[0])+'</p></div><div class="opts">';
+  m[1].forEach((o,j)=>{
+    mh+='<button type="button" class="opt" data-m="'+i+'" data-j="'+j+'"><span class="opt-l">'+LETTERS[j]+'</span><span>'+esc(o)+'</span></button>';
+  });
+  mh+='</div></article>';
+});
+document.getElementById("mcq").innerHTML=mh;
+
+/* ================= INTERACTION ================= */
+document.getElementById("paper").addEventListener("input",e=>{
+  if(e.target.classList.contains("fill")){
+    fills[e.target.dataset.i]=e.target.value;
+    document.getElementById("fq"+e.target.dataset.i).classList.remove("flag");
+    tick();persist();
+  }
+});
+document.getElementById("paper").addEventListener("click",e=>{
+  const opt=e.target.closest(".opt");
+  if(!opt) return;
+  const i=+opt.dataset.m,j=+opt.dataset.j;
+  picks[i]=j;
+  const card=document.getElementById("mq"+i);
+  card.classList.remove("flag");
+  card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===j));
+  tick();persist();
+});
+
+function tick(){
+  const filled=Object.keys(fills).filter(k=>(fills[k]||"").trim()).length;
+  const picked=Object.keys(picks).length;
+  const n=filled+picked;
+  document.getElementById("pDone").textContent=n;
+  document.getElementById("pFill").style.width=(n/32*100)+"%";
+}
+tick();
+
+/* ================= SCORING ================= */
+function norm(s){
+  return (s||"").toLowerCase().trim().replace(/[.,;:!?]+$/,"");
+}
+const BANDS=[
+ {max:40,code:"Tense",name:"Guessing under pressure",
+  desc:"Simple past and present perfect blur together, and the future forms (will vs. going to) are mostly a coin flip. Drill the since/for + specific-past-time rule first — it fixes the most errors fastest."},
+ {max:65,code:"Easing Up",name:"Getting the obvious ones",
+  desc:"You catch the clear cases but still slip on sequencing two past events, reported speech, and the less common future forms."},
+ {max:85,code:"Steady",name:"Reliable under most conditions",
+  desc:"Consistently correct across tenses, with only occasional slips on the trickier reported-speech and future-perfect patterns."},
+ {max:100,code:"Unshakeable",name:"Doesn't flinch",
+  desc:"You handle every tense trap here, including the ones — reported speech, future perfect, present perfect continuous — that catch even fluent speakers off guard."}
+];
+const LADDER=[
+ ["Tense","Guessing under pressure"],
+ ["Easing Up","Getting the obvious ones"],
+ ["Steady","Reliable under most conditions"],
+ ["Unshakeable","Doesn't flinch"]
+];
+
+document.getElementById("go").addEventListener("click",()=>{
+  const missF=[];for(let i=0;i<FILLS.length;i++) if(!(fills[i]||"").trim()) missF.push(i);
+  const missM=[];for(let i=0;i<MCQ.length;i++) if(!(i in picks)) missM.push(i);
+  const warn=document.getElementById("warn");
+  const missCount=missF.length+missM.length;
+  if(missCount){
+    warn.textContent=missCount+" item"+(missCount>1?"s":"")+" still need"+(missCount>1?"":"s")+" an answer.";
+    warn.classList.add("show");
+    if(missF.length){
+      const c=document.getElementById("fq"+missF[0]);
+      c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    } else {
+      const c=document.getElementById("mq"+missM[0]);
+      c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+    return;
+  }
+  warn.classList.remove("show");
+  render();
+});
+
+function splitRev(rows){
+  const wrong=rows.filter(r=>!r.ok).map(r=>r.html).join("");
+  const correct=rows.filter(r=>r.ok).map(r=>r.html).join("");
+  const n=rows.filter(r=>r.ok).length;
+  let html=wrong?'<ul class="review">'+wrong+'</ul>':'';
+  if(n) html+='<details class="acc"><summary>'+n+' correct answer'+(n>1?"s":"")+'</summary><ul class="review">'+correct+'</ul></details>';
+  return html;
+}
+
+function render(){
+  const fRows = FILLS.map((f,i)=>{
+    const yours=fills[i]||"";
+    const ok=f[3].some(a=>norm(yours)===norm(a));
+    const html='<li class="rev"><span class="rev-i">'+(ok?"✓":"✗")+'</span><span class="rev-b">'
+      +esc(f[0])+'<span class="to">'+esc(f[3][0])+'</span>'+esc(f[2])
+      +(ok?'':'<span class="yours">you wrote: '+(esc(yours.trim())||"—")+'</span>')
+      +'<em>'+f[4]+'</em></span><span class="pts pts-'+(ok?1:0)+'">'+(ok?1:0)+'</span></li>';
+    return {ok:ok,group:f[5],html:html};
+  });
+  const fScore=fRows.filter(r=>r.ok).length;
+  const fRev=splitRev(fRows);
+
+  const mRows = MCQ.map((m,i)=>{
+    const ok=picks[i]===m[2];
+    const html='<li class="rev"><span class="rev-i">'+(ok?"✓":"✗")+'</span><span class="rev-b">'
+      +esc(m[0]).replace("___","<b>"+esc(m[1][m[2]])+"</b>")
+      +(ok?'':'<span class="yours">you chose: '+esc(m[1][picks[i]])+'</span>')
+      +'<em>'+m[3]+'</em></span><span class="pts pts-'+(ok?1:0)+'">'+(ok?1:0)+'</span></li>';
+    return {ok:ok,group:m[4],html:html};
+  });
+  const mScore=mRows.filter(r=>r.ok).length;
+  const mRev=splitRev(mRows);
+
+  const allRows=fRows.concat(mRows);
+  const pastRows=allRows.filter(r=>r.group==="past"), futureRows=allRows.filter(r=>r.group==="future");
+  const pastScore=pastRows.filter(r=>r.ok).length, pastTotal=pastRows.length;
+  const futureScore=futureRows.filter(r=>r.ok).length, futureTotal=futureRows.length;
+
+  const total=fScore+mScore, pct=total/32*100;
+  const band=BANDS.find(b=>pct<=b.max)||BANDS[BANDS.length-1];
+  const bandIdx=BANDS.indexOf(band);
+  ewComplete(band.code+" · "+total+"/32", Math.round(pct),
+    "Past tenses "+pastScore+"/"+pastTotal+" · Future & reported speech "+futureScore+"/"+futureTotal+" · "+band.code);
+
+  let li="";
+  LADDER.forEach((l,i)=>{
+    const you=(i===bandIdx);
+    li+='<li class="'+(you?"you":"")+'"><span class="lv-code">'+l[0]+'</span><span class="lv-body"><b>'+l[1]
+      +(you?'<span class="you-tag">you are here</span>':'')+'</b></span></li>';
+  });
+  let rungs="";
+  LADDER.forEach((l,i)=>{
+    rungs+='<span class="rung'+(i<bandIdx?" filled":(i===bandIdx?" here":""))+'">'+l[0]+'</span>';
+  });
+
+  document.getElementById("results").innerHTML=
+   '<div class="scorecard">'
+   +'<p class="score-big">'+total+'<span> / 32</span></p>'
+   +'<p class="score-pct">'+pct.toFixed(0)+'% correct</p>'
+   +'<div class="grade-line"><p class="grade-band">'+band.code+'</p>'
+   +'<p class="grade-name">'+band.name+'</p><p class="grade-desc">'+band.desc+'</p></div>'
+   +'<div class="ladder"><div class="ladder-track"><span class="marker" style="left:'+((bandIdx+0.5)/4*100)+'%">▼</span>'+rungs+'</div>'
+   +'<div class="ladder-ends"><span>Tense</span><span>Unshakeable</span></div></div>'
+   +'</div>'
+   +'<div class="split">'
+   +'<div class="tile"><h3>Past tenses</h3><p>'+pastScore+'<span> / '+pastTotal+'</span></p><small>'+(pastScore/pastTotal*100).toFixed(0)+'% correct</small></div>'
+   +'<div class="tile"><h3>Future &amp; reported speech</h3><p>'+futureScore+'<span> / '+futureTotal+'</span></p><small>'+(futureScore/futureTotal*100).toFixed(0)+'% correct</small></div>'
+   +'</div>'
+   +'<div class="panel"><h3>The scale</h3><ul class="levels">'+li+'</ul></div>'
+   +'<div class="panel"><h3>Part I answers</h3>'+fRev+'</div>'
+   +'<div class="panel"><h3>Part II answers</h3>'+mRev+'</div>'
+   +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
+   +'<button class="btn btn-exit" onclick="ewBackHome()">Back to home</button>'
+   +'<p class="foot">A few answers accept more than one correct phrasing (e.g. “has led” or “has been leading”). Spelling is still checked exactly — check the review before arguing with your score.</p>';
+
+  document.getElementById("results").classList.add("show");
+  document.getElementById("paper").style.display="none";
+  document.querySelector(".progress").style.display="none";
+  document.querySelector(".submit-bar").style.display="none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================================================================
+   eggwhite — session persistence
+   ================================================================ */
+const EW_SELF = "tension-test.html";
+let REC = null;
+{
+  const stored = EW.getRecord(EW_SELF);
+  if(stored){
+    REC = stored;
+    const a = REC.answers || {};
+    if(a.fills) Object.assign(fills, a.fills);
+    if(a.picks) Object.assign(picks, a.picks);
+    document.querySelectorAll(".fill").forEach(inp=>{
+      if(inp.dataset.i in fills) inp.value = fills[inp.dataset.i];
+    });
+    for(const i in picks){
+      const card=document.getElementById("mq"+i);
+      if(card) card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===picks[i]));
+    }
+    tick();
+    if(REC.status === "completed") render();
+  } else {
+    REC = { file:EW_SELF, title:"‘Tense’ion in the Air", startedAt:Date.now(),
+            name:EW.getName(), status:"in-progress",
+            answers:{fills:{},picks:{}}, progress:{done:0,total:32} };
+    EW.saveRecord(EW_SELF, REC);
+  }
+}
+
+(function(){
+  const nm = (REC && REC.name) || EW.getName();
+  if(nm){
+    const el = document.getElementById("taking");
+    el.textContent = "Taking this as " + nm + ".";
+    el.hidden = false;
+  }
+})();
+
+function persist(){
+  if(!REC || REC.status === "completed") return;
+  REC.answers = { fills: fills, picks: picks };
+  const filled=Object.keys(fills).filter(k=>(fills[k]||"").trim()).length;
+  REC.progress = { done: filled + Object.keys(picks).length, total: 32 };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewComplete(line, pct, report){
+  if(!REC) return;
+  const already = REC.status === "completed";
+  REC.status = "completed";
+  REC.answers = { fills: fills, picks: picks };
+  REC.summary = { line: line, pct: pct };
+  EW.saveRecord(EW_SELF, REC);
+  if(!already){
+    EW.addHistory({
+      file: EW_SELF, title: REC.title, name: REC.name || "",
+      startedAt: REC.startedAt, completedAt: Date.now(),
+      summary: REC.summary, report: report || ""
+    });
+  }
+}
+function ewDiscontinue(){
+  if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
+  EW.clearRecord(EW_SELF);
+  location.href = "index.html";
+}
+function ewRetake(){
+  if(!confirm("Clear this attempt and start the test over?")) return;
+  EW.clearRecord(EW_SELF);
+  location.reload();
+}
+function ewBackHome(){
+  location.href = "index.html";
+}
+document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
+</script>
+</body>
+</html>
