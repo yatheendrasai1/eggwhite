@@ -11,6 +11,13 @@ import {
   VOCAB_TOTAL as BE_TOTAL,
   type BEAnswers,
 } from "@/lib/tests/businessEnglish";
+import {
+  scoreDrill,
+  countDoneDrill,
+  DRILL_TOTAL,
+  type DrillAnswers,
+} from "@/lib/tests/drill";
+import { DRILL_CONFIGS } from "@/lib/tests/drillConfigs";
 
 export type AttemptSummary = {
   line: string;
@@ -26,9 +33,15 @@ export function computeProgress(
   if (testId === "english-level") {
     return { done: elCountDone((answers ?? {}) as ELAnswers), total: EL_TOTAL };
   }
+  if (testId === "business-english") {
+    return {
+      done: beCountDone((answers ?? { flagged: {}, picks: {} }) as BEAnswers),
+      total: BE_TOTAL,
+    };
+  }
   return {
-    done: beCountDone((answers ?? { flagged: {}, picks: {} }) as BEAnswers),
-    total: BE_TOTAL,
+    done: countDoneDrill((answers ?? { fills: {}, picks: {} }) as DrillAnswers),
+    total: DRILL_TOTAL,
   };
 }
 
@@ -42,16 +55,31 @@ export function computeSummary(testId: TestId, answers: unknown): AttemptSummary
       parts: { vocabulary: r.vs, grammar: r.gs, total: r.total },
     };
   }
-  const r = scoreBusinessEnglish((answers ?? { flagged: {}, picks: {} }) as BEAnswers);
+  if (testId === "business-english") {
+    const r = scoreBusinessEnglish((answers ?? { flagged: {}, picks: {} }) as BEAnswers);
+    return {
+      line: r.summaryLine,
+      pct: Math.round(r.overall),
+      level: r.band.code,
+      parts: {
+        editing: Math.round(r.mailPct),
+        vocabulary: Math.round(r.vPct),
+        spotted: r.found,
+        falseFlags: r.falseFlags,
+      },
+    };
+  }
+
+  const config = DRILL_CONFIGS[testId];
+  const r = scoreDrill(config, (answers ?? { fills: {}, picks: {} }) as DrillAnswers);
   return {
     line: r.summaryLine,
-    pct: Math.round(r.overall),
+    pct: Math.round(r.pct),
     level: r.band.code,
     parts: {
-      editing: Math.round(r.mailPct),
-      vocabulary: Math.round(r.vPct),
-      spotted: r.found,
-      falseFlags: r.falseFlags,
+      total: r.total,
+      [r.tiles[0].label]: r.tiles[0].score,
+      [r.tiles[1].label]: r.tiles[1].score,
     },
   };
 }

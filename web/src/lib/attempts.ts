@@ -32,12 +32,12 @@ export function serializeAttempt(doc: any): AttemptDTO {
   };
 }
 
-export async function getActiveAttempt(userId: string): Promise<AttemptDTO | null> {
+export async function getActiveAttempts(userId: string): Promise<AttemptDTO[]> {
   await connectDB();
-  const doc = await AttemptModel.findOne({ userId, status: "in_progress" })
+  const docs = await AttemptModel.find({ userId, status: "in_progress" })
     .sort({ updatedAt: -1 })
     .lean();
-  return doc ? serializeAttempt(doc) : null;
+  return docs.map(serializeAttempt);
 }
 
 export async function getAttemptById(

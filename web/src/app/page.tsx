@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getActiveAttempt, listAttempts } from "@/lib/attempts";
+import { getActiveAttempts, listAttempts } from "@/lib/attempts";
 import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
 
@@ -23,7 +23,7 @@ export default async function LandingPage() {
 
         {session?.user?.id ? (
           <LandingHub
-            active={await getActiveAttempt(session.user.id)}
+            active={await getActiveAttempts(session.user.id)}
             attempts={await listAttempts(session.user.id)}
             userName={session.user.name || ""}
           />

@@ -1,6 +1,11 @@
 import mongoose, { Schema, model, models, type InferSchemaType } from "mongoose";
 
-export const TEST_IDS = ["english-level", "business-english"] as const;
+export const TEST_IDS = [
+  "english-level",
+  "business-english",
+  "preposition-party",
+  "tension",
+] as const;
 export type TestId = (typeof TEST_IDS)[number];
 
 const AttemptSchema = new Schema(

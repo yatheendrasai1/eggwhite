@@ -5,6 +5,7 @@ import { AttemptModel } from "@/lib/models/Attempt";
 import { serializeAttempt, listAttempts } from "@/lib/attempts";
 import { startAttemptSchema } from "@/lib/validation";
 import { computeProgress } from "@/lib/tests/score";
+import { emptyAnswers } from "@/lib/tests/registry";
 
 export async function GET() {
   const session = await auth();
@@ -40,25 +41,19 @@ export async function POST(req: Request) {
   const userId = session.user.id;
   const { testId } = parsed.data;
 
-  // Single-open-test rule: only one in-progress attempt at a time.
-  const open = await AttemptModel.findOne({ userId, status: "in_progress" });
+  // Multiple tests may be open at once — reuse this test's open attempt if any.
+  const open = await AttemptModel.findOne({ userId, testId, status: "in_progress" });
   if (open) {
-    if (open.testId === testId) {
-      return NextResponse.json({ attempt: serializeAttempt(open) }, { status: 200 });
-    }
-    return NextResponse.json(
-      { error: "another test is open", attempt: serializeAttempt(open) },
-      { status: 409 }
-    );
+    return NextResponse.json({ attempt: serializeAttempt(open) }, { status: 200 });
   }
 
-  const emptyAnswers = testId === "english-level" ? {} : { flagged: {}, picks: {} };
+  const answers = emptyAnswers(testId);
   const created = await AttemptModel.create({
     userId,
     testId,
     status: "in_progress",
-    answers: emptyAnswers,
-    progress: computeProgress(testId, emptyAnswers),
+    answers,
+    progress: computeProgress(testId, answers),
     startedAt: new Date(),
   });
 

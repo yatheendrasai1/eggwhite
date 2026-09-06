@@ -21,6 +21,8 @@ src/
     tests/
       english-level/page.tsx      ensures an in-progress Attempt, renders the runner
       business-english/page.tsx    "
+      preposition-party/page.tsx   drill test (DrillRunner + config)
+      tension/page.tsx             drill test (DrillRunner + config)
     api/
       auth/[...nextauth]/route.ts  Auth.js handlers
       attempts/route.ts            GET (list mine) · POST (start, enforces one-open rule)

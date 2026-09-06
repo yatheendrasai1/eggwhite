@@ -5,8 +5,11 @@ import { getAttemptById } from "@/lib/attempts";
 import { byId } from "@/lib/tests/registry";
 import { EnglishLevelResults } from "@/components/EnglishLevelResults";
 import { BusinessEnglishResults } from "@/components/BusinessEnglishResults";
+import { DrillResults } from "@/components/DrillResults";
+import { DRILL_CONFIGS } from "@/lib/tests/drillConfigs";
 import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
+import type { DrillAnswers } from "@/lib/tests/drill";
 
 export const dynamic = "force-dynamic";
 
@@ -37,15 +40,18 @@ export default async function ResultsPage({
           </h1>
         </header>
       </div>
-      {attempt.testId === "english-level" ? (
-        <div className="wrap">
+      <div className="wrap">
+        {attempt.testId === "english-level" ? (
           <EnglishLevelResults answers={attempt.answers as ELAnswers} />
-        </div>
-      ) : (
-        <div className="wrap">
+        ) : attempt.testId === "business-english" ? (
           <BusinessEnglishResults answers={attempt.answers as BEAnswers} />
-        </div>
-      )}
+        ) : (
+          <DrillResults
+            config={DRILL_CONFIGS[attempt.testId]}
+            answers={attempt.answers as DrillAnswers}
+          />
+        )}
+      </div>
       <div className="wrap" style={{ paddingBottom: 40 }}>
         <Link className="btn btn-ghost" href="/">
           Back to all tests
