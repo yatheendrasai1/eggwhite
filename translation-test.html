@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Translation Test — Eggwhite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:"Wigglye";
+  src:url("fonts/Wigglye.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --paper:#F7F1E1;--card:#FFFFFF;--ink:#2B2721;--ink-soft:#7C7160;--line:#E9E0CB;
+  --violet:#B5831C;--violet-soft:#FBEECB;--ochre:#CF7A2E;--ochre-soft:#FBE9D6;
+  --indigo:#3E5C8A;--indigo-soft:#DEE5F2;
+  --slate:#A99E88;--good:#2A6E52;--good-soft:#E2F0EA;--bad:#B23A1B;--bad-soft:#FBE7E0;
+  --yolk:#F2B60C;--nav-h:52px;
+  --display:"Fraunces",Georgia,serif;
+  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --telugu:"Noto Sans Telugu","Public Sans",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-top:var(--nav-h);padding-bottom:100px;overflow-wrap:break-word}
+
+/* ---------- fixed navbar ---------- */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line);text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
+.nav-name{font-family:var(--brand);font-size:23px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+.masthead{padding:20px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo);margin:0 0 10px}
+.masthead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,37px);line-height:1.06;margin:0 0 12px;letter-spacing:-.022em}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--indigo)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:46ch}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0 0}
+.howto h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 11px;font-weight:600}
+.howto p{margin:0 0 9px;font-size:14.5px;color:var(--ink-soft)}
+.howto p:last-child{margin-bottom:0}
+.howto b{color:var(--ink);font-weight:600}
+.taking{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--indigo);letter-spacing:.02em}
+
+/* ---------- progress ---------- */
+.progress{position:sticky;top:var(--nav-h);z-index:20;background:rgba(247,241,225,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:24px}
+.progress-in{max-width:640px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.pc{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.pt{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.pf{height:100%;width:0;background:var(--yolk);border-radius:99px;transition:width .25s}
+
+/* ---------- sections ---------- */
+.part{padding:34px 0 8px}
+.part-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.part-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--indigo);letter-spacing:.1em}
+.part-head h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;letter-spacing:-.01em}
+.part-note{margin:0 0 20px;color:var(--ink-soft);font-size:14px}
+
+/* ---------- question ---------- */
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px 16px;margin-bottom:14px;scroll-margin-top:120px}
+.q.flag{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.q-head{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.q-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none}
+.q-lang{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--indigo);background:var(--indigo-soft);border-radius:6px;padding:3px 8px}
+.q-src{margin:0 0 12px;font-size:20px;line-height:1.5;font-weight:600}
+.q-src.telugu{font-family:var(--telugu)}
+.q-src.hinglish{font-family:var(--display);font-style:italic;font-weight:600}
+.ans{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:11px 12px;font-family:var(--body);font-size:16px;color:var(--ink);background:#FBF8F1}
+.ans:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft);background:#fff}
+
+/* ---------- submit ---------- */
+.submit-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,241,225,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.submit-in{max-width:640px;margin:0 auto}
+.btn{width:100%;background:var(--yolk);color:var(--ink);border:none;border-radius:12px;padding:15px;font-family:var(--body);font-size:16px;font-weight:700;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--indigo);border:1.5px solid var(--indigo)}
+.warn{margin:0 0 9px;font-size:13.5px;color:var(--bad);text-align:center;display:none}
+.warn.show{display:block}
+.btn-exit{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);margin-top:8px;font-weight:500;font-size:14px;padding:11px}
+.btn-exit:hover{border-color:var(--bad);color:var(--bad)}
+
+/* ---------- export / paste-back panel ---------- */
+.xpanel{display:none;padding:20px 0 40px}
+.xpanel.show{display:block}
+.xstep{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.xstep h3{font-family:var(--display);font-weight:600;font-size:19px;margin:0 0 6px}
+.xstep .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);font-weight:600}
+.xstep p{margin:8px 0 0;color:var(--ink-soft);font-size:14px;line-height:1.55}
+.xbox{width:100%;min-height:160px;margin-top:12px;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-family:var(--mono);font-size:12.5px;line-height:1.55;color:var(--ink);background:#FBF8F1;resize:vertical}
+.xbox:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft);background:#fff}
+.xbtns{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+.xbtn{flex:1;min-width:140px;background:var(--indigo);color:#fff;border:none;border-radius:10px;padding:12px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer}
+.xbtn.ghost2{background:transparent;color:var(--indigo);border:1.5px solid var(--indigo)}
+.xcopied{font-family:var(--mono);font-size:12px;color:var(--good);margin-top:8px;display:none}
+.xcopied.show{display:block}
+.xerr{font-family:var(--mono);font-size:12.5px;color:var(--bad);margin-top:10px;display:none;line-height:1.5}
+.xerr.show{display:block}
+
+/* ---------- results ---------- */
+.results{display:none;padding:20px 0 40px}
+.results.show{display:block}
+.scorecard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 20px;margin-bottom:16px}
+.score-big{font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,58px);line-height:.95;letter-spacing:-.03em;margin:0}
+.score-big span{font-size:25px;color:var(--slate);font-weight:400}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin:8px 0 0}
+.grade-line{margin:22px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.grade-band{font-family:var(--display);font-weight:800;font-size:clamp(24px,7.5vw,32px);margin:0;letter-spacing:-.02em;color:var(--indigo)}
+.grade-desc{margin:9px 0 0;color:var(--ink-soft);font-size:14.5px}
+.ladder{margin:26px 0 0}
+.ladder-track{display:flex;gap:3px;height:38px;position:relative}
+.rung{flex:1;background:var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--ink-soft);transition:background .4s ease .2s;padding:0 2px;text-align:center}
+.rung.filled{background:#D6DFEE;color:var(--indigo)}
+.rung.here{background:var(--indigo);color:#fff}
+.marker{position:absolute;top:-16px;transform:translateX(-50%);font-size:13px;color:var(--indigo);transition:left .5s cubic-bezier(.34,1.2,.64,1);left:0}
+.ladder-ends{display:flex;justify-content:space-between;margin-top:7px}
+.ladder-ends span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px;font-weight:600}
+.tile p{margin:0;font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:-.02em}
+.tile p span{font-size:14px;color:var(--slate);font-weight:400}
+.tile small{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 14px}
+.review{margin:0;padding:0;list-style:none}
+.rev{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
+.rev:first-child{border-top:none}
+.rev-i{flex:none;width:26px;font-size:12px;font-weight:700;padding-top:2px;font-family:var(--mono)}
+.rev-b{flex:1;min-width:0}
+.rev-b .src{display:block;font-weight:600;margin-bottom:2px}
+.rev-b .yours{font-family:var(--mono);font-size:12px;color:var(--slate);display:block;margin-top:3px}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:4px;line-height:1.45}
+.pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
+.pts-2{background:var(--good-soft);color:var(--good)}
+.pts-1{background:var(--ochre-soft);color:var(--ochre)}
+.pts-0{background:var(--bad-soft);color:var(--bad)}
+
+.acc{margin-top:10px}
+.acc>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-soft);padding:10px 0;user-select:none}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary::before{content:"▸";color:var(--indigo);transition:transform .15s;font-size:11px}
+.acc[open]>summary::before{transform:rotate(90deg)}
+.acc>summary:hover{color:var(--ink)}
+.acc .review{margin-top:2px}
+
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
+
+@media (max-width:460px){.split{grid-template-columns:1fr}}
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .progress-in{padding:11px 14px}
+  .part{padding:26px 0 8px}
+  .q{padding:16px 14px 14px}
+  .scorecard{padding:22px 16px}
+  .panel{padding:18px 15px}
+  .xstep{padding:16px 15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Round 5 · Translation, AI-graded</p>
+    <h1>Translation <em>Test</em></h1>
+    <p class="lede">Sixteen everyday work phrases in Telugu and Hinglish. Type what they mean in English — free translation, no multiple choice. This one's scored differently: export your answers and paste them into any AI chat to get graded.</p>
+    <div class="howto">
+      <h2>How it works</h2>
+      <p><b>Part I — Telugu.</b> Eight phrases in Telugu script. Type the English meaning.</p>
+      <p><b>Part II — Hinglish.</b> Eight phrases in Hindi-English code-mix. Type the English meaning.</p>
+      <p><b>Scoring:</b> free translation can't be graded reliably by a script — word-matching would unfairly reject valid rephrasings. Instead, when you finish, this page builds a grading prompt with your answers. Paste it into ChatGPT, Claude, Gemini, or any AI chat, then paste its reply back here to see your score.</p>
+    </div>
+    <p class="taking" id="taking" hidden></p>
+  </header>
+</div>
+
+<div class="progress" id="progressBar">
+  <div class="progress-in">
+    <span class="pc"><span id="pDone">0</span>/16 answered</span>
+    <span class="pt"><span class="pf" id="pFill"></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="paper">
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART I</span><h2>Telugu</h2></div>
+      <p class="part-note">Type the English meaning of each phrase.</p>
+      <div id="teluguQs"></div>
+    </section>
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART II</span><h2>Hinglish</h2></div>
+      <p class="part-note">Type the English meaning of each phrase.</p>
+      <div id="hinglishQs"></div>
+    </section>
+  </main>
+
+  <section class="xpanel" id="xpanel">
+    <div class="xstep">
+      <span class="n">Step 1</span>
+      <h3>Copy the grading prompt</h3>
+      <p>This includes your 16 answers plus grading instructions. Copy or download it, then paste the whole thing into ChatGPT, Claude, Gemini, or any AI chat.</p>
+      <textarea class="xbox" id="exportBox" readonly></textarea>
+      <div class="xbtns">
+        <button type="button" class="xbtn" id="btnCopy">Copy to clipboard</button>
+        <button type="button" class="xbtn ghost2" id="btnDownload">Download .txt</button>
+      </div>
+      <p class="xcopied" id="xcopied">Copied!</p>
+    </div>
+    <div class="xstep">
+      <span class="n">Step 2</span>
+      <h3>Paste the AI's reply</h3>
+      <p>Once the AI grades your answers, copy its entire reply and paste it below.</p>
+      <textarea class="xbox" id="pasteBox" placeholder="Paste the AI's reply here…"></textarea>
+      <div class="xbtns">
+        <button type="button" class="xbtn" id="btnParse">Show my score</button>
+      </div>
+      <p class="xerr" id="xerr"></p>
+    </div>
+    <button type="button" class="btn btn-exit" id="btnBackToAnswers">Back to my answers</button>
+  </section>
+
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+
+<div class="submit-bar" id="submitBar">
+  <div class="submit-in">
+    <p class="warn" id="warn"></p>
+    <button class="btn" id="go">Finish &amp; build grading prompt</button>
+    <button type="button" class="btn btn-exit" id="btnDiscont">Discontinue test</button>
+  </div>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const HISTORY = "eggwhite:history";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    getName: () => gs(NAME),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
+  };
+})();
+
+/* ================= PHRASES =================
+   [source, lang("telugu"|"hinglish"), referenceTranslation] */
+const PHRASES = [
+ ["నేను రేపు సెలవు తీసుకుంటాను.","telugu","I will take leave tomorrow."],
+ ["మీటింగ్ మధ్యాహ్నం మూడు గంటలకు ఉంది.","telugu","The meeting is at 3 PM."],
+ ["నేను రిపోర్ట్ పూర్తి చేశాను.","telugu","I have completed the report."],
+ ["దయచేసి ఈ ఫైల్ చెక్ చేయండి.","telugu","Please check this file."],
+ ["నాకు కొంచెం సమయం కావాలి.","telugu","I need some time."],
+ ["క్లయింట్ చాలా సంతోషంగా ఉన్నారు.","telugu","The client is very happy."],
+ ["మేము డెడ్‌లైన్ మిస్ అయ్యాము.","telugu","We missed the deadline."],
+ ["రేపు ఆఫీసుకు రావద్దు.","telugu","Don't come to the office tomorrow."],
+ ["Mujhe kal thoda late aana padega.","hinglish","I'll have to come in a little late tomorrow."],
+ ["Client ne deadline extend kar di hai.","hinglish","The client has extended the deadline."],
+ ["Yeh report thoda aur polish karni padegi.","hinglish","This report needs a bit more polishing."],
+ ["Aaj ka meeting cancel ho gaya.","hinglish","Today's meeting has been cancelled."],
+ ["Mujhe is task ke liye thoda aur time chahiye.","hinglish","I need a bit more time for this task."],
+ ["Woh already resign kar chuke hain.","hinglish","He has already resigned."],
+ ["Kal tak yeh kaam finish karna hai.","hinglish","This work has to be finished by tomorrow."],
+ ["Boss ne aaj holiday announce kar diya.","hinglish","The boss announced a holiday today."]
+];
+
+const answers={};   // idx -> typed string
+const LETTERS=["A","B","C","D"];
+
+/* ================= RENDER QUESTIONS ================= */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+let th="",hh="";
+PHRASES.forEach((p,i)=>{
+  const [src,lang]=p;
+  const card='<article class="q" id="q'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<span class="q-lang">'+(lang==="telugu"?"Telugu":"Hinglish")+'</span></div>'
+    +'<p class="q-src '+lang+'">'+esc(src)+'</p>'
+    +'<input type="text" class="ans" data-i="'+i+'" placeholder="Type the English meaning…" autocomplete="off" autocapitalize="sentences" spellcheck="true"></article>';
+  if(lang==="telugu") th+=card; else hh+=card;
+});
+document.getElementById("teluguQs").innerHTML=th;
+document.getElementById("hinglishQs").innerHTML=hh;
+
+/* ================= INTERACTION ================= */
+document.getElementById("paper").addEventListener("input",e=>{
+  if(e.target.classList.contains("ans")){
+    answers[e.target.dataset.i]=e.target.value;
+    document.getElementById("q"+e.target.dataset.i).classList.remove("flag");
+    tick();persist();
+  }
+});
+
+function tick(){
+  const n=Object.keys(answers).filter(k=>(answers[k]||"").trim()).length;
+  document.getElementById("pDone").textContent=n;
+  document.getElementById("pFill").style.width=(n/16*100)+"%";
+}
+tick();
+
+/* ================= BUILD EXPORT ================= */
+const BANDS=[
+ {max:12,code:"Lost in Translation",
+  desc:"Struggles to capture the core meaning yet — works phrase-by-phrase but full sentences still slip through."},
+ {max:20,code:"Getting the Gist",
+  desc:"Usually gets the main idea across, but drops tense, nuance, or a key detail along the way."},
+ {max:27,code:"Fluent Bridge",
+  desc:"Reliably captures meaning and tone, with only occasional rough edges in phrasing."},
+ {max:32,code:"Native Switch",
+  desc:"Translates naturally and precisely, matching meaning and register every time."}
+];
+
+function buildExportText(){
+  let out = "You are grading an English translation exercise. Below are 16 short work-related phrases in Telugu or Hinglish (Hindi-English code-mixed), each with a reference English translation and a test-taker's own English translation attempt.\n\n";
+  out += "For each item, judge the test-taker's answer against the MEANING of the source phrase, using the reference translation as your guide to what it should mean. Do not penalize wording that differs from the reference as long as the meaning is preserved. Score each item:\n";
+  out += "2 = fully correct: captures the meaning accurately (minor grammar or wording differences are fine)\n";
+  out += "1 = partially correct: captures some but not all of the meaning, or has a significant error (wrong tense, a dropped detail, wrong register)\n";
+  out += "0 = incorrect: misses the meaning entirely, or was left blank\n\n";
+  out += "After scoring all 16 items, add up the total (out of 32) and map it to exactly one of these bands:\n";
+  out += "0-12: Lost in Translation\n13-20: Getting the Gist\n21-27: Fluent Bridge\n28-32: Native Switch\n\n";
+  out += "Reply in EXACTLY this format, with no extra commentary before or after, and no markdown formatting:\n\n";
+  out += "ITEM 1: <score>/2 — <one-line note on what was right or wrong>\n";
+  out += "ITEM 2: <score>/2 — <one-line note>\n...\nITEM 16: <score>/2 — <one-line note>\nTOTAL: <sum>/32\nBAND: <band name>\n\n";
+  out += "---\n\n";
+  PHRASES.forEach((p,i)=>{
+    const [src,lang,ref]=p;
+    out += "[ITEM "+(i+1)+" — "+(lang==="telugu"?"Telugu":"Hinglish")+"]\n";
+    out += "Source: "+src+"\n";
+    out += "Reference translation: "+ref+"\n";
+    out += "Test-taker's answer: "+(answers[i]||"(left blank)")+"\n\n";
+  });
+  return out;
+}
+
+document.getElementById("go").addEventListener("click",()=>{
+  const miss=[];for(let i=0;i<PHRASES.length;i++) if(!(answers[i]||"").trim()) miss.push(i);
+  const warn=document.getElementById("warn");
+  if(miss.length){
+    warn.textContent=miss.length+" item"+(miss.length>1?"s":"")+" still need"+(miss.length>1?"":"s")+" a translation.";
+    warn.classList.add("show");
+    const c=document.getElementById("q"+miss[0]);
+    c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  warn.classList.remove("show");
+  showExportPanel();
+});
+
+function showExportPanel(){
+  document.getElementById("exportBox").value = buildExportText();
+  document.getElementById("paper").style.display="none";
+  document.getElementById("progressBar").style.display="none";
+  document.getElementById("submitBar").style.display="none";
+  document.getElementById("xpanel").classList.add("show");
+  window.scrollTo({top:0,behavior:"smooth"});
+  persist();
+}
+function hideExportPanel(){
+  document.getElementById("xpanel").classList.remove("show");
+  document.getElementById("paper").style.display="";
+  document.getElementById("progressBar").style.display="";
+  document.getElementById("submitBar").style.display="";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.getElementById("btnBackToAnswers").addEventListener("click", hideExportPanel);
+
+document.getElementById("btnCopy").addEventListener("click", async ()=>{
+  const box=document.getElementById("exportBox");
+  const fb=document.getElementById("xcopied");
+  try{
+    await navigator.clipboard.writeText(box.value);
+    fb.textContent="Copied!";fb.classList.add("show");
+  }catch(e){
+    box.focus();box.select();
+    fb.textContent="Couldn't auto-copy — text is selected, press Ctrl/Cmd+C.";fb.classList.add("show");
+  }
+  setTimeout(()=>fb.classList.remove("show"),3000);
+});
+document.getElementById("btnDownload").addEventListener("click", ()=>{
+  const blob=new Blob([document.getElementById("exportBox").value],{type:"text/plain"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="eggwhite-translation-test.txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+/* ================= PARSE RESULTS ================= */
+function stripMd(s){
+  return s.replace(/\*\*/g,"").replace(/__/g,"").replace(/^\s*#+\s*/gm,"");
+}
+function parseGraded(text){
+  const clean = stripMd(text);
+  const items = [];
+  const itemRe = /ITEM\s*(\d{1,2})\s*[:.]\s*(\d)\s*\/\s*2\s*[—–\-:]*\s*(.*)/gi;
+  let m;
+  while((m = itemRe.exec(clean))){
+    const idx = parseInt(m[1],10) - 1;
+    if(idx < 0 || idx >= PHRASES.length) continue;
+    items[idx] = { score: Math.max(0,Math.min(2,parseInt(m[2],10)||0)), note: m[3].trim().slice(0,300) };
+  }
+  const filled = items.filter(Boolean).length;
+  if(filled < PHRASES.length) return null;
+
+  // Total and band are always computed from the parsed per-item scores —
+  // summing 16 known integers is fully deterministic, so this is more
+  // reliable than trusting a separately-stated TOTAL/BAND line the AI
+  // could get wrong even when every individual item score is right.
+  const total = items.reduce((s,it)=>s+it.score,0);
+  const band = BANDS.find(b=>total<=b.max) || BANDS[BANDS.length-1];
+  if(!band) band = BANDS.find(b=>total<=b.max) || BANDS[BANDS.length-1];
+
+  return { items, total, band };
+}
+
+document.getElementById("btnParse").addEventListener("click", ()=>{
+  const text = document.getElementById("pasteBox").value;
+  const err = document.getElementById("xerr");
+  if(!text.trim()){
+    err.textContent = "Paste the AI's reply first.";
+    err.classList.add("show");
+    return;
+  }
+  const parsed = parseGraded(text);
+  if(!parsed){
+    err.innerHTML = "Couldn't find all 16 scored items in that reply. Make sure you pasted the AI's <b>full</b> response, including every “ITEM N: score/2” line — some chat apps truncate long replies.";
+    err.classList.add("show");
+    return;
+  }
+  err.classList.remove("show");
+  renderResults(parsed);
+});
+
+/* ================= RESULTS DISPLAY ================= */
+function splitRev(rows){
+  const wrong=rows.filter(r=>r.score<2).map(r=>r.html).join("");
+  const correct=rows.filter(r=>r.score===2).map(r=>r.html).join("");
+  const n=rows.filter(r=>r.score===2).length;
+  let html=wrong?'<ul class="review">'+wrong+'</ul>':'';
+  if(n) html+='<details class="acc"><summary>'+n+' correct answer'+(n>1?"s":"")+'</summary><ul class="review">'+correct+'</ul></details>';
+  return html;
+}
+
+function renderResults(parsed){
+  const rows = PHRASES.map((p,i)=>{
+    const [src,lang,ref] = p;
+    const it = parsed.items[i] || {score:0,note:"Not scored."};
+    const cls = it.score===2?"pts-2":(it.score===1?"pts-1":"pts-0");
+    const icon = it.score===2?"OK":(it.score===1?"~":"X");
+    const html = '<li class="rev"><span class="rev-i pts '+cls+'">'+icon+'</span><span class="rev-b">'
+      +'<span class="src '+lang+'" style="'+(lang==="telugu"?'font-family:var(--telugu)':'font-style:italic')+'">'+esc(src)+'</span>'
+      +'<span class="yours">you wrote: '+esc(answers[i]||"—")+'</span>'
+      +'<em>Reference: “'+esc(ref)+'” — '+esc(it.note)+'</em></span>'
+      +'<span class="pts '+cls+'">'+it.score+'/2</span></li>';
+    return {score: it.score, group: lang, html: html};
+  });
+
+  const teluguRows = rows.filter(r=>r.group==="telugu");
+  const hinglishRows = rows.filter(r=>r.group==="hinglish");
+  const teluguScore = teluguRows.reduce((s,r)=>s+r.score,0);
+  const hinglishScore = hinglishRows.reduce((s,r)=>s+r.score,0);
+
+  const total = parsed.total, band = parsed.band;
+  const bandIdx = BANDS.indexOf(band);
+  const pct = Math.round(total/32*100);
+
+  ewComplete(band.code+" · "+total+"/32", pct,
+    "Telugu "+teluguScore+"/16 · Hinglish "+hinglishScore+"/16 · "+band.code, parsed);
+
+  let rungs="";
+  BANDS.forEach((b,i)=>{
+    rungs+='<span class="rung'+(i<bandIdx?" filled":(i===bandIdx?" here":""))+'">'+b.code+'</span>';
+  });
+
+  const revRows = rows.map(r=>({ok:r.score===2, html:r.html}));
+
+  document.getElementById("results").innerHTML=
+   '<div class="scorecard">'
+   +'<p class="score-big">'+total+'<span> / 32</span></p>'
+   +'<p class="score-pct">'+pct+'% correct, as graded</p>'
+   +'<div class="grade-line"><p class="grade-band">'+band.code+'</p>'
+   +'<p class="grade-desc">'+band.desc+'</p></div>'
+   +'<div class="ladder"><div class="ladder-track"><span class="marker" style="left:'+((bandIdx+0.5)/4*100)+'%">▼</span>'+rungs+'</div>'
+   +'<div class="ladder-ends"><span>Lost</span><span>Native</span></div></div>'
+   +'</div>'
+   +'<div class="split">'
+   +'<div class="tile"><h3>Telugu</h3><p>'+teluguScore+'<span> / 16</span></p><small>'+Math.round(teluguScore/16*100)+'% correct</small></div>'
+   +'<div class="tile"><h3>Hinglish</h3><p>'+hinglishScore+'<span> / 16</span></p><small>'+Math.round(hinglishScore/16*100)+'% correct</small></div>'
+   +'</div>'
+   +'<div class="panel"><h3>Every answer</h3>'+splitRev(revRows)+'</div>'
+   +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
+   +'<button class="btn btn-exit" onclick="ewBackHome()">Back to home</button>'
+   +'<p class="foot">Graded by whichever AI you pasted this into — quality depends on that model. Re-run through a different one if a score looks off.</p>';
+
+  document.getElementById("xpanel").classList.remove("show");
+  document.getElementById("progressBar").style.display="none";
+  document.getElementById("submitBar").style.display="none";
+  document.getElementById("results").classList.add("show");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================================================================
+   eggwhite — session persistence
+   ================================================================ */
+const EW_SELF = "translation-test.html";
+let REC = null;
+{
+  const stored = EW.getRecord(EW_SELF);
+  if(stored){
+    REC = stored;
+    const a = REC.answers || {};
+    Object.assign(answers, a);
+    document.querySelectorAll(".ans").forEach(inp=>{
+      if(inp.dataset.i in answers) inp.value = answers[inp.dataset.i];
+    });
+    tick();
+    if(REC.status === "completed" && REC.parsed){
+      renderResults(REC.parsed);
+    }
+  } else {
+    REC = { file:EW_SELF, title:"Translation Test", startedAt:Date.now(),
+            name:EW.getName(), status:"in-progress",
+            answers:{}, progress:{done:0,total:16} };
+    EW.saveRecord(EW_SELF, REC);
+  }
+}
+
+(function(){
+  const nm = (REC && REC.name) || EW.getName();
+  if(nm){
+    const el = document.getElementById("taking");
+    el.textContent = "Taking this as " + nm + ".";
+    el.hidden = false;
+  }
+})();
+
+function persist(){
+  if(!REC || REC.status === "completed") return;
+  REC.answers = answers;
+  const filled = Object.keys(answers).filter(k=>(answers[k]||"").trim()).length;
+  REC.progress = { done: filled, total: 16 };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewComplete(line, pct, report, parsed){
+  if(!REC) return;
+  const already = REC.status === "completed";
+  REC.status = "completed";
+  REC.answers = answers;
+  REC.summary = { line: line, pct: pct };
+  REC.parsed = parsed;
+  EW.saveRecord(EW_SELF, REC);
+  if(!already){
+    EW.addHistory({
+      file: EW_SELF, title: REC.title, name: REC.name || "",
+      startedAt: REC.startedAt, completedAt: Date.now(),
+      summary: REC.summary, report: report || ""
+    });
+  }
+}
+function ewDiscontinue(){
+  if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
+  EW.clearRecord(EW_SELF);
+  location.href = "index.html";
+}
+function ewRetake(){
+  if(!confirm("Clear this attempt and start the test over?")) return;
+  EW.clearRecord(EW_SELF);
+  location.reload();
+}
+function ewBackHome(){
+  location.href = "index.html";
+}
+document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
+</script>
+</body>
+</html>
