@@ -134,6 +134,8 @@ a.test:active{transform:translateY(1px)}
 
 /* active */
 .test-active{border-color:var(--violet);box-shadow:0 4px 18px rgba(181,131,28,.16)}
+.test-disabled{opacity:.55;cursor:default}
+.go-mute{color:var(--slate)}
 .badge{
   font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   border-radius:6px;padding:4px 8px;flex:none
@@ -288,7 +290,8 @@ const TESTS = [
     desc: "Sixteen work phrases in Telugu and Hinglish — type what they mean in English. Free translation, graded by exporting your answers to any AI chat.",
     meta: "16 phrases · Round 5",
     tag: "Translation",
-    kind: "c"
+    kind: "c",
+    disabled: true
   },
   {
     file: "tension-test-2.html",
@@ -313,10 +316,25 @@ function fmtWhen(ms){
 function render(){
   const availBox = document.getElementById("avail");
   availBox.innerHTML = TESTS.map((t, i) => {
+    const n = String(i + 1).padStart(2, "0");
+
+    if(t.disabled){
+      const inner =
+        '<div class="test-top">'
+        +   '<span class="test-idx">' + n + '</span>'
+        +   '<h3 class="test-title">' + esc(t.title) + '</h3>'
+        + '</div>'
+        + '<p class="test-desc">' + esc(t.desc) + '</p>'
+        + '<div class="test-foot">'
+        +   '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
+        +   '<span class="go go-mute">Coming soon</span>'
+        + '</div>';
+      return '<li><div class="test test-disabled">' + inner + '</div></li>';
+    }
+
     const rec = EW.getRecord(t.file);
     const started = !!rec;
     const done = started && rec.status === "completed";
-    const n = String(i + 1).padStart(2, "0");
 
     let status;
     if(done){
