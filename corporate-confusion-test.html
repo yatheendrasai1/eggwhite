@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Corporate Confusion — Eggwhite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:"Wigglye";
+  src:url("fonts/Wigglye.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --paper:#F7F1E1;--card:#FFFFFF;--ink:#2B2721;--ink-soft:#7C7160;--line:#E9E0CB;
+  --violet:#B5831C;--violet-soft:#FBEECB;--ochre:#CF7A2E;--ochre-soft:#FBE9D6;
+  --steel:#2E6E76;--steel-soft:#DCEBEA;
+  --slate:#A99E88;--good:#2A6E52;--good-soft:#E2F0EA;--bad:#B23A1B;--bad-soft:#FBE7E0;
+  --yolk:#F2B60C;--nav-h:52px;
+  --display:"Fraunces",Georgia,serif;
+  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-top:var(--nav-h);padding-bottom:100px;overflow-wrap:break-word}
+
+/* ---------- fixed navbar ---------- */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line);text-decoration:none}
+.nav-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
+.nav-name{font-family:var(--brand);font-size:23px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+.masthead{padding:20px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel);margin:0 0 10px}
+.masthead h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,37px);line-height:1.06;margin:0 0 12px;letter-spacing:-.022em}
+.masthead h1 em{font-style:italic;font-weight:400;color:var(--steel)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:46ch}
+.howto{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0 0}
+.howto h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 11px;font-weight:600}
+.howto p{margin:0 0 9px;font-size:14.5px;color:var(--ink-soft)}
+.howto p:last-child{margin-bottom:0}
+.howto b{color:var(--ink);font-weight:600}
+.taking{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--steel);letter-spacing:.02em}
+
+/* ---------- progress ---------- */
+.progress{position:sticky;top:var(--nav-h);z-index:20;background:rgba(247,241,225,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:24px}
+.progress-in{max-width:640px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.pc{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.pt{flex:1;height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.pf{height:100%;width:0;background:var(--yolk);border-radius:99px;transition:width .25s}
+
+/* ---------- sections ---------- */
+.part{padding:34px 0 8px}
+.part-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.part-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--steel);letter-spacing:.1em}
+.part-head h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;letter-spacing:-.01em}
+.part-note{margin:0 0 20px;color:var(--ink-soft);font-size:14px}
+
+/* ---------- question ---------- */
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px 16px;margin-bottom:14px;scroll-margin-top:120px}
+.q.flag{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.q-head{display:flex;gap:11px;align-items:baseline;margin-bottom:4px}
+.q-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none;padding-top:3px}
+.q-text{margin:0;font-size:16.5px;line-height:1.55}
+.q-ctx{margin:0 0 6px 33px;font-size:13px;color:var(--ink-soft);font-style:italic}
+
+.opts{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+.opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:#FBF8F1;border:1.5px solid var(--line);border-radius:11px;padding:12px 13px;font-family:var(--body);font-size:15.5px;color:var(--ink);cursor:pointer;line-height:1.35;transition:border-color .12s,background .12s;min-height:46px}
+.opt:hover{border-color:var(--slate)}
+.opt:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
+.opt-l{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);padding-top:2px;flex:none}
+.opt.on{background:var(--steel-soft);border-color:var(--steel)}
+.opt.on .opt-l{color:var(--steel)}
+
+/* ---------- submit ---------- */
+.submit-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,241,225,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.submit-in{max-width:640px;margin:0 auto}
+.btn{width:100%;background:var(--yolk);color:var(--ink);border:none;border-radius:12px;padding:15px;font-family:var(--body);font-size:16px;font-weight:700;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.btn-ghost{background:transparent;color:var(--steel);border:1.5px solid var(--steel)}
+.warn{margin:0 0 9px;font-size:13.5px;color:var(--bad);text-align:center;display:none}
+.warn.show{display:block}
+.btn-exit{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);margin-top:8px;font-weight:500;font-size:14px;padding:11px}
+.btn-exit:hover{border-color:var(--bad);color:var(--bad)}
+
+/* ---------- results ---------- */
+.results{display:none;padding:20px 0 40px}
+.results.show{display:block}
+.scorecard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 20px;margin-bottom:16px}
+.score-big{font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,58px);line-height:.95;letter-spacing:-.03em;margin:0}
+.score-big span{font-size:25px;color:var(--slate);font-weight:400}
+.score-pct{font-family:var(--mono);font-size:13px;color:var(--ink-soft);margin:8px 0 0}
+.grade-line{margin:22px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.grade-band{font-family:var(--display);font-weight:800;font-size:clamp(28px,8.5vw,36px);margin:0;letter-spacing:-.02em;color:var(--steel)}
+.grade-name{margin:2px 0 0;font-size:15px;font-weight:600;color:var(--ink-soft)}
+.grade-desc{margin:9px 0 0;color:var(--ink-soft);font-size:14.5px}
+.ladder{margin:26px 0 0}
+.ladder-track{display:flex;gap:3px;height:38px;position:relative}
+.rung{flex:1;background:var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink-soft);transition:background .4s ease .2s;padding:0 2px;text-align:center}
+.rung.filled{background:#CFE6E4;color:var(--steel)}
+.rung.here{background:var(--steel);color:#fff}
+.marker{position:absolute;top:-16px;transform:translateX(-50%);font-size:13px;color:var(--steel);transition:left .5s cubic-bezier(.34,1.2,.64,1);left:0}
+.ladder-ends{display:flex;justify-content:space-between;margin-top:7px}
+.ladder-ends span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tile h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px;font-weight:600}
+.tile p{margin:0;font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:-.02em}
+.tile p span{font-size:14px;color:var(--slate);font-weight:400}
+.tile small{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-bottom:16px}
+.panel h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 14px}
+.levels{margin:0;padding:0;list-style:none}
+.levels li{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.levels li:first-child{border-top:none}
+.levels li.you{background:var(--steel-soft);margin:0 -18px;padding-left:18px;padding-right:18px;border-radius:8px;border-top-color:transparent}
+.lv-code{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--steel);flex:none;width:78px;padding-top:2px}
+.lv-body b{display:block;font-weight:600;margin-bottom:1px}
+.lv-body span{color:var(--ink-soft);font-size:13.5px}
+.you-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--steel);text-transform:uppercase;margin-left:6px}
+.review{margin:0;padding:0;list-style:none}
+.rev{display:flex;gap:11px;padding:13px 0;border-top:1px solid var(--line);font-size:14px;align-items:flex-start}
+.rev:first-child{border-top:none}
+.rev-i{flex:none;width:20px;font-size:15px;padding-top:1px}
+.rev-b{flex:1;min-width:0}
+.rev-b .to{color:var(--good);font-weight:600}
+.rev-b em{font-style:normal;color:var(--ink-soft);display:block;font-size:13px;margin-top:4px;line-height:1.45}
+.rev-b .yours{font-family:var(--mono);font-size:12px;color:var(--slate);display:block;margin-top:3px}
+.pts{font-family:var(--mono);font-size:11.5px;font-weight:600;border-radius:5px;padding:3px 7px;flex:none}
+.pts-1{background:var(--good-soft);color:var(--good)}
+.pts-0{background:var(--bad-soft);color:var(--bad)}
+
+.acc{margin-top:10px}
+.acc>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-soft);padding:10px 0;user-select:none}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary::before{content:"▸";color:var(--steel);transition:transform .15s;font-size:11px}
+.acc[open]>summary::before{transform:rotate(90deg)}
+.acc>summary:hover{color:var(--ink)}
+.acc .review{margin-top:2px}
+
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:26px 0 0}
+
+@media (max-width:460px){.split{grid-template-columns:1fr}}
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .progress-in{padding:11px 14px}
+  .part{padding:26px 0 8px}
+  .q{padding:16px 14px 14px}
+  .scorecard{padding:22px 16px}
+  .panel{padding:18px 15px}
+  .levels li.you{margin:0 -15px;padding-left:15px;padding-right:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="navbar" href="index.html">
+  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+  <span class="nav-name">Eggwhite</span>
+</a>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Round 8 · Corporate English</p>
+    <h1>The <em>Corporate</em> Confusion</h1>
+    <p class="lede">"Revert back," "discuss about," "kindly do the needful" — the padded phrases that instantly flag an email as non-native. Plus the word pairs that look alike, sound alike, and get swapped constantly: affect/effect, its/it's, loose/lose.</p>
+    <div class="howto">
+      <h2>How it works</h2>
+      <p><b>Part I — Cut the redundancy.</b> Four versions of the same sentence. Pick the one that says it without padding or doubling up.</p>
+      <p><b>Part II — Confusable words.</b> Pick the word that actually belongs in the blank.</p>
+      <p><b>Scoring:</b> each item is worth 1 point, 30 total.</p>
+    </div>
+    <p class="taking" id="taking" hidden></p>
+  </header>
+</div>
+
+<div class="progress">
+  <div class="progress-in">
+    <span class="pc"><span id="pDone">0</span>/30 answered</span>
+    <span class="pt"><span class="pf" id="pFill"></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="paper">
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART I</span><h2>Cut the redundancy</h2></div>
+      <p class="part-note">Pick the sentence with no padding or doubled-up meaning.</p>
+      <div id="p1"></div>
+    </section>
+    <section class="part">
+      <div class="part-head"><span class="part-num">PART II</span><h2>Confusable words</h2></div>
+      <p class="part-note">Pick the word that belongs in the blank.</p>
+      <div id="p2"></div>
+    </section>
+  </main>
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+
+<div class="submit-bar">
+  <div class="submit-in">
+    <p class="warn" id="warn"></p>
+    <button class="btn" id="go">Score my answers</button>
+    <button type="button" class="btn btn-exit" id="btnDiscont">Discontinue test</button>
+  </div>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const HISTORY = "eggwhite:history";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    getName: () => gs(NAME),
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
+  };
+})();
+
+/* ================= PART I — cut the redundancy =================
+   [options[4], correctIndex, why] */
+const P1 = [
+ [["Please revert to me by end of day.","Please revert back to me by end of day.","Please revert back with me by end of day.","Please back-revert to me by end of day."],0,
+  "“Revert” already means “reply back” — “revert back” doubles up the same meaning."],
+ [["Let's discuss about the budget in tomorrow's call.","Let's discuss the budget in tomorrow's call.","Let's discuss on the budget in tomorrow's call.","Let's discuss about of the budget in tomorrow's call."],1,
+  "“Discuss” is already transitive (“discuss X”) — adding “about” is redundant."],
+ [["Kindly do the needful at the earliest.","Kindly do the needful and revert back at the earliest.","Please complete this by Friday.","Please do the needful thing at the earliest."],2,
+  "“Do the needful” is vague filler — state the actual action and the actual deadline."],
+ [["Please find attached herewith the report.","Attached herewith, please find the report.","Herewith attached please find the report.","Please find the report attached."],3,
+  "“Herewith” and “attached” both already signal the same thing — pick one, or neither."],
+ [["This is essential for the launch.","This is absolutely essential for the launch.","This is absolutely very essential for the launch.","This is completely absolutely essential for the launch."],0,
+  "“Essential” already means necessary — “absolutely” adds nothing."],
+ [["We need to completely eliminate all errors before shipping.","We need to eliminate all errors before shipping.","We need to completely remove and eliminate all errors before shipping.","We need to totally completely eliminate all errors before shipping."],1,
+  "“Eliminate” already means to remove entirely — “completely” is redundant."],
+ [["Each and every team member must complete the training.","Each and every single team member must complete the training.","Each team member must complete the training.","Every each team member must complete the training."],2,
+  "“Each” and “every” cover the same ground — use one, not both."],
+ [["The final outcome of the project exceeded expectations.","The final end outcome of the project exceeded expectations.","The final result outcome of the project exceeded expectations.","The outcome of the project exceeded expectations."],3,
+  "“Outcome” is already the result — “final” adds nothing new."],
+ [["We reviewed the history of the account before renewing.","We reviewed the past history of the account before renewing.","We reviewed the past history background of the account before renewing.","We reviewed the history of the past account before renewing."],0,
+  "“History” is inherently about the past — “past history” is redundant."],
+ [["The new hire brought an added bonus of language skills to the team.","The new hire brought a bonus of language skills to the team.","The new hire brought an added extra bonus of language skills to the team.","The new hire brought an additional added bonus of language skills to the team."],1,
+  "A “bonus” is already something extra — “added” is redundant."],
+ [["We were caught off guard by the completely unexpected surprise.","We were caught off guard by the unexpected surprise.","We were caught off guard by the surprise.","We were caught off guard by the surprising surprise."],2,
+  "A “surprise” is inherently unexpected — “unexpected surprise” doubles up."],
+ [["Please use the exact same template for all client decks.","Please use the exact template for all client decks.","Please use the same exact identical template for all client decks.","Please use the same template for all client decks."],3,
+  "“Same” alone already means identical — “exact same” is redundant, however common it sounds."],
+ [["Let's review the basic fundamentals of the process before the audit.","Let's review the fundamentals of the process before the audit.","Let's review the basic core fundamentals of the process before the audit.","Let's review the basic and fundamental basics of the process before the audit."],0,
+  "“Fundamentals” already means the basics — “basic” is redundant."],
+ [["The two offices are in close proximity to each other.","The two offices are in proximity to each other.","The two offices are in close and near proximity to each other.","The two offices are in near proximity to each other."],1,
+  "“Proximity” already means closeness — “close proximity” is redundant, though very common in speech."],
+ [["Due to the fact that the vendor delayed shipping, we missed the deadline.","Due to the fact of the vendor delaying shipping, we missed the deadline.","Because the vendor delayed shipping, we missed the deadline.","Owing to the fact that the vendor delayed shipping, we missed the deadline."],2,
+  "“Due to the fact that” is a wordy stand-in for “because.”"]
+];
+
+/* ================= PART II — confusable words =================
+   [before, after, options[4], correctIndex, why] */
+const P2 = [
+ ["The new pricing policy will directly ___ our margins.","",["affect","effect","effected","affection"],0,
+  "“Affect” is the verb — it means “to influence.”"],
+ ["The ___ of the policy change won't be visible until next quarter.","",["affect","effect","effective","affected"],1,
+  "“Effect” is the noun here — it means “a result.”"],
+ ["___ presentation was rescheduled to Thursday.","",["It's","Their","Its","Its'"],2,
+  "“Its” is the possessive form — no apostrophe."],
+ ["___ rescheduled the presentation to Thursday.","",["Its","Their","Its'","It's"],3,
+  "“It's” is the contraction of “it is.”"],
+ ["She's a better presenter ___ I am.","",["than","then","them","that"],0,
+  "“Than” is used for comparisons."],
+ ["We finished the review, and ___ we moved to sign-off.","",["than","then","them","that"],1,
+  "“Then” marks a sequence in time — “after that.”"],
+ ["Please don't ___ the deadline again — we can't slip further.","",["loose","loss","lose","lost"],2,
+  "“Lose” is the verb — “to fail to meet or keep.”"],
+ ["The screws on the server rack are ___ and need tightening.","",["lose","loss","lost","loose"],3,
+  "“Loose” is the adjective — “not tight.”"],
+ ["The ___ reason for the delay was a vendor issue, not our team.","",["principal","principle","principled","principals"],0,
+  "“Principal” as an adjective means “main” or “primary.”"],
+ ["We operate on the ___ of transparency with every client.","",["principal","principle","principled","principals"],1,
+  "“Principle” is the noun for a fundamental rule or belief."],
+ ["Her presentation nicely ___ the data we shared earlier.","",["compliments","complementary","complements","complimentary"],2,
+  "“Complements” (with an e) means “completes” or “goes well with.”"],
+ ["The client sent a ___ about how smooth the rollout was.","",["complement","complementary","complimenting","compliment"],3,
+  "“Compliment” (with an i) is the noun for praise."],
+ ["We're out of printer paper — someone needs to order more ___.","",["stationery","stationary","stationed","stationing"],0,
+  "“Stationery” (with an e) refers to writing and office supplies."],
+ ["The delivery van has been ___ outside the building for an hour.","",["stationery","stationary","stationed","station"],1,
+  "“Stationary” (with an a) means “not moving.”"],
+ ["We need ___ information before we can approve the budget.","",["farther","father","further","furthest"],2,
+  "“Further” is used for additional or abstract extent; “farther” is reserved for physical distance."]
+];
+
+const LETTERS=["A","B","C","D"];
+const picks1={};   // p1 idx -> option idx
+const picks2={};   // p2 idx -> option idx
+
+/* ================= RENDER ================= */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+let h1="";
+P1.forEach((q,i)=>{
+  h1+='<article class="q" id="p1q'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<p class="q-text">Which sentence is correct?</p></div><div class="opts">';
+  q[0].forEach((o,j)=>{
+    h1+='<button type="button" class="opt" data-p="1" data-m="'+i+'" data-j="'+j+'"><span class="opt-l">'+LETTERS[j]+'</span><span>'+esc(o)+'</span></button>';
+  });
+  h1+='</div></article>';
+});
+document.getElementById("p1").innerHTML=h1;
+
+let h2="";
+P2.forEach((q,i)=>{
+  h2+='<article class="q" id="p2q'+i+'"><div class="q-head"><span class="q-num">'+String(i+1).padStart(2,"0")+'</span>'
+    +'<p class="q-text">'+esc(q[0])+'<b>___</b>'+esc(q[1])+'</p></div><div class="opts">';
+  q[2].forEach((o,j)=>{
+    h2+='<button type="button" class="opt" data-p="2" data-m="'+i+'" data-j="'+j+'"><span class="opt-l">'+LETTERS[j]+'</span><span>'+esc(o)+'</span></button>';
+  });
+  h2+='</div></article>';
+});
+document.getElementById("p2").innerHTML=h2;
+
+/* ================= INTERACTION ================= */
+document.getElementById("paper").addEventListener("click",e=>{
+  const opt=e.target.closest(".opt");
+  if(!opt) return;
+  const p=+opt.dataset.p,i=+opt.dataset.m,j=+opt.dataset.j;
+  const picks=(p===1)?picks1:picks2;
+  picks[i]=j;
+  const card=document.getElementById("p"+p+"q"+i);
+  card.classList.remove("flag");
+  card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===j));
+  tick();persist();
+});
+
+function tick(){
+  const n=Object.keys(picks1).length+Object.keys(picks2).length;
+  document.getElementById("pDone").textContent=n;
+  document.getElementById("pFill").style.width=(n/30*100)+"%";
+}
+tick();
+
+/* ================= SCORING ================= */
+const BANDS=[
+ {max:40,code:"Shaky",name:"Still guessing",
+  desc:"Padded phrases like “revert back” and “discuss about” slip through often, and the confusable pairs (its/it's, loose/lose) are still a coin flip. Drill the fixed redundancy list first — it's the fastest fix."},
+ {max:65,code:"Developing",name:"Getting there",
+  desc:"Catches the most obvious redundancies but still doubles up on the subtler ones, and mixes up word pairs under time pressure."},
+ {max:85,code:"Solid",name:"Reliable",
+  desc:"Writes cleanly most of the time, with only occasional slips on the less common redundant phrases or a rushed word-pair mix-up."},
+ {max:100,code:"Native-like",name:"Automatic",
+  desc:"Cuts the padding by instinct and never confuses affect/effect, its/it's, or loose/lose."}
+];
+const LADDER=[
+ ["Shaky","Still guessing"],
+ ["Developing","Getting there"],
+ ["Solid","Reliable"],
+ ["Native-like","Automatic"]
+];
+
+document.getElementById("go").addEventListener("click",()=>{
+  const miss1=[];for(let i=0;i<P1.length;i++) if(!(i in picks1)) miss1.push(i);
+  const miss2=[];for(let i=0;i<P2.length;i++) if(!(i in picks2)) miss2.push(i);
+  const warn=document.getElementById("warn");
+  const missCount=miss1.length+miss2.length;
+  if(missCount){
+    warn.textContent=missCount+" item"+(missCount>1?"s":"")+" still need"+(missCount>1?"":"s")+" an answer.";
+    warn.classList.add("show");
+    if(miss1.length){
+      const c=document.getElementById("p1q"+miss1[0]);
+      c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    } else {
+      const c=document.getElementById("p2q"+miss2[0]);
+      c.classList.add("flag");c.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+    return;
+  }
+  warn.classList.remove("show");
+  render();
+});
+
+function splitRev(rows){
+  const wrong=rows.filter(r=>!r.ok).map(r=>r.html).join("");
+  const correct=rows.filter(r=>r.ok).map(r=>r.html).join("");
+  const n=rows.filter(r=>r.ok).length;
+  let html=wrong?'<ul class="review">'+wrong+'</ul>':'';
+  if(n) html+='<details class="acc"><summary>'+n+' correct answer'+(n>1?"s":"")+'</summary><ul class="review">'+correct+'</ul></details>';
+  return html;
+}
+
+function render(){
+  let s1=0,r1=[];
+  P1.forEach((q,i)=>{
+    const ok=picks1[i]===q[1];
+    if(ok)s1++;
+    const html='<li class="rev"><span class="rev-i">'+(ok?"✓":"✗")+'</span><span class="rev-b">'
+      +'<span class="to">'+esc(q[0][q[1]])+'</span>'
+      +(ok?'':'<span class="yours">you chose: '+esc(q[0][picks1[i]])+'</span>')
+      +'<em>'+q[2]+'</em></span><span class="pts pts-'+(ok?1:0)+'">'+(ok?1:0)+'</span></li>';
+    r1.push({ok:ok,html:html});
+  });
+  const rev1=splitRev(r1);
+
+  let s2=0,r2=[];
+  P2.forEach((q,i)=>{
+    const ok=picks2[i]===q[3];
+    if(ok)s2++;
+    const html='<li class="rev"><span class="rev-i">'+(ok?"✓":"✗")+'</span><span class="rev-b">'
+      +esc(q[0])+'<span class="to">'+esc(q[2][q[3]])+'</span>'+esc(q[1])
+      +(ok?'':'<span class="yours">you chose: '+esc(q[2][picks2[i]])+'</span>')
+      +'<em>'+q[4]+'</em></span><span class="pts pts-'+(ok?1:0)+'">'+(ok?1:0)+'</span></li>';
+    r2.push({ok:ok,html:html});
+  });
+  const rev2=splitRev(r2);
+
+  const total=s1+s2, pct=total/30*100;
+  const band=BANDS.find(b=>pct<=b.max)||BANDS[BANDS.length-1];
+  const bandIdx=BANDS.indexOf(band);
+  ewComplete(band.code+" · "+total+"/30", Math.round(pct),
+    "Redundancy "+s1+"/15 · Confusable words "+s2+"/15 · "+band.code);
+
+  let li="";
+  LADDER.forEach((l,i)=>{
+    const you=(i===bandIdx);
+    li+='<li class="'+(you?"you":"")+'"><span class="lv-code">'+l[0]+'</span><span class="lv-body"><b>'+l[1]
+      +(you?'<span class="you-tag">you are here</span>':'')+'</b></span></li>';
+  });
+  let rungs="";
+  LADDER.forEach((l,i)=>{
+    rungs+='<span class="rung'+(i<bandIdx?" filled":(i===bandIdx?" here":""))+'">'+l[0]+'</span>';
+  });
+
+  document.getElementById("results").innerHTML=
+   '<div class="scorecard">'
+   +'<p class="score-big">'+total+'<span> / 30</span></p>'
+   +'<p class="score-pct">'+pct.toFixed(0)+'% correct</p>'
+   +'<div class="grade-line"><p class="grade-band">'+band.code+'</p>'
+   +'<p class="grade-name">'+band.name+'</p><p class="grade-desc">'+band.desc+'</p></div>'
+   +'<div class="ladder"><div class="ladder-track"><span class="marker" style="left:'+((bandIdx+0.5)/4*100)+'%">▼</span>'+rungs+'</div>'
+   +'<div class="ladder-ends"><span>Shaky</span><span>Native-like</span></div></div>'
+   +'</div>'
+   +'<div class="split">'
+   +'<div class="tile"><h3>Redundancy</h3><p>'+s1+'<span> / 15</span></p><small>'+(s1/15*100).toFixed(0)+'% correct</small></div>'
+   +'<div class="tile"><h3>Confusable words</h3><p>'+s2+'<span> / 15</span></p><small>'+(s2/15*100).toFixed(0)+'% correct</small></div>'
+   +'</div>'
+   +'<div class="panel"><h3>The scale</h3><ul class="levels">'+li+'</ul></div>'
+   +'<div class="panel"><h3>Part I answers</h3>'+rev1+'</div>'
+   +'<div class="panel"><h3>Part II answers</h3>'+rev2+'</div>'
+   +'<button class="btn btn-ghost" onclick="ewRetake()">Retake this test</button>'
+   +'<button class="btn btn-exit" onclick="ewBackHome()">Back to home</button>'
+   +'<p class="foot">Each item has exactly one correct answer — check the review to see the rule behind it.</p>';
+
+  document.getElementById("results").classList.add("show");
+  document.getElementById("paper").style.display="none";
+  document.querySelector(".progress").style.display="none";
+  document.querySelector(".submit-bar").style.display="none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================================================================
+   eggwhite — session persistence & single-open-test enforcement
+   ================================================================ */
+const EW_SELF = "corporate-confusion-test.html";
+let REC = null;
+{
+  const stored = EW.getRecord(EW_SELF);
+  if(stored){
+    REC = stored;
+    const a = REC.answers || {};
+    if(a.picks1) Object.assign(picks1, a.picks1);
+    if(a.picks2) Object.assign(picks2, a.picks2);
+    for(const i in picks1){
+      const card=document.getElementById("p1q"+i);
+      if(card) card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===picks1[i]));
+    }
+    for(const i in picks2){
+      const card=document.getElementById("p2q"+i);
+      if(card) card.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",+b.dataset.j===picks2[i]));
+    }
+    tick();
+    if(REC.status === "completed") render();
+  } else {
+    REC = { file:EW_SELF, title:"The Corporate Confusion", startedAt:Date.now(),
+            name:EW.getName(), status:"in-progress",
+            answers:{picks1:{},picks2:{}}, progress:{done:0,total:30} };
+    EW.saveRecord(EW_SELF, REC);
+  }
+}
+
+(function(){
+  const nm = (REC && REC.name) || EW.getName();
+  if(nm){
+    const el = document.getElementById("taking");
+    el.textContent = "Taking this as " + nm + ".";
+    el.hidden = false;
+  }
+})();
+
+function persist(){
+  if(!REC || REC.status === "completed") return;
+  REC.answers = { picks1: picks1, picks2: picks2 };
+  REC.progress = { done: Object.keys(picks1).length + Object.keys(picks2).length, total: 30 };
+  EW.saveRecord(EW_SELF, REC);
+}
+function ewComplete(line, pct, report){
+  if(!REC) return;
+  const already = REC.status === "completed";
+  REC.status = "completed";
+  REC.answers = { picks1: picks1, picks2: picks2 };
+  REC.summary = { line: line, pct: pct };
+  EW.saveRecord(EW_SELF, REC);
+  if(!already){
+    EW.addHistory({
+      file: EW_SELF, title: REC.title, name: REC.name || "",
+      startedAt: REC.startedAt, completedAt: Date.now(),
+      summary: REC.summary, report: report || ""
+    });
+  }
+}
+function ewDiscontinue(){
+  if(!confirm("Discontinue this test? Your saved answers and result for it will be erased.")) return;
+  EW.clearRecord(EW_SELF);
+  location.href = "index.html";
+}
+function ewRetake(){
+  if(!confirm("Clear this attempt and start the test over?")) return;
+  EW.clearRecord(EW_SELF);
+  location.reload();
+}
+function ewBackHome(){
+  location.href = "index.html";
+}
+document.getElementById("btnDiscont").addEventListener("click", ewDiscontinue);
+</script>
+</body>
+</html>
