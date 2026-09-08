@@ -110,15 +110,21 @@ body{
 .tests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
 .test{
   display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:20px 18px;text-decoration:none;color:inherit;
-  transition:border-color .12s,box-shadow .12s,transform .12s
+  padding:0;color:inherit;
+  transition:border-color .12s,box-shadow .12s
 }
-a.test:hover{border-color:var(--violet);box-shadow:0 6px 22px rgba(181,131,28,.14)}
-a.test:active{transform:translateY(1px)}
-.test:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-.test-top{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.test:hover{border-color:var(--violet);box-shadow:0 6px 22px rgba(181,131,28,.14)}
+.test-toggle{
+  display:flex;align-items:center;gap:10px;width:100%;flex-wrap:wrap;
+  background:none;border:none;margin:0;padding:20px 18px;
+  font:inherit;color:inherit;text-align:left;cursor:pointer
+}
+.test-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:-3px;border-radius:16px}
 .test-idx{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none}
 .test-title{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;margin:0}
+.chev{margin-left:auto;color:var(--slate);font-size:13px;flex:none;transition:transform .15s}
+.test.open .chev{transform:rotate(90deg)}
+.test-more{padding:0 18px 20px}
 .test-desc{margin:0 0 14px;color:var(--ink-soft);font-size:14.5px}
 .test-foot{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap}
 .tag{
@@ -130,11 +136,13 @@ a.test:active{transform:translateY(1px)}
 .tag-g{background:var(--steel-soft);color:var(--steel)}
 .tag-t{background:var(--rose-soft);color:var(--rose)}
 .tag-c{background:var(--indigo-soft);color:var(--indigo)}
-.go{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet)}
+.go-link{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet);text-decoration:none}
+.go-link:hover{text-decoration:underline}
+.go-link:focus-visible{outline:3px solid var(--violet);outline-offset:2px;border-radius:4px}
 
 /* active */
 .test-active{border-color:var(--violet);box-shadow:0 4px 18px rgba(181,131,28,.16)}
-.test-disabled{opacity:.55;cursor:default}
+.test-disabled{opacity:.55}
 .go-mute{color:var(--slate)}
 .badge{
   font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
@@ -161,6 +169,12 @@ a.test:active{transform:translateY(1px)}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 14px}
 .section-head.second{margin-top:32px}
 .section-head .section-label{margin:0}
+.section-toggle{
+  background:none;border:none;padding:0;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px
+}
+.section-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.section-toggle[aria-expanded="true"] .chev{transform:rotate(90deg)}
 .clear-hist{
   background:transparent;border:none;padding:0;cursor:pointer;
   font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
@@ -218,10 +232,12 @@ a.test:active{transform:translateY(1px)}
   <ul class="tests" id="avail"></ul>
 
   <div class="section-head second">
-    <p class="section-label">History</p>
+    <button type="button" class="section-label section-toggle" id="histToggle" aria-expanded="false" aria-controls="histWrap">History <span class="chev">▸</span></button>
     <button type="button" class="clear-hist" id="clearHist" hidden>Clear history</button>
   </div>
-  <ul class="hist" id="histList"></ul>
+  <div id="histWrap" hidden>
+    <ul class="hist" id="histList"></ul>
+  </div>
 
   <p class="foot">Everything runs in your browser. Nothing is sent anywhere.</p>
 </div>
@@ -335,17 +351,21 @@ function render(){
     const n = String(i + 1).padStart(2, "0");
 
     if(t.disabled){
-      const inner =
-        '<div class="test-top">'
+      const head =
+        '<button type="button" class="test-toggle" aria-expanded="false">'
         +   '<span class="test-idx">' + n + '</span>'
         +   '<h3 class="test-title">' + esc(t.title) + '</h3>'
-        + '</div>'
-        + '<p class="test-desc">' + esc(t.desc) + '</p>'
-        + '<div class="test-foot">'
-        +   '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
-        +   '<span class="go go-mute">Coming soon</span>'
+        +   '<span class="chev">&#9656;</span>'
+        + '</button>';
+      const body =
+        '<div class="test-more" hidden>'
+        +   '<p class="test-desc">' + esc(t.desc) + '</p>'
+        +   '<div class="test-foot">'
+        +     '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
+        +     '<span class="go-link go-mute">Coming soon</span>'
+        +   '</div>'
         + '</div>';
-      return '<li><div class="test test-disabled">' + inner + '</div></li>';
+      return '<li><div class="test test-disabled">' + head + body + '</div></li>';
     }
 
     const rec = EW.getRecord(t.file);
@@ -362,23 +382,30 @@ function render(){
     }
     if(started && rec.startedAt) status += " · started " + fmtWhen(rec.startedAt);
 
-    const inner =
-      '<div class="test-top">'
-      +   (started
-            ? '<span class="badge ' + (done ? "badge-done" : "badge-open") + '">' + (done ? "Completed" : "Open") + '</span>'
-            : '<span class="test-idx">' + n + '</span>')
+    const badgeOrIdx = started
+      ? '<span class="badge ' + (done ? "badge-done" : "badge-open") + '">' + (done ? "Completed" : "Open") + '</span>'
+      : '<span class="test-idx">' + n + '</span>';
+
+    const head =
+      '<button type="button" class="test-toggle" aria-expanded="false">'
+      +   badgeOrIdx
       +   '<h3 class="test-title">' + esc(t.title) + '</h3>'
-      + '</div>'
-      + '<p class="test-desc">' + status + '</p>'
-      + '<div class="test-foot">'
-      +   '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
-      +   (!started ? '<span class="test-idx">' + esc(t.meta) + '</span>' : '')
-      +   '<span class="go">' + (done ? "View results" : (started ? "Resume" : "Start")) + ' &rarr;</span>'
+      +   '<span class="chev">&#9656;</span>'
+      + '</button>';
+
+    const body =
+      '<div class="test-more" hidden>'
+      +   '<p class="test-desc">' + status + '</p>'
+      +   '<div class="test-foot">'
+      +     '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
+      +     (!started ? '<span class="test-idx">' + esc(t.meta) + '</span>' : '')
+      +     '<a class="go-link" href="' + t.file + '">' + (done ? "View results" : (started ? "Resume" : "Start")) + ' &rarr;</a>'
+      +   '</div>'
+      +   (started ? '<button type="button" class="discont" data-file="' + t.file + '">Discontinue test</button>' : '')
       + '</div>';
 
     return '<li>'
-      + '<a class="test' + (started ? " test-active" : "") + '" href="' + t.file + '">' + inner + '</a>'
-      + (started ? '<button type="button" class="discont" data-file="' + t.file + '">Discontinue test</button>' : '')
+      + '<div class="test' + (started ? " test-active" : "") + '">' + head + body + '</div>'
       + '</li>';
   }).join("");
 
@@ -414,6 +441,15 @@ nameInput.value = EW.getName();
 nameInput.addEventListener("input", () => EW.setName(nameInput.value.trim()));
 
 document.getElementById("avail").addEventListener("click", e => {
+  const toggle = e.target.closest(".test-toggle");
+  if(toggle){
+    const card = toggle.closest(".test");
+    const more = card.querySelector(".test-more");
+    const open = card.classList.toggle("open");
+    more.hidden = !open;
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    return;
+  }
   const b = e.target.closest(".discont");
   if(!b) return;
   e.preventDefault();
@@ -426,6 +462,14 @@ document.getElementById("clearHist").addEventListener("click", () => {
   if(!confirm("Clear your test history? This removes all saved results and cannot be undone.")) return;
   EW.clearHistory();
   renderHistory();
+});
+
+const histToggle = document.getElementById("histToggle");
+const histWrap = document.getElementById("histWrap");
+histToggle.addEventListener("click", () => {
+  const open = histToggle.getAttribute("aria-expanded") !== "true";
+  histToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  histWrap.hidden = !open;
 });
 
 /* keep the landing page fresh if another tab changes things */
