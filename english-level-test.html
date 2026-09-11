@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var t=localStorage.getItem("eggwhite:theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Know Your English — Part 1 — Eggwhite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
 <style>
-@font-face{
-  font-family:"Wigglye";
-  src:url("fonts/Wigglye.woff2") format("woff2");
-  font-weight:400;font-style:normal;font-display:swap;
-}
 :root{
   --paper:#F7F1E1;          /* egg white — primary surface */
   --card:#FFFFFF;
@@ -31,10 +27,19 @@
   --yolk:#F2B60C;           /* egg yellow — secondary, fills & buttons */
   --nav-h:52px;
   --display:"Fraunces",Georgia,"Times New Roman",serif;
-  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --brand:"Caveat","Fraunces",Georgia,cursive;
   --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
 }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -54,15 +59,19 @@ body{
   position:fixed;top:0;left:0;right:0;z-index:40;
   display:flex;align-items:center;gap:10px;
   height:var(--nav-h);padding:0 16px;
-  background:var(--paper);border-bottom:1px solid var(--line);
-  text-decoration:none
+  background:var(--paper);border-bottom:1px solid var(--line)
 }
+.navbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.theme-toggle{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.theme-toggle:hover{border-color:var(--slate)}
+.theme-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
 .nav-logo{
-  width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;
+  width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;
   border:1.5px solid var(--yolk);background:#fff
 }
 .nav-name{
-  font-family:var(--brand);font-size:23px;line-height:1;
+  font-family:var(--brand);font-size:29px;line-height:1;
   letter-spacing:.045em;color:var(--violet);padding-top:3px
 }
 .wrap{max-width:640px;margin:0 auto;padding:0 16px}
@@ -136,7 +145,7 @@ body{
 .opts{display:flex;flex-direction:column;gap:7px}
 .opt{
   display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;
-  background:#FBF8F1;border:1.5px solid var(--line);border-radius:11px;
+  background:var(--surface2);border:1.5px solid var(--line);border-radius:11px;
   padding:12px 13px;font-family:var(--body);font-size:15.5px;color:var(--ink);
   cursor:pointer;line-height:1.35;transition:border-color .12s,background .12s;
   min-height:46px
@@ -150,7 +159,7 @@ body{
 
 .conf{display:flex;gap:7px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
 .chip{
-  flex:1;background:#FBF8F1;border:1.5px solid var(--line);border-radius:9px;
+  flex:1;background:var(--surface2);border:1.5px solid var(--line);border-radius:9px;
   padding:10px 4px;cursor:pointer;font-family:var(--body);font-size:12.5px;
   font-weight:500;color:var(--ink-soft);transition:all .12s;line-height:1.25;
   min-height:48px
@@ -291,10 +300,33 @@ body{
 </head>
 <body>
 
-<a class="navbar" href="index.html">
-  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
-  <span class="nav-name">Eggwhite</span>
-</a>
+<div class="navbar">
+  <a class="navbar-brand" href="index.html">
+    <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+    <span class="nav-name">Eggwhite</span>
+  </a>
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+</div>
+<script>
+(function(){
+  var KEY="eggwhite:theme";
+  var btn=document.getElementById("themeToggle");
+  function isDark(){
+    var t=document.documentElement.getAttribute("data-theme");
+    if(t==="dark") return true;
+    if(t==="light") return false;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function sync(){ if(btn){ var d=isDark(); btn.textContent=d?"☀️":"🌙"; btn.setAttribute("aria-pressed", d?"true":"false"); } }
+  sync();
+  if(btn) btn.addEventListener("click",function(){
+    var next = isDark() ? "light" : "dark";
+    try{ localStorage.setItem(KEY,next); }catch(e){}
+    document.documentElement.setAttribute("data-theme", next);
+    sync();
+  });
+})();
+</script>
 
 <div class="wrap">
   <header class="masthead">

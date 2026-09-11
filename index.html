@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var t=localStorage.getItem("eggwhite:theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>eggwhite — English Tests</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
 <style>
-@font-face{
-  font-family:"Wigglye";
-  src:url("fonts/Wigglye.woff2") format("woff2");
-  font-weight:400;font-style:normal;font-display:swap;
-}
 :root{
   --paper:#F7F1E1;          /* egg white — primary surface */
   --card:#FFFFFF;
@@ -34,25 +30,38 @@
   --yolk:#F2B60C;           /* egg yellow — secondary, fills & buttons */
   --nav-h:52px;
   --display:"Fraunces",Georgia,"Times New Roman",serif;
-  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --brand:"Caveat","Fraunces",Georgia,cursive;
   --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
 }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--steel:#5FB8C2;--steel-soft:#1D3A3D;--rose:#E8809F;--rose-soft:#3D2530;--indigo:#8AA4D9;--indigo-soft:#253449;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--steel:#5FB8C2;--steel-soft:#1D3A3D;--rose:#E8809F;--rose-soft:#3D2530;--indigo:#8AA4D9;--indigo-soft:#253449;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+
 
 /* ---------- fixed navbar ---------- */
 .navbar{
   position:fixed;top:0;left:0;right:0;z-index:40;
   display:flex;align-items:center;gap:10px;
   height:var(--nav-h);padding:0 16px;
-  background:var(--paper);border-bottom:1px solid var(--line);
-  text-decoration:none
+  background:var(--paper);border-bottom:1px solid var(--line)
 }
+.navbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.theme-toggle{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.theme-toggle:hover{border-color:var(--slate)}
+.theme-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
 .nav-logo{
-  width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;
+  width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;
   border:1.5px solid var(--yolk);background:#fff
 }
 .nav-name{
-  font-family:var(--brand);font-size:23px;line-height:1;
+  font-family:var(--brand);font-size:29px;line-height:1;
   letter-spacing:.045em;color:var(--violet);padding-top:3px
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -83,21 +92,21 @@ body{
 .masthead h1 em{font-style:normal;color:var(--violet)}
 .lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:48ch}
 
-/* ---------- name ---------- */
-.namebox{
-  background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:16px 18px;margin:4px 0 30px
+/* ---------- greeting / name ---------- */
+.greet-wrap{margin:4px 0 28px}
+.greet{
+  margin:0;font-family:var(--display);font-weight:600;font-size:19px;color:var(--ink);
+  cursor:pointer;padding:3px 0;border-bottom:1.5px dashed transparent;transition:border-color .12s;
+  display:inline-block
 }
-.namebox label{
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-soft);font-weight:600;display:block;margin-bottom:9px
+.greet:hover{border-color:var(--line)}
+.greet:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.greet .pencil{margin-left:7px;font-size:13px;color:var(--slate)}
+.greet-input{
+  width:100%;border:1.5px solid var(--violet);border-radius:9px;padding:10px 13px;
+  font-family:var(--body);font-size:16px;color:var(--ink);background:var(--card)
 }
-.namebox input{
-  width:100%;border:1.5px solid var(--line);border-radius:9px;padding:12px 13px;
-  font-family:var(--body);font-size:16px;color:var(--ink);background:#fff
-}
-.namebox input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft)}
-.namebox .hint{margin:9px 0 0;font-size:12.5px;color:var(--slate)}
+.greet-input:focus{outline:none;box-shadow:0 0 0 3px var(--violet-soft)}
 
 /* ---------- section labels ---------- */
 .section-label{
@@ -105,6 +114,14 @@ body{
   color:var(--ink-soft);margin:0 0 14px;font-weight:600
 }
 .section-label.second{margin-top:32px}
+
+.show-more{
+  width:100%;margin-top:12px;background:transparent;color:var(--violet);
+  border:1.5px solid var(--violet);border-radius:11px;padding:12px;
+  font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer
+}
+.show-more:hover{background:var(--violet-soft)}
+.show-more:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
 
 /* ---------- test cards ---------- */
 .tests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
@@ -210,10 +227,33 @@ body{
 </head>
 <body>
 
-<a class="navbar" href="index.html">
-  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
-  <span class="nav-name">Eggwhite</span>
-</a>
+<div class="navbar">
+  <a class="navbar-brand" href="index.html">
+    <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+    <span class="nav-name">Eggwhite</span>
+  </a>
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+</div>
+<script>
+(function(){
+  var KEY="eggwhite:theme";
+  var btn=document.getElementById("themeToggle");
+  function isDark(){
+    var t=document.documentElement.getAttribute("data-theme");
+    if(t==="dark") return true;
+    if(t==="light") return false;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function sync(){ if(btn){ var d=isDark(); btn.textContent=d?"☀️":"🌙"; btn.setAttribute("aria-pressed", d?"true":"false"); } }
+  sync();
+  if(btn) btn.addEventListener("click",function(){
+    var next = isDark() ? "light" : "dark";
+    try{ localStorage.setItem(KEY,next); }catch(e){}
+    document.documentElement.setAttribute("data-theme", next);
+    sync();
+  });
+})();
+</script>
 
 <div class="wrap">
   <header class="masthead">
@@ -222,14 +262,14 @@ body{
     <p class="lede">A small collection of self-scoring tests for grammar and vocabulary. Your progress is saved in this browser, so you can close the tab and come back to it.</p>
   </header>
 
-  <div class="namebox">
-    <label for="name">Your name <span style="text-transform:none;letter-spacing:0;color:var(--slate)">(optional)</span></label>
-    <input type="text" id="name" placeholder="e.g. Priya" autocomplete="name" autocapitalize="words" spellcheck="false">
-    <p class="hint">Used only to label your results. Stays on this device.</p>
+  <div class="greet-wrap">
+    <p class="greet" id="greet" tabindex="0" role="button" aria-label="Click to add or edit your name"></p>
+    <input type="text" id="greetInput" class="greet-input" hidden placeholder="Your name (optional)" autocomplete="name" autocapitalize="words" spellcheck="false">
   </div>
 
   <p class="section-label">Tests</p>
   <ul class="tests" id="avail"></ul>
+  <button type="button" class="show-more" id="showMoreTests" hidden></button>
 
   <div class="section-head second">
     <button type="button" class="section-label section-toggle" id="histToggle" aria-expanded="false" aria-controls="histWrap">History <span class="chev">▸</span></button>
@@ -353,10 +393,16 @@ function fmtWhen(ms){
   return d.toLocaleDateString([], {month:"short", day:"numeric"}) + ", " + t;
 }
 
+let showAllTests = false;
+const TESTS_LATEST_FIRST = TESTS.slice().reverse();
+
 function render(){
   const availBox = document.getElementById("avail");
-  availBox.innerHTML = TESTS.map((t, i) => {
+  availBox.innerHTML = TESTS_LATEST_FIRST.map((t, i) => {
     const n = String(i + 1).padStart(2, "0");
+    if(i >= 4 && !showAllTests){
+      return "";
+    }
 
     if(t.disabled){
       const head =
@@ -417,6 +463,15 @@ function render(){
       + '</li>';
   }).join("");
 
+  const moreBtn = document.getElementById("showMoreTests");
+  const hiddenCount = TESTS_LATEST_FIRST.length - 4;
+  if(hiddenCount > 0){
+    moreBtn.hidden = false;
+    moreBtn.textContent = showAllTests ? "Show fewer tests" : "Show more tests (" + hiddenCount + " more)";
+  } else {
+    moreBtn.hidden = true;
+  }
+
   /* --- history section --- */
   renderHistory();
 }
@@ -443,10 +498,66 @@ function renderHistory(){
   }).join("");
 }
 
+/* ============ GREETING (rotating phrase, click to edit name) ============ */
+const GREETINGS = [
+  ["Ready to test your English, {n}?", "Ready to test your English?"],
+  ["Hey {n} — pick a test and let's go.", "Pick a test below and let's go."],
+  ["Welcome back, {n}. Your scores are waiting below.", "Welcome back. Your scores are waiting below."],
+  ["{n}, let's see what you've got today.", "Let's see what you've got today."],
+  ["Good to see you, {n} — jump into a test whenever you're ready.", "Jump into a test whenever you're ready."],
+  ["{n}'s on the clock. Let's go.", "The clock's ticking. Let's go."],
+  ["Alright {n}, which test are we tackling today?", "Alright, which test are we tackling today?"],
+  ["Hi {n}! Your English practice starts here.", "Your English practice starts here."],
+  ["{n}, you know the drill — pick a test below.", "You know the drill — pick a test below."],
+  ["Let's go, {n}. Every test sharpens something.", "Let's go. Every test sharpens something."]
+];
+const greetIdx = Math.floor(Math.random() * GREETINGS.length);
+const greetEl = document.getElementById("greet");
+const greetInput = document.getElementById("greetInput");
+let editingName = false;
+
+function renderGreet(){
+  const name = EW.getName();
+  const [withName, noName] = GREETINGS[greetIdx];
+  const text = name ? withName.replace("{n}", name) : noName;
+  greetEl.textContent = text + " ";
+  const pencil = document.createElement("span");
+  pencil.className = "pencil";
+  pencil.textContent = "✎";
+  greetEl.appendChild(pencil);
+}
+function startEdit(){
+  editingName = true;
+  greetInput.value = EW.getName();
+  greetEl.hidden = true;
+  greetInput.hidden = false;
+  greetInput.focus();
+  greetInput.select();
+}
+function stopEdit(save){
+  if(!editingName) return;
+  editingName = false;
+  if(save) EW.setName(greetInput.value.trim());
+  renderGreet();
+  greetEl.hidden = false;
+  greetInput.hidden = true;
+}
+renderGreet();
+greetEl.addEventListener("click", startEdit);
+greetEl.addEventListener("keydown", e => {
+  if(e.key === "Enter" || e.key === " "){ e.preventDefault(); startEdit(); }
+});
+greetInput.addEventListener("blur", () => stopEdit(true));
+greetInput.addEventListener("keydown", e => {
+  if(e.key === "Enter"){ e.preventDefault(); greetInput.blur(); }
+  if(e.key === "Escape"){ e.preventDefault(); stopEdit(false); }
+});
+
 /* ============ WIRING ============ */
-const nameInput = document.getElementById("name");
-nameInput.value = EW.getName();
-nameInput.addEventListener("input", () => EW.setName(nameInput.value.trim()));
+document.getElementById("showMoreTests").addEventListener("click", () => {
+  showAllTests = !showAllTests;
+  render();
+});
 
 document.getElementById("avail").addEventListener("click", e => {
   const toggle = e.target.closest(".test-toggle");

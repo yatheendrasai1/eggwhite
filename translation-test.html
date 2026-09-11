@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var t=localStorage.getItem("eggwhite:theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Translation Test — Eggwhite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
 <style>
-@font-face{
-  font-family:"Wigglye";
-  src:url("fonts/Wigglye.woff2") format("woff2");
-  font-weight:400;font-style:normal;font-display:swap;
-}
 :root{
   --paper:#F7F1E1;--card:#FFFFFF;--ink:#2B2721;--ink-soft:#7C7160;--line:#E9E0CB;
   --violet:#B5831C;--violet-soft:#FBEECB;--ochre:#CF7A2E;--ochre-soft:#FBE9D6;
@@ -20,20 +16,34 @@
   --slate:#A99E88;--good:#2A6E52;--good-soft:#E2F0EA;--bad:#B23A1B;--bad-soft:#FBE7E0;
   --yolk:#F2B60C;--nav-h:52px;
   --display:"Fraunces",Georgia,serif;
-  --brand:"Wigglye","Fraunces",Georgia,cursive;
+  --brand:"Caveat","Fraunces",Georgia,cursive;
   --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --telugu:"Noto Sans Telugu","Public Sans",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--indigo:#8AA4D9;--indigo-soft:#253449;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--indigo:#8AA4D9;--indigo-soft:#253449;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-top:var(--nav-h);padding-bottom:100px;overflow-wrap:break-word}
 
 /* ---------- fixed navbar ---------- */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line);text-decoration:none}
-.nav-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
-.nav-name{font-family:var(--brand);font-size:23px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;height:var(--nav-h);padding:0 16px;background:var(--paper);border-bottom:1px solid var(--line)}
+.navbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.theme-toggle{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.theme-toggle:hover{border-color:var(--slate)}
+.theme-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
+.nav-logo{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--yolk);background:#fff}
+.nav-name{font-family:var(--brand);font-size:29px;line-height:1;letter-spacing:.045em;color:var(--violet);padding-top:3px}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px}
 
 .masthead{padding:20px 0 20px}
@@ -71,8 +81,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 .q-src{margin:0 0 12px;font-size:20px;line-height:1.5;font-weight:600}
 .q-src.telugu{font-family:var(--telugu)}
 .q-src.hinglish{font-family:var(--display);font-style:italic;font-weight:600}
-.ans{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:11px 12px;font-family:var(--body);font-size:16px;color:var(--ink);background:#FBF8F1}
-.ans:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft);background:#fff}
+.ans{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:11px 12px;font-family:var(--body);font-size:16px;color:var(--ink);background:var(--surface2)}
+.ans:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft);background:var(--card)}
 
 /* ---------- submit ---------- */
 .submit-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,241,225,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
@@ -93,8 +103,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 .xstep h3{font-family:var(--display);font-weight:600;font-size:19px;margin:0 0 6px}
 .xstep .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);font-weight:600}
 .xstep p{margin:8px 0 0;color:var(--ink-soft);font-size:14px;line-height:1.55}
-.xbox{width:100%;min-height:160px;margin-top:12px;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-family:var(--mono);font-size:12.5px;line-height:1.55;color:var(--ink);background:#FBF8F1;resize:vertical}
-.xbox:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft);background:#fff}
+.xbox{width:100%;min-height:160px;margin-top:12px;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-family:var(--mono);font-size:12.5px;line-height:1.55;color:var(--ink);background:var(--surface2);resize:vertical}
+.xbox:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft);background:var(--card)}
 .xbtns{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
 .xbtn{flex:1;min-width:140px;background:var(--indigo);color:#fff;border:none;border-radius:10px;padding:12px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer}
 .xbtn.ghost2{background:transparent;color:var(--indigo);border:1.5px solid var(--indigo)}
@@ -168,10 +178,33 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 </head>
 <body>
 
-<a class="navbar" href="index.html">
-  <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
-  <span class="nav-name">Eggwhite</span>
-</a>
+<div class="navbar">
+  <a class="navbar-brand" href="index.html">
+    <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+    <span class="nav-name">Eggwhite</span>
+  </a>
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+</div>
+<script>
+(function(){
+  var KEY="eggwhite:theme";
+  var btn=document.getElementById("themeToggle");
+  function isDark(){
+    var t=document.documentElement.getAttribute("data-theme");
+    if(t==="dark") return true;
+    if(t==="light") return false;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function sync(){ if(btn){ var d=isDark(); btn.textContent=d?"☀️":"🌙"; btn.setAttribute("aria-pressed", d?"true":"false"); } }
+  sync();
+  if(btn) btn.addEventListener("click",function(){
+    var next = isDark() ? "light" : "dark";
+    try{ localStorage.setItem(KEY,next); }catch(e){}
+    document.documentElement.setAttribute("data-theme", next);
+    sync();
+  });
+})();
+</script>
 
 <div class="wrap">
   <header class="masthead">
