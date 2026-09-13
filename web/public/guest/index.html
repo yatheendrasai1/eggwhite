@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>try{var t=localStorage.getItem("eggwhite:theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>eggwhite — English Tests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F1E1;          /* egg white — primary surface */
+  --card:#FFFFFF;
+  --ink:#2B2721;
+  --ink-soft:#7C7160;
+  --line:#E9E0CB;
+  --violet:#B5831C;         /* deep yolk — accent text, borders, links */
+  --violet-soft:#FBEECB;    /* pale yolk — selected backgrounds */
+  --ochre:#CF7A2E;          /* shell orange — secondary flag accent */
+  --ochre-soft:#FBE9D6;
+  --steel:#2E6E76;          /* slate teal — third flag accent */
+  --steel-soft:#DCEBEA;
+  --rose:#A63D5C;           /* deep berry — fourth flag accent */
+  --rose-soft:#F6DEE6;
+  --indigo:#3E5C8A;         /* muted indigo — fifth flag accent */
+  --indigo-soft:#DEE5F2;
+  --slate:#A99E88;
+  --bad:#B23A1B;
+  --yolk:#F2B60C;           /* egg yellow — secondary, fills & buttons */
+  --nav-h:52px;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --brand:"Caveat","Fraunces",Georgia,cursive;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--steel:#5FB8C2;--steel-soft:#1D3A3D;--rose:#E8809F;--rose-soft:#3D2530;--indigo:#8AA4D9;--indigo-soft:#253449;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#1E1A15;--card:#2A251E;--ink:#F2ECDD;--ink-soft:#B3A78E;--line:#423B2F;--surface2:#332D24;--violet:#E8B84B;--violet-soft:#4A3B1A;--ochre:#E8935A;--ochre-soft:#4A3223;--steel:#5FB8C2;--steel-soft:#1D3A3D;--rose:#E8809F;--rose-soft:#3D2530;--indigo:#8AA4D9;--indigo-soft:#253449;--slate:#8C8270;--good:#5FBF95;--good-soft:#1C3A2C;--bad:#E8735A;--bad-soft:#402019;
+  }
+
+
+/* ---------- fixed navbar ---------- */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;gap:10px;
+  height:var(--nav-h);padding:0 16px;
+  background:var(--paper);border-bottom:1px solid var(--line)
+}
+.navbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.theme-toggle{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.theme-toggle:hover{border-color:var(--slate)}
+.theme-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
+.nav-logo{
+  width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;
+  border:1.5px solid var(--yolk);background:#fff
+}
+.nav-name{
+  font-family:var(--brand);font-size:29px;line-height:1;
+  letter-spacing:.045em;color:var(--violet);padding-top:3px
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.5;
+  padding-top:var(--nav-h);
+  padding-bottom:64px;
+  overflow-wrap:break-word;
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+/* ---------- header ---------- */
+.masthead{padding:26px 0 20px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--violet);margin:0 0 10px
+}
+.masthead h1{
+  font-family:var(--brand);font-weight:400;font-size:clamp(32px,8.6vw,44px);line-height:1.1;
+  margin:0 0 12px;letter-spacing:.01em
+}
+.masthead h1 em{font-style:normal;color:var(--violet)}
+.lede{margin:0;color:var(--ink-soft);font-size:15px;max-width:48ch}
+
+/* ---------- greeting / name ---------- */
+.greet-wrap{margin:4px 0 28px}
+.greet{
+  margin:0;font-family:var(--display);font-weight:600;font-size:19px;color:var(--ink);
+  cursor:pointer;padding:3px 0;border-bottom:1.5px dashed transparent;transition:border-color .12s;
+  display:inline-block
+}
+.greet:hover{border-color:var(--line)}
+.greet:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.greet .pencil{margin-left:7px;font-size:13px;color:var(--slate)}
+.greet-input{
+  width:100%;border:1.5px solid var(--violet);border-radius:9px;padding:10px 13px;
+  font-family:var(--body);font-size:16px;color:var(--ink);background:var(--card)
+}
+.greet-input:focus{outline:none;box-shadow:0 0 0 3px var(--violet-soft)}
+
+/* ---------- section labels ---------- */
+.section-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 14px;font-weight:600
+}
+.section-label.second{margin-top:32px}
+
+.show-more{
+  width:100%;margin-top:12px;background:transparent;color:var(--violet);
+  border:1.5px solid var(--violet);border-radius:11px;padding:12px;
+  font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer
+}
+.show-more:hover{background:var(--violet-soft)}
+.show-more:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
+/* ---------- test cards ---------- */
+.tests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.test{
+  display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:0;color:inherit;
+  transition:border-color .12s,box-shadow .12s
+}
+.test:hover{border-color:var(--violet);box-shadow:0 6px 22px rgba(181,131,28,.14)}
+.test-toggle{
+  display:flex;align-items:center;gap:10px;width:100%;flex-wrap:wrap;
+  background:none;border:none;margin:0;padding:20px 18px;
+  font:inherit;color:inherit;text-align:left;cursor:pointer
+}
+.test-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:-3px;border-radius:16px}
+.test-idx{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--slate);flex:none}
+.test-title{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;margin:0}
+.chev{margin-left:auto;color:var(--slate);font-size:13px;flex:none;transition:transform .15s}
+.test.open .chev{transform:rotate(90deg)}
+.test-more{padding:0 18px 20px}
+.test-desc{margin:0 0 14px;color:var(--ink-soft);font-size:14.5px}
+.test-foot{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap}
+.tag{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;border-radius:6px;padding:4px 8px
+}
+.tag-v{background:var(--violet-soft);color:var(--violet)}
+.tag-o{background:var(--ochre-soft);color:var(--ochre)}
+.tag-g{background:var(--steel-soft);color:var(--steel)}
+.tag-t{background:var(--rose-soft);color:var(--rose)}
+.tag-c{background:var(--indigo-soft);color:var(--indigo)}
+.go-link{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--violet);text-decoration:none}
+.go-link:hover{text-decoration:underline}
+.go-link:focus-visible{outline:3px solid var(--violet);outline-offset:2px;border-radius:4px}
+
+/* active */
+.test-active{border-color:var(--violet);box-shadow:0 4px 18px rgba(181,131,28,.16)}
+.test-disabled{opacity:.55}
+.go-mute{color:var(--slate)}
+.badge{
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  border-radius:6px;padding:4px 8px;flex:none
+}
+.badge-open{background:var(--violet-soft);color:var(--violet)}
+.badge-done{background:#E2F0EA;color:#2A6E52}
+
+/* filler + discontinue */
+.filler{
+  background:var(--card);border:1px dashed var(--line);border-radius:14px;
+  padding:20px 18px;margin:0;color:var(--ink-soft);font-size:14px;text-align:center
+}
+.discont{
+  width:100%;margin-top:10px;background:transparent;color:var(--ink-soft);
+  border:1.5px solid var(--line);border-radius:11px;padding:12px;
+  font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;
+  transition:border-color .12s,color .12s
+}
+.discont:hover{border-color:var(--bad);color:var(--bad)}
+.discont:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
+/* ---------- history ---------- */
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 14px}
+.section-head.second{margin-top:32px}
+.section-head .section-label{margin:0}
+.section-toggle{
+  background:none;border:none;padding:0;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px
+}
+.section-toggle:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.section-toggle[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.clear-hist{
+  background:transparent;border:none;padding:0;cursor:pointer;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+  color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;
+  transition:color .12s
+}
+.clear-hist:hover{color:var(--bad)}
+.clear-hist:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hist-item{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px
+}
+.hist-top{display:flex;align-items:baseline;gap:8px 10px;flex-wrap:wrap;margin-bottom:3px}
+.hist-title{font-family:var(--display);font-weight:600;font-size:15.5px;margin:0}
+.hist-score{margin-left:auto;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--violet);flex:none}
+.hist-report{margin:0;font-size:13px;color:var(--ink-soft)}
+.hist-meta{margin:6px 0 0;font-size:12px;color:var(--slate)}
+
+.foot{text-align:center;color:var(--slate);font-size:12.5px;margin:34px 0 0}
+
+@media (max-width:400px){
+  .wrap{padding:0 14px}
+  .navbar{padding:0 14px}
+  .test{padding:18px 15px}
+  .namebox{padding:15px 15px}
+  .section-label.second{margin-top:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a class="navbar-brand" href="index.html">
+    <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
+    <span class="nav-name">Eggwhite</span>
+  </a>
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
+</div>
+<script>
+(function(){
+  var KEY="eggwhite:theme";
+  var btn=document.getElementById("themeToggle");
+  function isDark(){
+    var t=document.documentElement.getAttribute("data-theme");
+    if(t==="dark") return true;
+    if(t==="light") return false;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function sync(){ if(btn){ var d=isDark(); btn.textContent=d?"☀️":"🌙"; btn.setAttribute("aria-pressed", d?"true":"false"); } }
+  sync();
+  if(btn) btn.addEventListener("click",function(){
+    var next = isDark() ? "light" : "dark";
+    try{ localStorage.setItem(KEY,next); }catch(e){}
+    document.documentElement.setAttribute("data-theme", next);
+    sync();
+  });
+})();
+</script>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">eggwhite · English practice</p>
+    <h1>Test <em>your</em> English</h1>
+    <p class="lede">A small collection of self-scoring tests for grammar and vocabulary. Your progress is saved in this browser, so you can close the tab and come back to it.</p>
+  </header>
+
+  <div class="greet-wrap">
+    <p class="greet" id="greet" tabindex="0" role="button" aria-label="Click to add or edit your name"></p>
+    <input type="text" id="greetInput" class="greet-input" hidden placeholder="Your name (optional)" autocomplete="name" autocapitalize="words" spellcheck="false">
+  </div>
+
+  <p class="section-label">Tests</p>
+  <ul class="tests" id="avail"></ul>
+  <button type="button" class="show-more" id="showMoreTests" hidden></button>
+
+  <div class="section-head second">
+    <button type="button" class="section-label section-toggle" id="histToggle" aria-expanded="false" aria-controls="histWrap">History <span class="chev">▸</span></button>
+    <button type="button" class="clear-hist" id="clearHist" hidden>Clear history</button>
+  </div>
+  <div id="histWrap" hidden>
+    <ul class="hist" id="histList"></ul>
+  </div>
+
+  <p class="foot">Everything runs in your browser. Nothing is sent anywhere.</p>
+</div>
+
+<script>
+/* ============ eggwhite storage helper ============ */
+const EW = (() => {
+  const NAME = "eggwhite:name";
+  const HISTORY = "eggwhite:history";
+  const rec = f => "eggwhite:test:" + f;
+  const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+  const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
+  const gs = k => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  return {
+    rec,
+    getName: () => gs(NAME),
+    setName: v => { try { v ? localStorage.setItem(NAME, v) : rm(NAME); } catch (e) {} },
+    getRecord: f => gj(rec(f), null),
+    saveRecord: (f, r) => sj(rec(f), r),
+    clearRecord: f => rm(rec(f)),
+    getHistory: () => gj(HISTORY, []),
+    addHistory: entry => { const h = gj(HISTORY, []); h.unshift(entry); if (h.length > 100) h.length = 100; sj(HISTORY, h); },
+    clearHistory: () => rm(HISTORY),
+  };
+})();
+
+/* ============ TEST REGISTRY ============
+   Add a new test by appending one entry here. */
+const TESTS = [
+  {
+    file: "english-level-test.html",
+    title: "Know Your English - Part 1",
+    desc: "Vocabulary and grammar across 60 questions. Answer with a confidence rating and get a CEFR level (A2–C2) at the end.",
+    meta: "60 questions",
+    tag: "Vocabulary & Grammar",
+    kind: "v"
+  },
+  {
+    file: "inbox-test.html",
+    title: "Know Your English - Part 2",
+    desc: "Two parts: catch and fix the wrong phrases in three workplace emails, then 20 corporate vocabulary questions. Harder than the level test.",
+    meta: "Editing + 20 words · Round 2",
+    tag: "Corporate English",
+    kind: "o"
+  },
+  {
+    file: "preposition-party-test.html",
+    title: "The Preposition Party!",
+    desc: "Complete real corporate phrases from emails and meetings, then choose the right preposition in common collocations. Covers the classic “look forward to seeing” trap.",
+    meta: "32 items · Round 3",
+    tag: "Grammar Drill",
+    kind: "g"
+  },
+  {
+    file: "tension-test.html",
+    title: "‘Tense’ion in the Air",
+    desc: "Present perfect or simple past? Will or going to? Fix the tense in real workplace sentences, then choose the right form in context.",
+    meta: "32 items · Round 4",
+    tag: "Grammar Drill",
+    kind: "t"
+  },
+  {
+    file: "translation-test.html",
+    title: "Translation Test",
+    desc: "Sixteen work phrases in Telugu and Hinglish — type what they mean in English. Free translation, graded by exporting your answers to any AI chat.",
+    meta: "16 phrases · Round 5",
+    tag: "Translation",
+    kind: "c",
+    disabled: true
+  },
+  {
+    file: "tension-test-2.html",
+    title: "‘Tense’ion in the Air — Part 2",
+    desc: "Four trickier patterns: duration before a past point, action in progress at a future moment, modal perfects (should have, must have…), and the one rule that never takes “will.”",
+    meta: "32 items · Round 6",
+    tag: "Grammar Drill",
+    kind: "t"
+  },
+  {
+    file: "articles-test.html",
+    title: "The Article of the Matter",
+    desc: "Hindi and Telugu have no articles at all, which makes “a,” “an,” “the,” and no-article the single most common daily slip. Fill the gap, then pick the one correctly-articled version of each sentence.",
+    meta: "32 items · Round 7",
+    tag: "Grammar Drill",
+    kind: "g"
+  },
+  {
+    file: "corporate-confusion-test.html",
+    title: "The Corporate Confusion",
+    desc: "“Revert back,” “discuss about,” “kindly do the needful” — cut the padding from real email phrases, then tell affect from effect, its from it's, loose from lose.",
+    meta: "30 items · Round 8",
+    tag: "Corporate English",
+    kind: "o"
+  },
+  {
+    file: "incorrectly-correct-test.html",
+    title: "The Incorrectly Correct Things",
+    desc: "“I am knowing” and “do a mistake” both sound fine in your head. Fix the stative verbs that never take “-ing,” then pick the fixed word pairing English actually uses.",
+    meta: "25 items · Round 9",
+    tag: "Grammar Drill",
+    kind: "t"
+  }
+];
+
+/* ============ RENDER ============ */
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmtWhen(ms){
+  if(!ms) return "";
+  const d = new Date(ms), now = new Date();
+  const t = d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+  if(d.toDateString() === now.toDateString()) return "today " + t;
+  return d.toLocaleDateString([], {month:"short", day:"numeric"}) + ", " + t;
+}
+
+let showAllTests = false;
+const TESTS_LATEST_FIRST = TESTS.slice().reverse();
+
+function render(){
+  const availBox = document.getElementById("avail");
+  availBox.innerHTML = TESTS_LATEST_FIRST.map((t, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    if(i >= 4 && !showAllTests){
+      return "";
+    }
+
+    if(t.disabled){
+      const head =
+        '<button type="button" class="test-toggle" aria-expanded="false">'
+        +   '<span class="test-idx">' + n + '</span>'
+        +   '<h3 class="test-title">' + esc(t.title) + '</h3>'
+        +   '<span class="chev">&#9656;</span>'
+        + '</button>';
+      const body =
+        '<div class="test-more" hidden>'
+        +   '<p class="test-desc">' + esc(t.desc) + '</p>'
+        +   '<div class="test-foot">'
+        +     '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
+        +     '<span class="go-link go-mute">Coming soon</span>'
+        +   '</div>'
+        + '</div>';
+      return '<li><div class="test test-disabled">' + head + body + '</div></li>';
+    }
+
+    const rec = EW.getRecord(t.file);
+    const started = !!rec;
+    const done = started && rec.status === "completed";
+
+    let status;
+    if(done){
+      status = "Completed" + (rec.summary && rec.summary.line ? " · " + rec.summary.line : "");
+    } else if(started){
+      status = "In progress" + (rec.progress ? " · " + rec.progress.done + "/" + rec.progress.total + " answered" : "");
+    } else {
+      status = t.desc;
+    }
+    if(started && rec.startedAt) status += " · started " + fmtWhen(rec.startedAt);
+
+    const badgeOrIdx = started
+      ? '<span class="badge ' + (done ? "badge-done" : "badge-open") + '">' + (done ? "Completed" : "Open") + '</span>'
+      : '<span class="test-idx">' + n + '</span>';
+
+    const head =
+      '<button type="button" class="test-toggle" aria-expanded="false">'
+      +   badgeOrIdx
+      +   '<h3 class="test-title">' + esc(t.title) + '</h3>'
+      +   '<span class="chev">&#9656;</span>'
+      + '</button>';
+
+    const body =
+      '<div class="test-more" hidden>'
+      +   '<p class="test-desc">' + status + '</p>'
+      +   '<div class="test-foot">'
+      +     '<span class="tag tag-' + t.kind + '">' + esc(t.tag) + '</span>'
+      +     (!started ? '<span class="test-idx">' + esc(t.meta) + '</span>' : '')
+      +     '<a class="go-link" href="' + t.file + '">' + (done ? "View results" : (started ? "Resume" : "Start")) + ' &rarr;</a>'
+      +   '</div>'
+      +   (started ? '<button type="button" class="discont" data-file="' + t.file + '">Discontinue test</button>' : '')
+      + '</div>';
+
+    return '<li>'
+      + '<div class="test' + (started ? " test-active" : "") + '">' + head + body + '</div>'
+      + '</li>';
+  }).join("");
+
+  const moreBtn = document.getElementById("showMoreTests");
+  const hiddenCount = TESTS_LATEST_FIRST.length - 4;
+  if(hiddenCount > 0){
+    moreBtn.hidden = false;
+    moreBtn.textContent = showAllTests ? "Show fewer tests" : "Show more tests (" + hiddenCount + " more)";
+  } else {
+    moreBtn.hidden = true;
+  }
+
+  /* --- history section --- */
+  renderHistory();
+}
+
+function renderHistory(){
+  const hist = EW.getHistory();
+  const listBox = document.getElementById("histList");
+  const clearBtn = document.getElementById("clearHist");
+  clearBtn.hidden = hist.length === 0;
+  if(hist.length === 0){
+    listBox.innerHTML = '<p class="filler">No tests completed yet. Finished attempts will show up here.</p>';
+    return;
+  }
+  listBox.innerHTML = hist.map(h => {
+    const meta = TESTS.find(t => t.file === h.file) || { title: h.title || h.file };
+    return '<li class="hist-item">'
+      +   '<div class="hist-top">'
+      +     '<h3 class="hist-title">' + esc(meta.title) + '</h3>'
+      +     '<span class="hist-score">' + esc(h.summary && h.summary.line || "") + '</span>'
+      +   '</div>'
+      +   (h.report ? '<p class="hist-report">' + esc(h.report) + '</p>' : '')
+      +   '<p class="hist-meta">' + (h.name ? esc(h.name) + " · " : "") + fmtWhen(h.completedAt) + '</p>'
+      + '</li>';
+  }).join("");
+}
+
+/* ============ GREETING (rotating phrase, click to edit name) ============ */
+const GREETINGS = [
+  ["Ready to test your English, {n}?", "Ready to test your English?"],
+  ["Hey {n} — pick a test and let's go.", "Pick a test below and let's go."],
+  ["Welcome back, {n}. Your scores are waiting below.", "Welcome back. Your scores are waiting below."],
+  ["{n}, let's see what you've got today.", "Let's see what you've got today."],
+  ["Good to see you, {n} — jump into a test whenever you're ready.", "Jump into a test whenever you're ready."],
+  ["{n}'s on the clock. Let's go.", "The clock's ticking. Let's go."],
+  ["Alright {n}, which test are we tackling today?", "Alright, which test are we tackling today?"],
+  ["Hi {n}! Your English practice starts here.", "Your English practice starts here."],
+  ["{n}, you know the drill — pick a test below.", "You know the drill — pick a test below."],
+  ["Let's go, {n}. Every test sharpens something.", "Let's go. Every test sharpens something."]
+];
+const greetIdx = Math.floor(Math.random() * GREETINGS.length);
+const greetEl = document.getElementById("greet");
+const greetInput = document.getElementById("greetInput");
+let editingName = false;
+
+function renderGreet(){
+  const name = EW.getName();
+  const [withName, noName] = GREETINGS[greetIdx];
+  const text = name ? withName.replace("{n}", name) : noName;
+  greetEl.textContent = text + " ";
+  const pencil = document.createElement("span");
+  pencil.className = "pencil";
+  pencil.textContent = "✎";
+  greetEl.appendChild(pencil);
+}
+function startEdit(){
+  editingName = true;
+  greetInput.value = EW.getName();
+  greetEl.hidden = true;
+  greetInput.hidden = false;
+  greetInput.focus();
+  greetInput.select();
+}
+function stopEdit(save){
+  if(!editingName) return;
+  editingName = false;
+  if(save) EW.setName(greetInput.value.trim());
+  renderGreet();
+  greetEl.hidden = false;
+  greetInput.hidden = true;
+}
+renderGreet();
+greetEl.addEventListener("click", startEdit);
+greetEl.addEventListener("keydown", e => {
+  if(e.key === "Enter" || e.key === " "){ e.preventDefault(); startEdit(); }
+});
+greetInput.addEventListener("blur", () => stopEdit(true));
+greetInput.addEventListener("keydown", e => {
+  if(e.key === "Enter"){ e.preventDefault(); greetInput.blur(); }
+  if(e.key === "Escape"){ e.preventDefault(); stopEdit(false); }
+});
+
+/* ============ WIRING ============ */
+document.getElementById("showMoreTests").addEventListener("click", () => {
+  showAllTests = !showAllTests;
+  render();
+});
+
+document.getElementById("avail").addEventListener("click", e => {
+  const toggle = e.target.closest(".test-toggle");
+  if(toggle){
+    const card = toggle.closest(".test");
+    const more = card.querySelector(".test-more");
+    const open = card.classList.toggle("open");
+    more.hidden = !open;
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    return;
+  }
+  const b = e.target.closest(".discont");
+  if(!b) return;
+  e.preventDefault();
+  if(!confirm("Discontinue this test? The saved answers and result for it will be erased.")) return;
+  EW.clearRecord(b.dataset.file);
+  render();
+});
+
+document.getElementById("clearHist").addEventListener("click", () => {
+  if(!confirm("Clear your test history? This removes all saved results and cannot be undone.")) return;
+  EW.clearHistory();
+  renderHistory();
+});
+
+const histToggle = document.getElementById("histToggle");
+const histWrap = document.getElementById("histWrap");
+histToggle.addEventListener("click", () => {
+  const open = histToggle.getAttribute("aria-expanded") !== "true";
+  histToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  histWrap.hidden = !open;
+});
+
+/* keep the landing page fresh if another tab changes things */
+window.addEventListener("storage", render);
+window.addEventListener("pageshow", render);
+
+render();
+</script>
+</body>
+</html>

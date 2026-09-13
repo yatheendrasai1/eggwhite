@@ -36,6 +36,9 @@ export default async function LandingPage() {
             <p className="foot" style={{ margin: "16px 0 0" }}>
               We store your name, email and test results. Nothing else.
             </p>
+            <p className="foot" style={{ margin: "8px 0 0" }}>
+              <a href="/guest/index.html">Just a guest? Try the tests without signing in →</a>
+            </p>
           </div>
         )}
 
