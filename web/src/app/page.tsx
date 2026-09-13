@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import { getActiveAttempts, listAttempts } from "@/lib/attempts";
 import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
-import { randomFunFact } from "@/lib/funFacts";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -54,8 +53,6 @@ export default async function LandingPage() {
             We store your name, email and test results. Nothing else.
           </p>
         </div>
-
-        <p className="fun-fact">💡 {randomFunFact()}</p>
       </div>
     </main>
   );

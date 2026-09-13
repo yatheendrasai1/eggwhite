@@ -196,16 +196,6 @@ body {
   font-size: 15px;
   max-width: 40ch;
 }
-.fun-fact {
-  margin: 20px 0 8px;
-  font-size: 13px;
-  color: var(--ink-soft);
-  text-align: center;
-  background: var(--card);
-  border: 1px dashed var(--line);
-  border-radius: 12px;
-  padding: 12px 16px;
-}
 
 .howto {
   background: var(--card);
@@ -1192,6 +1182,39 @@ a.test:active {
   border-radius: 16px;
   padding: 24px 20px;
   margin: 8px 0;
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 39, 33, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+.modal-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 24px;
+  max-width: 420px;
+  width: 100%;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.modal-close:hover {
+  color: var(--violet);
 }
 .oauth-btn {
   width: 100%;

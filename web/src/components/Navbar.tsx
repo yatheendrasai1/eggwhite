@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import { SignInLink, SignOutButton } from "@/components/AuthButtons";
+import { AboutUs } from "@/components/AboutUs";
 
 export async function Navbar() {
   const session = await auth();
@@ -17,6 +18,7 @@ export async function Navbar() {
         <span className="nav-name">Eggwhite</span>
       </Link>
       <div className="nav-spacer">
+        <AboutUs />
         {user ? (
           <>
             <Link href="/me" className="nav-user" style={{ textDecoration: "none" }}>
