@@ -4,7 +4,7 @@ Full-stack rewrite of the eggwhite English tests.
 
 - **Next.js 16** (App Router, TypeScript) — one deployable unit for UI **and** API.
 - **MongoDB Atlas** via **Mongoose** (`Attempt` model) + the native driver for the auth adapter.
-- **Auth.js v5** — Google & GitHub OAuth, sessions stored in MongoDB.
+- **Auth.js v5** — Google OAuth, sessions stored in MongoDB.
 - **Tailwind v4** available; the egg-white theme lives as CSS tokens in `src/app/globals.css`.
 
 ## Architecture
@@ -66,16 +66,13 @@ Signed-out pages render without a database. Signing in and taking a test needs
 | `MONGODB_URI` | Atlas → **Connect → Drivers**. Put the DB name in the path (`/eggwhite`). The adapter uses database `eggwhite`. |
 | `AUTH_SECRET` | `npx auth secret` (or `openssl rand -base64 33`) |
 | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google Cloud Console → **APIs & Services → Credentials → OAuth client ID → Web application** |
-| `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET` | GitHub → **Settings → Developer settings → OAuth Apps → New** |
 | `AUTH_URL` | local only, `http://localhost:3000`. Vercel sets it automatically. |
 
 OAuth redirect / callback URLs to register:
 
 ```
 http://localhost:3000/api/auth/callback/google
-http://localhost:3000/api/auth/callback/github
 https://YOUR_VERCEL_DOMAIN/api/auth/callback/google
-https://YOUR_VERCEL_DOMAIN/api/auth/callback/github
 ```
 
 ## Deploy to Vercel
@@ -88,7 +85,7 @@ https://YOUR_VERCEL_DOMAIN/api/auth/callback/github
 3. Add all env vars from the table above under **Settings → Environment Variables**
    (Production + Preview). Do **not** set `AUTH_URL`.
 4. Deploy. Note the production domain.
-5. Add the production callback URLs (above) to the Google and GitHub OAuth apps.
+5. Add the production callback URL (above) to the Google OAuth app.
 6. Re-deploy if you changed env vars after the first build.
 
 `npm run build` runs `next build`; no extra build command or output directory needed.

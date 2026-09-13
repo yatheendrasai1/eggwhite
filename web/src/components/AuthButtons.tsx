@@ -12,13 +12,6 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
       >
         Continue with Google
       </button>
-      <button
-        type="button"
-        className="oauth-btn"
-        onClick={() => signIn("github", { callbackUrl })}
-      >
-        Continue with GitHub
-      </button>
     </div>
   );
 }
