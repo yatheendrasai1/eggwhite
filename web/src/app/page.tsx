@@ -38,19 +38,24 @@ export default async function LandingPage() {
     <main className="page">
       <div className="wrap">
         <header className="login-masthead">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="login-logo" src="/eggwhite-icon.png" alt="" />
+          <div className="login-logo-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="login-logo" src="/eggwhite-icon.png" alt="" />
+            <span className="login-bubble">Hey there! 👋</span>
+          </div>
           <p className="login-name">eggwhite</p>
-          <p className="login-caption">Self-scoring English tests for grammar and vocabulary.</p>
+          <p className="login-caption">
+            Whisk up your grammar and vocabulary with a few playful, self-scoring tests.
+          </p>
         </header>
 
         <div className="auth-card">
           <p className="section-label" style={{ marginBottom: 12 }}>
-            Sign in to start
+            Let&rsquo;s get cracking!
           </p>
           <SignInButtons />
           <p className="foot" style={{ margin: "16px 0 0" }}>
-            We store your name, email and test results. Nothing else.
+            We store your name, email and test results. Nothing else — promise. 🤞
           </p>
         </div>
       </div>
