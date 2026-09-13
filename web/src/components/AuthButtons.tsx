@@ -36,8 +36,9 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
         <GoogleIcon />
         Continue with Google
       </button>
+      <p className="or-divider">or</p>
       <a href="/guest/index.html" className="oauth-btn guest-btn">
-        Continue as Guest
+        Be My Guest! 🤗
       </a>
     </div>
   );

@@ -1218,6 +1218,24 @@ a.test:active {
   flex-direction: column;
   gap: 12px;
 }
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -2px 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
 .auth-card {
   background: var(--card);
   border: 1px solid var(--line);
