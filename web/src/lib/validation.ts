@@ -17,5 +17,17 @@ export const patchAttemptSchema = z
     message: "Nothing to update",
   });
 
+export const migrateSchema = z.object({
+  records: z
+    .array(
+      z.object({
+        file: z.string(),
+        record: z.record(z.string(), z.unknown()),
+      })
+    )
+    .max(20),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
+export type MigrateInput = z.infer<typeof migrateSchema>;
