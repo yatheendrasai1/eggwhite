@@ -25,9 +25,6 @@ export default async function SignInPage({
         </header>
         <div className="auth-card">
           <SignInButtons callbackUrl={callbackUrl || "/"} />
-          <p className="foot" style={{ margin: "16px 0 0" }}>
-            <a href="/guest/index.html">Just a guest? Try the tests without signing in →</a>
-          </p>
         </div>
       </div>
     </main>

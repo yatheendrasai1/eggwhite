@@ -169,6 +169,44 @@ body {
   max-width: 48ch;
 }
 
+.login-masthead {
+  text-align: center;
+  padding: 32px 0 12px;
+}
+.login-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--yolk);
+  background: #fff;
+  margin: 0 auto 14px;
+  display: block;
+}
+.login-name {
+  font-family: var(--brand);
+  font-size: 36px;
+  letter-spacing: 0.045em;
+  color: var(--violet);
+  margin: 0 0 8px;
+}
+.login-caption {
+  margin: 0 auto;
+  color: var(--ink-soft);
+  font-size: 15px;
+  max-width: 40ch;
+}
+.fun-fact {
+  margin: 20px 0 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-align: center;
+  background: var(--card);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
 .howto {
   background: var(--card);
   border: 1px solid var(--line);
@@ -1172,6 +1210,16 @@ a.test:active {
   cursor: pointer;
 }
 .oauth-btn:hover {
+  border-color: var(--violet);
+}
+.guest-btn {
+  background: transparent;
+  border-style: dashed;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.guest-btn:hover {
+  color: var(--violet);
   border-color: var(--violet);
 }
 .hist {

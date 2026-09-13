@@ -2,47 +2,60 @@ import { auth } from "@/auth";
 import { getActiveAttempts, listAttempts } from "@/lib/attempts";
 import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
+import { randomFunFact } from "@/lib/funFacts";
 
 export default async function LandingPage() {
   const session = await auth();
 
-  return (
-    <main className="page">
-      <div className="wrap">
-        <header className="masthead">
-          <p className="eyebrow">eggwhite · English practice</p>
-          <h1>
-            Test <em>your</em> English
-          </h1>
-          <p className="lede">
-            A small collection of self-scoring tests for grammar and vocabulary. Sign in
-            and your progress is saved to your account — close the tab and pick up any
-            device.
-          </p>
-        </header>
+  if (session?.user?.id) {
+    return (
+      <main className="page">
+        <div className="wrap">
+          <header className="masthead">
+            <p className="eyebrow">eggwhite · English practice</p>
+            <h1>
+              Test <em>your</em> English
+            </h1>
+            <p className="lede">
+              A small collection of self-scoring tests for grammar and vocabulary. Sign in
+              and your progress is saved to your account — close the tab and pick up any
+              device.
+            </p>
+          </header>
 
-        {session?.user?.id ? (
           <LandingHub
             active={await getActiveAttempts(session.user.id)}
             attempts={await listAttempts(session.user.id)}
             userName={session.user.name || ""}
           />
-        ) : (
-          <div className="auth-card">
-            <p className="section-label" style={{ marginBottom: 12 }}>
-              Sign in to start
-            </p>
-            <SignInButtons />
-            <p className="foot" style={{ margin: "16px 0 0" }}>
-              We store your name, email and test results. Nothing else.
-            </p>
-            <p className="foot" style={{ margin: "8px 0 0" }}>
-              <a href="/guest/index.html">Just a guest? Try the tests without signing in →</a>
-            </p>
-          </div>
-        )}
 
-        <p className="foot">Results are saved to your eggwhite account.</p>
+          <p className="foot">Results are saved to your eggwhite account.</p>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="page">
+      <div className="wrap">
+        <header className="login-masthead">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="login-logo" src="/eggwhite-icon.png" alt="" />
+          <p className="login-name">eggwhite</p>
+          <p className="login-caption">Self-scoring English tests for grammar and vocabulary.</p>
+        </header>
+
+        <div className="auth-card">
+          <p className="section-label" style={{ marginBottom: 12 }}>
+            Sign in to start
+          </p>
+          <SignInButtons />
+          <p className="foot" style={{ margin: "16px 0 0" }}>
+            We store your name, email and test results. Nothing else.
+          </p>
+        </div>
+
+        <p className="fun-fact">💡 {randomFunFact()}</p>
       </div>
     </main>
   );
