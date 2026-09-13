@@ -5,6 +5,10 @@ export const TEST_IDS = [
   "business-english",
   "preposition-party",
   "tension",
+  "tension-2",
+  "articles",
+  "corporate-confusion",
+  "incorrectly-correct",
 ] as const;
 export type TestId = (typeof TEST_IDS)[number];
 

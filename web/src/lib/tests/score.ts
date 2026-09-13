@@ -18,6 +18,13 @@ import {
   type DrillAnswers,
 } from "@/lib/tests/drill";
 import { DRILL_CONFIGS } from "@/lib/tests/drillConfigs";
+import {
+  scoreMcqPair,
+  countDoneMcqPair,
+  totalMcqPair,
+  type McqPairAnswers,
+} from "@/lib/tests/mcqPair";
+import { MCQ_PAIR_CONFIGS, isMcqPair } from "@/lib/tests/mcqPairConfigs";
 
 export type AttemptSummary = {
   line: string;
@@ -37,6 +44,13 @@ export function computeProgress(
     return {
       done: beCountDone((answers ?? { flagged: {}, picks: {} }) as BEAnswers),
       total: BE_TOTAL,
+    };
+  }
+  if (isMcqPair(testId)) {
+    const config = MCQ_PAIR_CONFIGS[testId];
+    return {
+      done: countDoneMcqPair((answers ?? { picks1: {}, picks2: {} }) as McqPairAnswers),
+      total: totalMcqPair(config),
     };
   }
   return {
@@ -66,6 +80,21 @@ export function computeSummary(testId: TestId, answers: unknown): AttemptSummary
         vocabulary: Math.round(r.vPct),
         spotted: r.found,
         falseFlags: r.falseFlags,
+      },
+    };
+  }
+
+  if (isMcqPair(testId)) {
+    const config = MCQ_PAIR_CONFIGS[testId];
+    const r = scoreMcqPair(config, (answers ?? { picks1: {}, picks2: {} }) as McqPairAnswers);
+    return {
+      line: r.summaryLine,
+      pct: Math.round(r.pct),
+      level: r.band.code,
+      parts: {
+        total: r.total,
+        [r.tiles[0].label]: r.tiles[0].score,
+        [r.tiles[1].label]: r.tiles[1].score,
       },
     };
   }

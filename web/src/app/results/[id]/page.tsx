@@ -7,9 +7,12 @@ import { EnglishLevelResults } from "@/components/EnglishLevelResults";
 import { BusinessEnglishResults } from "@/components/BusinessEnglishResults";
 import { DrillResults } from "@/components/DrillResults";
 import { DRILL_CONFIGS } from "@/lib/tests/drillConfigs";
+import { McqPairResults } from "@/components/McqPairResults";
+import { MCQ_PAIR_CONFIGS, isMcqPair } from "@/lib/tests/mcqPairConfigs";
 import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
 import type { DrillAnswers } from "@/lib/tests/drill";
+import type { McqPairAnswers } from "@/lib/tests/mcqPair";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +48,11 @@ export default async function ResultsPage({
           <EnglishLevelResults answers={attempt.answers as ELAnswers} />
         ) : attempt.testId === "business-english" ? (
           <BusinessEnglishResults answers={attempt.answers as BEAnswers} />
+        ) : isMcqPair(attempt.testId) ? (
+          <McqPairResults
+            config={MCQ_PAIR_CONFIGS[attempt.testId]}
+            answers={attempt.answers as McqPairAnswers}
+          />
         ) : (
           <DrillResults
             config={DRILL_CONFIGS[attempt.testId]}
