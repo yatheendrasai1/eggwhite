@@ -10,9 +10,9 @@ import { deleteAttempt } from "@/lib/client/attemptsApi";
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
   const now = new Date();
-  const t = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  const t = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
   if (d.toDateString() === now.toDateString()) return "today " + t;
-  return d.toLocaleDateString([], { month: "short", day: "numeric" }) + ", " + t;
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + ", " + t;
 }
 
 export function LandingHub({

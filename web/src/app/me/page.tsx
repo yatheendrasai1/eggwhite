@@ -9,9 +9,9 @@ export const dynamic = "force-dynamic";
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
   return (
-    d.toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" }) +
+    d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) +
     ", " +
-    d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+    d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
   );
 }
 
