@@ -17,6 +17,8 @@ export type TranslationItem = {
   telugu: string;
   tinglish: string;
   hinglish: string;
+  /** Canonical English meaning — given to the grader as an anchor, never shown to the candidate while taking the test. */
+  reference: string;
 };
 
 export type TranslationConfig = {
@@ -49,14 +51,16 @@ export type TranslationItemResult = {
   telugu: string;
   tinglish: string;
   hinglish: string;
+  reference: string;
   yours: string;
-  score: number; // 0-100, from Gemini
-  verdict: "correct" | "partial" | "incorrect";
+  score: number; // 0, 1, or 2 — from Gemini
+  verdict: "correct" | "partial" | "incorrect"; // derived from score: 2/1/0
   feedback: string;
 };
 
 export type TranslationResult = {
-  total: number; // average item score, 0-100
+  total: number; // sum of item scores
+  maxScore: number; // items.length * 2
   pct: number;
   band: DrillBand;
   bandIdx: number;

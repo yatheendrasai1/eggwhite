@@ -16,31 +16,31 @@ import type {
 /** Raw shape we instruct Gemini to return — validated before use. */
 type GeminiTranslationGrade = {
   n: number;
-  score: number;
-  verdict: "correct" | "partial" | "incorrect";
+  score: number; // 0, 1, or 2
   feedback: string;
 };
 
 function isGeminiTranslationGrade(v: unknown): v is GeminiTranslationGrade {
   if (!v || typeof v !== "object") return false;
   const g = v as Record<string, unknown>;
-  return (
-    typeof g.n === "number" &&
-    typeof g.score === "number" &&
-    (g.verdict === "correct" || g.verdict === "partial" || g.verdict === "incorrect") &&
-    typeof g.feedback === "string"
-  );
+  return typeof g.n === "number" && typeof g.score === "number" && typeof g.feedback === "string";
+}
+
+function verdictFromScore(score: number): "correct" | "partial" | "incorrect" {
+  if (score >= 2) return "correct";
+  if (score >= 1) return "partial";
+  return "incorrect";
 }
 
 function buildPrompt(template: string, config: TranslationConfig, fills: Record<number, string>): string {
   const itemsBlock = config.items
     .map((it, i) => {
       const yours = (fills[i] ?? "").trim();
-      return `${i + 1}. Telugu: "${it.telugu}" | Tinglish: "${it.tinglish}" | Hinglish: "${it.hinglish}"\n   Candidate's English translation: "${yours || "(blank)"}"`;
+      return `${i + 1}. Telugu: "${it.telugu}" | Tinglish: "${it.tinglish}" | Hinglish: "${it.hinglish}"\n   Reference translation: "${it.reference}"\n   Candidate's English translation: "${yours || "(blank)"}"`;
     })
     .join("\n");
 
-  return `${template}\n\nItems to grade:\n${itemsBlock}\n\nRespond with JSON only, matching this exact shape:\n{"results": [{"n": 1, "score": 0-100, "verdict": "correct" | "partial" | "incorrect", "feedback": "one short sentence"}, ...]}\nInclude exactly one entry per item, in order, with "n" matching the item number.`;
+  return `${template}\n\nItems to grade:\n${itemsBlock}\n\nRespond with JSON only, matching this exact shape:\n{"results": [{"n": 1, "score": 0, "feedback": "one short sentence"}, ...]}\n"score" must be 0, 1, or 2. Include exactly one entry per item, in order, with "n" matching the item number.`;
 }
 
 /**
@@ -77,29 +77,33 @@ export async function evaluateTranslation(
 
   const rows: TranslationItemResult[] = config.items.map((it, i) => {
     const grade = grades.find((g) => g.n === i + 1) ?? grades[i];
+    const score = Math.max(0, Math.min(2, Math.round(grade.score)));
     return {
       n: i + 1,
       telugu: it.telugu,
       tinglish: it.tinglish,
       hinglish: it.hinglish,
+      reference: it.reference,
       yours: fills[i] ?? "",
-      score: Math.max(0, Math.min(100, Math.round(grade.score))),
-      verdict: grade.verdict,
+      score,
+      verdict: verdictFromScore(score),
       feedback: grade.feedback,
     };
   });
 
-  const total = rows.reduce((sum, r) => sum + r.score, 0) / rows.length;
-  const pct = total;
+  const total = rows.reduce((sum, r) => sum + r.score, 0);
+  const maxScore = rows.length * 2;
+  const pct = (total / maxScore) * 100;
   const band = config.bands.find((b) => pct <= b.max) ?? config.bands[config.bands.length - 1];
   const bandIdx = config.bands.indexOf(band);
 
   return {
     total,
+    maxScore,
     pct,
     band,
     bandIdx,
     rows,
-    summaryLine: `${band.code} · ${Math.round(total)}%`,
+    summaryLine: `${band.code} · ${total}/${maxScore}`,
   };
 }

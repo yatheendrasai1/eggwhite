@@ -106,7 +106,7 @@ export async function PATCH(
         line: translationResult.summaryLine,
         pct: Math.round(translationResult.pct),
         level: translationResult.band.code,
-        parts: { avgScore: Math.round(translationResult.total) },
+        parts: { total: translationResult.total, maxScore: translationResult.maxScore },
       };
       doc.detail = translationResult;
       doc.markModified("detail");

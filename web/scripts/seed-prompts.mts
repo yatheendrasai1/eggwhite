@@ -10,17 +10,17 @@ const PROMPTS: { key: string; template: string }[] = [
     key: "translation-drama-v1-eval",
     template: `You are grading a workplace-English translation exercise for an Indian professional learning English as a second language.
 
-Each item gives a short sentence in its native language or script (Telugu, Telugu written in Latin letters — "Tinglish", or Hindi written in Latin letters — "Hinglish"), plus the candidate's attempt to translate it into English.
+Each item gives a short sentence in its native language or script (Telugu, Telugu written in Latin letters — "Tinglish", or Hindi written in Latin letters — "Hinglish"), a reference English translation showing the intended meaning, and the candidate's own attempt to translate it into English.
 
-Grade each item independently on how well the candidate's English preserves the MEANING of the source sentence — not on matching any exact reference wording. Be tolerant of minor grammar slips, article omissions ("a"/"the"), and word-order differences that a native English speaker would still understand correctly. Only mark an item down hard if the core meaning is wrong, a key detail is missing or changed, or the translation is blank/nonsensical.
+Judge the candidate's answer against the MEANING of the source, using the reference translation as your guide to what it should mean — do not penalize wording that differs from the reference as long as the meaning is preserved and the English is natural.
 
-Score each item 0-100:
-- 90-100: meaning fully preserved, natural English.
-- 60-89: meaning mostly preserved, minor awkwardness or small omissions.
-- 30-59: meaning partially preserved — a key detail is off or unclear.
-- 0-29: meaning lost, blank, or unrelated to the source.
+Several items are specifically designed to test whether the candidate produces natural, standard English rather than carrying over literal Indian-English phrasing ("Indianisms") — for example: "out of station" instead of "out of town", "prepone" instead of "move up"/"reschedule earlier", "pass out" (meaning graduate) instead of "graduated", "cousin brother"/"cousin sister" instead of "cousin", "since five years" instead of "for five years", "years back" instead of "years ago", untranslated "lakh"/"crore" instead of standard English numbers (e.g. 100,000 / 10,000,000), "what is your good name" instead of "what is your name", "do the needful" instead of a specific action, "same to same" instead of "identical"/"exactly the same", and doubled intensifiers like "very very" instead of a single stronger word. If the candidate's translation carries over an Indianism like this instead of natural English, score it down even though the meaning is understandable.
 
-Use "verdict": "correct" for 90-100, "partial" for 30-89, "incorrect" for 0-29.
+Score each item:
+2 = fully correct — captures the meaning accurately in natural, standard English (minor grammar differences are fine).
+1 = partially correct — captures some but not all of the meaning, has a notable error, or uses an Indianism instead of natural English.
+0 = incorrect — misses the meaning entirely, or was left blank.
+
 "feedback" must be one short sentence (under 20 words) explaining the score, addressed to the candidate ("You..."), in plain encouraging language.`,
   },
 ];

@@ -13,7 +13,7 @@ function ReviewCard({ r }: { r: TranslationItemResult }) {
         <span className="q-num">{String(r.n).padStart(2, "0")}</span>
         <span className={`verdict verdict-${r.verdict}`}>{VERDICT_LABEL[r.verdict]}</span>
         <span className="pts" style={{ marginLeft: "auto" }}>
-          {r.score}/100
+          {r.score}/2
         </span>
       </div>
       <div className="translit">
@@ -33,6 +33,9 @@ function ReviewCard({ r }: { r: TranslationItemResult }) {
       <p className="tr-yours">
         <b>Your translation:</b> {r.yours || "(blank)"}
       </p>
+      <p className="tr-yours">
+        <b>Model translation:</b> {r.reference}
+      </p>
       <p className="tr-feedback">{r.feedback}</p>
     </li>
   );
@@ -46,10 +49,10 @@ export function TranslationResults({ result }: { result: TranslationResult }) {
     <section className="results drill accent-violet">
       <div className="scorecard">
         <p className="score-big">
-          {Math.round(result.total)}
-          <span> / 100</span>
+          {result.total}
+          <span> / {result.maxScore}</span>
         </p>
-        <p className="score-pct">avg. meaning score across {result.rows.length} items</p>
+        <p className="score-pct">{Math.round(result.pct)}% correct, as graded</p>
         <div className="grade-line">
           <p className="grade-band">{result.band.code}</p>
           <p className="grade-name">{result.band.name}</p>
