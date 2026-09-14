@@ -9,6 +9,7 @@ import { isProTest } from "@/lib/tests/proTests";
 import { deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
+import { useToast } from "@/components/Toast";
 
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
@@ -32,6 +33,7 @@ export function LandingHub({
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
   const { withLoading } = useLoading();
+  const { showToast } = useToast();
 
   const activeIds = new Set(active.map((a) => a.testId));
   const history = attempts.filter((a) => a.status === "completed");
@@ -112,7 +114,7 @@ export function LandingHub({
                     onClick={(e) => {
                       if (!locked) return;
                       e.preventDefault();
-                      alert("You need a pro account to participate in this test.");
+                      showToast("You need a pro account to participate in this test.");
                     }}
                   >
                     <div className="test-top">

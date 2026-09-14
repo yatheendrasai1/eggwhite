@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { LoadingProvider } from "@/components/LoadingOverlay";
+import { ToastProvider } from "@/components/Toast";
 
 /** Logo + main headings. */
 const eduHand = localFont({
@@ -32,10 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${eduHand.variable} ${googleSansFlex.variable}`}>
       <body>
-        <LoadingProvider>
-          <Navbar />
-          {children}
-        </LoadingProvider>
+        <ToastProvider>
+          <LoadingProvider>
+            <Navbar />
+            {children}
+          </LoadingProvider>
+        </ToastProvider>
       </body>
     </html>
   );
