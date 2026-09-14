@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   MAILS,
   VOCAB,
@@ -181,6 +182,11 @@ export function BusinessEnglishRunner({
     <>
       <div className="wrap">
         <header className="masthead">
+          <p className="foot" style={{ margin: "0 0 12px", textAlign: "left" }}>
+            <Link href="/" style={{ color: "var(--violet)" }}>
+              ← Back to home
+            </Link>
+          </p>
           <p className="eyebrow">Round 2 · Editing &amp; corporate vocabulary</p>
           <h1>
             How sharp is your <em>working English</em>?

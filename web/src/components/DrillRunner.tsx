@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   DRILL_TOTAL,
   countDoneDrill,
@@ -170,6 +171,11 @@ export function DrillRunner({
     <div className={`drill accent-${config.accent}`}>
       <div className="wrap">
         <header className="masthead">
+          <p className="foot" style={{ margin: "0 0 12px", textAlign: "left" }}>
+            <Link href="/" style={{ color: "var(--violet)" }}>
+              ← Back to home
+            </Link>
+          </p>
           <p className="eyebrow">{config.eyebrow}</p>
           <h1>
             {config.titleLead}

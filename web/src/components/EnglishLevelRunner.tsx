@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   VOCAB,
   GRAM,
@@ -186,6 +187,11 @@ export function EnglishLevelRunner({
     <>
       <div className="wrap">
         <header className="masthead">
+          <p className="foot" style={{ margin: "0 0 12px", textAlign: "left" }}>
+            <Link href="/" style={{ color: "var(--violet)" }}>
+              ← Back to home
+            </Link>
+          </p>
           <p className="eyebrow">Vocabulary &amp; Grammar · 60 questions</p>
           <h1>
             How good is <em>your</em> English, really?
