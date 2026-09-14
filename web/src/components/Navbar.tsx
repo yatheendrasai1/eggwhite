@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { SignInLink } from "@/components/AuthButtons";
 import { AboutUs } from "@/components/AboutUs";
 import { ProfileDrawer } from "@/components/ProfileDrawer";
-import { ArchiveDrawer } from "@/components/ArchiveDrawer";
+import { SideMenu } from "@/components/SideMenu";
 import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 
@@ -20,6 +20,7 @@ export async function Navbar() {
 
   return (
     <nav className="navbar">
+      <SideMenu />
       <Link
         href="/"
         style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
@@ -28,7 +29,6 @@ export async function Navbar() {
         <img className="nav-logo" src="/eggwhite-icon.png" alt="Eggwhite" />
         <span className="nav-name">Eggwhite</span>
       </Link>
-      {user ? <ArchiveDrawer /> : null}
       <div className="nav-spacer">
         {user ? (
           <>
