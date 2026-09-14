@@ -138,6 +138,10 @@ export function BusinessEnglishRunner({
     }
   }
 
+  function goHome() {
+    router.push("/");
+  }
+
   async function retake() {
     if (!confirm("Clear this attempt and start the test over?")) return;
     setBusy("retake");
@@ -165,14 +169,8 @@ export function BusinessEnglishRunner({
               "Retake this test"
             )}
           </button>
-          <button className="btn btn-exit" onClick={discontinue} disabled={busy !== null}>
-            {busy === "discontinue" ? (
-              <>
-                <Spinner /> Leaving…
-              </>
-            ) : (
-              <>Discontinue &amp; back to all tests</>
-            )}
+          <button className="btn btn-exit" onClick={goHome}>
+            Back to all tests
           </button>
         </div>
       </div>
