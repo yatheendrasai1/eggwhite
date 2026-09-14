@@ -1,2 +1,5 @@
 .DS_Store
 .claude/settings.local.json
+
+# raw font downloads — the two files actually used are copied into web/src/fonts
+/fonts/

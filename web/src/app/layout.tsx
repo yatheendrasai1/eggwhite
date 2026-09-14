@@ -1,29 +1,21 @@
 import type { Metadata } from "next";
-import { Fraunces, Public_Sans, JetBrains_Mono, Bangers } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { LoadingProvider } from "@/components/LoadingOverlay";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["400", "600", "800"],
+/** Logo + main headings. */
+const eduHand = localFont({
+  src: "../fonts/EduNSWACTHandPre.ttf",
+  variable: "--font-edu-hand",
+  display: "swap",
 });
-const publicSans = Public_Sans({
-  variable: "--font-public-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
-const bangers = Bangers({
-  variable: "--font-bangers",
-  subsets: ["latin"],
-  weight: "400",
+
+/** Everything else. */
+const googleSansFlex = localFont({
+  src: "../fonts/GoogleSansFlex.ttf",
+  variable: "--font-google-sans-flex",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -38,10 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${publicSans.variable} ${jetbrainsMono.variable} ${bangers.variable}`}
-    >
+    <html lang="en" className={`${eduHand.variable} ${googleSansFlex.variable}`}>
       <body>
         <LoadingProvider>
           <Navbar />
