@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { AttemptDTO } from "@/lib/attempts";
 import { ACTIVE_TESTS, byId } from "@/lib/tests/registry";
+import { isProTest } from "@/lib/tests/proTests";
 import { deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
@@ -21,10 +22,12 @@ export function LandingHub({
   active,
   attempts,
   userName,
+  isPro,
 }: {
   active: AttemptDTO[];
   attempts: AttemptDTO[];
   userName: string;
+  isPro: boolean;
 }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -100,9 +103,18 @@ export function LandingHub({
           <ul className="tests">
             {available.map((t, i) => {
               const n = String(i + 1).padStart(2, "0");
+              const locked = isProTest(t.id) && !isPro;
               return (
                 <li key={t.id}>
-                  <Link className="test" href={t.href}>
+                  <Link
+                    className={`test${locked ? " test-locked" : ""}`}
+                    href={t.href}
+                    onClick={(e) => {
+                      if (!locked) return;
+                      e.preventDefault();
+                      alert("You need a pro account to participate in this test.");
+                    }}
+                  >
                     <div className="test-top">
                       <span className="test-idx">{n}</span>
                       <h3 className="test-title">{t.title}</h3>

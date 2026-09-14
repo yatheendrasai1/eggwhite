@@ -1,4 +1,7 @@
 import { auth } from "@/auth";
+import { connectDB } from "@/lib/db";
+import { UserProfileModel } from "@/lib/models/UserProfile";
+import { isProActive } from "@/lib/pro";
 import { getActiveAttempts, listAttempts } from "@/lib/attempts";
 import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
@@ -7,6 +10,12 @@ export default async function LandingPage() {
   const session = await auth();
 
   if (session?.user?.id) {
+    await connectDB();
+    const profile = await UserProfileModel.findOne({ userId: session.user.id })
+      .select("proExpiresAt")
+      .lean();
+    const isPro = isProActive(profile);
+
     return (
       <main className="page">
         <div className="wrap">
@@ -21,6 +30,7 @@ export default async function LandingPage() {
             active={await getActiveAttempts(session.user.id)}
             attempts={await listAttempts(session.user.id)}
             userName={session.user.name || ""}
+            isPro={isPro}
           />
         </div>
       </main>
