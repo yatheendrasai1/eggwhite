@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import type { AttemptDTO } from "@/lib/attempts";
 import { TESTS, byId } from "@/lib/tests/registry";
 import { deleteAttempt } from "@/lib/client/attemptsApi";
+import { Spinner } from "@/components/Spinner";
 
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
@@ -73,7 +74,13 @@ export function LandingHub({
                     onClick={() => discontinue(a.id)}
                     disabled={busyId === a.id}
                   >
-                    {busyId === a.id ? "Discontinuing…" : "Discontinue test"}
+                    {busyId === a.id ? (
+                      <>
+                        <Spinner /> Discontinuing…
+                      </>
+                    ) : (
+                      "Discontinue test"
+                    )}
                   </button>
                 </li>
               );

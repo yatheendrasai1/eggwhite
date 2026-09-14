@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GUEST_FILES, guestRecordKey, type GuestRecord } from "@/lib/guestMigration";
+import { LoaderBlock } from "@/components/Spinner";
 
 type Phase = "checking" | "migrating" | "empty" | "done" | "error";
 
@@ -65,10 +66,13 @@ export function MigrateClient({ userName }: { userName: string }) {
   if (phase === "checking" || phase === "migrating") {
     return (
       <div className="auth-card">
-        <p className="section-label" style={{ marginBottom: 12 }}>
-          Checking this device for guest progress…
-        </p>
-        <p className="foot">Hang tight, this only takes a moment.</p>
+        <LoaderBlock
+          label={
+            phase === "migrating"
+              ? "Bringing your progress over…"
+              : "Checking this device for guest progress…"
+          }
+        />
       </div>
     );
   }

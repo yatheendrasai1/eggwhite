@@ -10,6 +10,7 @@ import {
 } from "@/lib/tests/drill";
 import { DrillResults } from "@/components/DrillResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
+import { Spinner } from "@/components/Spinner";
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -37,6 +38,8 @@ export function DrillRunner({
   const [warn, setWarn] = useState("");
   const [flagKey, setFlagKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [busy, setBusy] = useState<"discontinue" | "retake" | null>(null);
+  const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const done = countDoneDrill(answers);
@@ -59,7 +62,10 @@ export function DrillRunner({
     if (completed) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      patchAttempt(attemptId, { answers: next }).catch(() => {});
+      setSaving(true);
+      patchAttempt(attemptId, { answers: next })
+        .catch(() => {})
+        .finally(() => setSaving(false));
     }, 800);
   }
 
@@ -109,15 +115,25 @@ export function DrillRunner({
   async function discontinue() {
     if (!confirm("Discontinue this test? Your saved answers and result for it will be erased."))
       return;
-    await deleteAttempt(attemptId);
-    router.push("/");
+    setBusy("discontinue");
+    try {
+      await deleteAttempt(attemptId);
+      router.push("/");
+    } finally {
+      setBusy(null);
+    }
   }
 
   async function retake() {
     if (!confirm("Clear this attempt and start the test over?")) return;
-    await deleteAttempt(attemptId);
-    router.push(config.href);
-    router.refresh();
+    setBusy("retake");
+    try {
+      await deleteAttempt(attemptId);
+      router.push(config.href);
+      router.refresh();
+    } finally {
+      setBusy(null);
+    }
   }
 
   if (completed) {
@@ -125,11 +141,23 @@ export function DrillRunner({
       <div className="wrap">
         <DrillResults config={config} answers={answers} />
         <div style={{ marginBottom: 40 }}>
-          <button className="btn btn-ghost" onClick={retake}>
-            Retake this test
+          <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
+            {busy === "retake" ? (
+              <>
+                <Spinner /> Retaking…
+              </>
+            ) : (
+              "Retake this test"
+            )}
           </button>
-          <button className="btn btn-exit" onClick={discontinue}>
-            Back to all tests
+          <button className="btn btn-exit" onClick={discontinue} disabled={busy !== null}>
+            {busy === "discontinue" ? (
+              <>
+                <Spinner /> Leaving…
+              </>
+            ) : (
+              "Back to all tests"
+            )}
           </button>
         </div>
       </div>
@@ -161,6 +189,11 @@ export function DrillRunner({
         <div className="progress-in">
           <span className="progress-count">
             <span>{done}</span>/{DRILL_TOTAL} answered
+            {saving ? (
+              <span className="autosave">
+                <Spinner size={10} /> Saving…
+              </span>
+            ) : null}
           </span>
           <span className="progress-track">
             <span
@@ -249,10 +282,27 @@ export function DrillRunner({
         <div className="submit-in">
           <p className={`warn${warn ? " show" : ""}`}>{warn}</p>
           <button className="btn" onClick={submit} disabled={submitting}>
-            {submitting ? "Scoring…" : "Score my answers"}
+            {submitting ? (
+              <>
+                <Spinner /> Scoring…
+              </>
+            ) : (
+              "Score my answers"
+            )}
           </button>
-          <button type="button" className="btn btn-exit" onClick={discontinue}>
-            Discontinue test
+          <button
+            type="button"
+            className="btn btn-exit"
+            onClick={discontinue}
+            disabled={busy !== null}
+          >
+            {busy === "discontinue" ? (
+              <>
+                <Spinner /> Discontinuing…
+              </>
+            ) : (
+              "Discontinue test"
+            )}
           </button>
         </div>
       </div>

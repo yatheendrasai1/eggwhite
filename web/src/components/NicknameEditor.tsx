@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Spinner } from "@/components/Spinner";
 
 export function NicknameEditor({ initialNickname }: { initialNickname: string | null }) {
   const [value, setValue] = useState(initialNickname ?? "");
@@ -49,7 +50,13 @@ export function NicknameEditor({ initialNickname }: { initialNickname: string | 
           style={{ flex: 1, width: "auto" }}
         />
         <button className="btn" disabled={!dirty || saving} onClick={save}>
-          {saving ? "Saving…" : "Save"}
+          {saving ? (
+            <>
+              <Spinner /> Saving…
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
       {error ? <p className="warn show">{error}</p> : null}

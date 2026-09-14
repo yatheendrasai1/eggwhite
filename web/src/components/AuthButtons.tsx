@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
+import { Spinner } from "@/components/Spinner";
 
 function GoogleIcon() {
   return (
@@ -26,15 +28,20 @@ function GoogleIcon() {
 }
 
 export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
+  const [pending, setPending] = useState(false);
   return (
     <div className="stack">
       <button
         type="button"
         className="oauth-btn"
-        onClick={() => signIn("google", { callbackUrl })}
+        disabled={pending}
+        onClick={() => {
+          setPending(true);
+          signIn("google", { callbackUrl });
+        }}
       >
-        <GoogleIcon />
-        Continue with Google
+        {pending ? <Spinner /> : <GoogleIcon />}
+        {pending ? "Redirecting…" : "Continue with Google"}
       </button>
       <p className="or-divider">or</p>
       <a href="/guest/index.html" className="oauth-btn guest-btn">
@@ -45,25 +52,35 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
 }
 
 export function SignInLink() {
+  const [pending, setPending] = useState(false);
   return (
     <button
       type="button"
       className="nav-btn solid"
-      onClick={() => signIn(undefined, { callbackUrl: "/" })}
+      disabled={pending}
+      onClick={() => {
+        setPending(true);
+        signIn(undefined, { callbackUrl: "/" });
+      }}
     >
-      Sign in
+      {pending ? <Spinner /> : "Sign in"}
     </button>
   );
 }
 
 export function SignOutButton() {
+  const [pending, setPending] = useState(false);
   return (
     <button
       type="button"
       className="nav-btn"
-      onClick={() => signOut({ callbackUrl: "/" })}
+      disabled={pending}
+      onClick={() => {
+        setPending(true);
+        signOut({ callbackUrl: "/" });
+      }}
     >
-      Sign out
+      {pending ? <Spinner /> : "Sign out"}
     </button>
   );
 }

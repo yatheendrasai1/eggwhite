@@ -14,6 +14,7 @@ import {
 } from "@/lib/tests/englishLevel";
 import { EnglishLevelResults } from "@/components/EnglishLevelResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
+import { Spinner } from "@/components/Spinner";
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -48,6 +49,8 @@ export function EnglishLevelRunner({
   const [warn, setWarn] = useState("");
   const [flagId, setFlagId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [busy, setBusy] = useState<"discontinue" | "retake" | null>(null);
+  const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const done = countDone(answers);
@@ -68,7 +71,10 @@ export function EnglishLevelRunner({
     if (completed) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      patchAttempt(attemptId, { answers: next }).catch(() => {});
+      setSaving(true);
+      patchAttempt(attemptId, { answers: next })
+        .catch(() => {})
+        .finally(() => setSaving(false));
     }, 800);
   }
 
@@ -125,15 +131,25 @@ export function EnglishLevelRunner({
   async function discontinue() {
     if (!confirm("Discontinue this test? Your saved answers and result for it will be erased."))
       return;
-    await deleteAttempt(attemptId);
-    router.push("/");
+    setBusy("discontinue");
+    try {
+      await deleteAttempt(attemptId);
+      router.push("/");
+    } finally {
+      setBusy(null);
+    }
   }
 
   async function retake() {
     if (!confirm("Clear this attempt and start the test over?")) return;
-    await deleteAttempt(attemptId);
-    router.push("/tests/english-level");
-    router.refresh();
+    setBusy("retake");
+    try {
+      await deleteAttempt(attemptId);
+      router.push("/tests/english-level");
+      router.refresh();
+    } finally {
+      setBusy(null);
+    }
   }
 
   if (completed) {
@@ -141,11 +157,23 @@ export function EnglishLevelRunner({
       <div className="wrap">
         <EnglishLevelResults answers={answers} />
         <div style={{ marginBottom: 40 }}>
-          <button className="btn btn-ghost" onClick={retake}>
-            Retake this test
+          <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
+            {busy === "retake" ? (
+              <>
+                <Spinner /> Retaking…
+              </>
+            ) : (
+              "Retake this test"
+            )}
           </button>
-          <button className="btn btn-exit" onClick={discontinue}>
-            Discontinue &amp; back to all tests
+          <button className="btn btn-exit" onClick={discontinue} disabled={busy !== null}>
+            {busy === "discontinue" ? (
+              <>
+                <Spinner /> Leaving…
+              </>
+            ) : (
+              <>Discontinue &amp; back to all tests</>
+            )}
           </button>
         </div>
       </div>
@@ -196,6 +224,11 @@ export function EnglishLevelRunner({
         <div className="progress-in">
           <span className="progress-count">
             <span>{done}</span>/{TOTAL_QUESTIONS}
+            {saving ? (
+              <span className="autosave">
+                <Spinner size={10} /> Saving…
+              </span>
+            ) : null}
           </span>
           <span className="progress-track">
             <span
@@ -266,10 +299,27 @@ export function EnglishLevelRunner({
         <div className="submit-in">
           <p className={`warn${warn ? " show" : ""}`}>{warn}</p>
           <button className="btn" onClick={submit} disabled={submitting}>
-            {submitting ? "Scoring…" : "Evaluate my English"}
+            {submitting ? (
+              <>
+                <Spinner /> Scoring…
+              </>
+            ) : (
+              "Evaluate my English"
+            )}
           </button>
-          <button type="button" className="btn btn-exit" onClick={discontinue}>
-            Discontinue test
+          <button
+            type="button"
+            className="btn btn-exit"
+            onClick={discontinue}
+            disabled={busy !== null}
+          >
+            {busy === "discontinue" ? (
+              <>
+                <Spinner /> Discontinuing…
+              </>
+            ) : (
+              "Discontinue test"
+            )}
           </button>
         </div>
       </div>

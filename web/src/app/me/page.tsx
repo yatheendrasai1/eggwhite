@@ -3,9 +3,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { listAttempts } from "@/lib/attempts";
 import { byId } from "@/lib/tests/registry";
-import { connectDB } from "@/lib/db";
-import { UserProfileModel } from "@/lib/models/UserProfile";
-import { NicknameEditor } from "@/components/NicknameEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +20,6 @@ export default async function MePage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/me");
 
   const attempts = await listAttempts(session.user.id);
-  await connectDB();
-  const profile = await UserProfileModel.findOne({ userId: session.user.id }).lean();
 
   return (
     <main className="page">
@@ -37,7 +32,11 @@ export default async function MePage() {
           <p className="lede">Every test you&rsquo;ve started or finished on this account.</p>
         </header>
 
-        <NicknameEditor initialNickname={profile?.nickname || null} />
+        <p className="foot" style={{ margin: "0 0 20px" }}>
+          <Link href="/profile" style={{ color: "var(--violet)" }}>
+            Edit your leaderboard nickname →
+          </Link>
+        </p>
 
         {attempts.length === 0 ? (
           <p className="filler">Nothing yet. Start a test from the home page.</p>
