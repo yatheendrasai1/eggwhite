@@ -58,16 +58,16 @@ export function ProfileDrawer({
             <h2 className="drawer-title">
               Your <em>profile</em>
             </h2>
-            <dl className="profile-info">
+            <div className="profile-info">
               <div className="profile-info-row">
-                <dt>Name</dt>
-                <dd>{userName || "—"}</dd>
+                <span className="profile-info-label">Name</span>
+                <span className="profile-info-value">{userName || "—"}</span>
               </div>
               <div className="profile-info-row">
-                <dt>Mail ID</dt>
-                <dd>{userEmail || "—"}</dd>
+                <span className="profile-info-label">Mail ID</span>
+                <span className="profile-info-value">{userEmail || "—"}</span>
               </div>
-            </dl>
+            </div>
             <NicknameEditor initialNickname={initialNickname} />
             <div
               style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--line)" }}

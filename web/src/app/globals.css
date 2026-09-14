@@ -1355,7 +1355,7 @@ a.test:active {
 .profile-info-row + .profile-info-row {
   border-top: 1px solid var(--line);
 }
-.profile-info-row dt {
+.profile-info-label {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.1em;
@@ -1363,8 +1363,7 @@ a.test:active {
   color: var(--ink-soft);
   flex: none;
 }
-.profile-info-row dd {
-  margin: 0;
+.profile-info-value {
   font-family: var(--body);
   font-size: 14.5px;
   font-weight: 600;
@@ -1373,6 +1372,36 @@ a.test:active {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.profile-info-edit {
+  align-items: center;
+}
+.profile-nickname-input {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+.profile-nickname-input .fill {
+  flex: 1;
+  width: auto;
+  max-width: 160px;
+}
+.profile-info-caption {
+  margin: 0;
+  padding: 0 0 14px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+@media (max-width: 420px) {
+  .profile-info-edit {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .profile-nickname-input .fill {
+    max-width: none;
+  }
 }
 @keyframes drawer-in {
   from {
