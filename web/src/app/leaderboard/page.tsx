@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { TESTS } from "@/lib/tests/registry";
 import { getTestLeaderboard, getOverallLeaderboard } from "@/lib/leaderboard";
+import { LeaderboardTestPicker } from "@/components/LeaderboardTestPicker";
 import type { TestId } from "@/lib/models/Attempt";
 
 export const dynamic = "force-dynamic";
@@ -28,31 +29,10 @@ export default async function LeaderboardPage({
   return (
     <main className="page">
       <div className="wrap">
-        <header className="masthead">
-          <p className="eyebrow">Leaderboard</p>
-          <h1>
-            Top <em>scores</em>
-          </h1>
-          <p className="lede">
-            Ranked by first-attempt score — retaking a test updates your own review, not your
-            leaderboard spot.
-          </p>
+        <header className="masthead lb-header">
+          <h1>Leaderboard</h1>
+          <LeaderboardTestPicker options={TESTS} value={active} />
         </header>
-
-        <nav className="lb-tabs">
-          <Link href="/leaderboard?test=overall" className={`lb-tab${active === "overall" ? " on" : ""}`}>
-            Overall
-          </Link>
-          {TESTS.map((t) => (
-            <Link
-              key={t.id}
-              href={`/leaderboard?test=${t.id}`}
-              className={`lb-tab${active === t.id ? " on" : ""}`}
-            >
-              {t.title}
-            </Link>
-          ))}
-        </nav>
 
         {activeTest ? (
           <TestBoard testId={activeTest.id} viewerId={viewerId} />
