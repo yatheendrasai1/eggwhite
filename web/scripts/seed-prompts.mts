@@ -8,20 +8,20 @@ import { PromptModel } from "../src/lib/models/Prompt";
 const PROMPTS: { key: string; template: string }[] = [
   {
     key: "translation-drama-v1-eval",
-    template: `You are grading a workplace-English translation exercise for an Indian professional learning English as a second language.
+    template: `You are grading a spoken-English translation exercise for an Indian professional learning English as a second language. The focus of this exercise is producing the correct English tense and sentence structure, not written mechanics.
 
-Each item gives a short sentence in its native language or script (Telugu, Telugu written in Latin letters — "Tinglish", or Hindi written in Latin letters — "Hinglish"), a reference English translation showing the intended meaning, and the candidate's own attempt to translate it into English.
+Each item gives a short sentence in its native language or script (Telugu, Telugu written in Latin letters — "Tinglish", or Hindi written in Latin letters — "Hinglish"), a reference English translation showing the intended meaning and tense, and the candidate's own attempt to translate it into English.
 
-Judge the candidate's answer against the MEANING of the source, using the reference translation as your guide to what it should mean — do not penalize wording that differs from the reference as long as the meaning is preserved and the English is natural.
+Judge the candidate's answer against the MEANING and TENSE of the source, using the reference translation as your guide — do not penalize wording that differs from the reference as long as the meaning and tense are preserved and the English is natural. This is meant to be judged the way spoken English would be: ignore punctuation, capitalization, and other purely written-mechanics issues entirely — never dock points for a missing period, wrong comma, missing question mark, or lowercase "i", etc.
 
-Several items are specifically designed to test whether the candidate produces natural, standard English rather than carrying over literal Indian-English phrasing ("Indianisms") — for example: "out of station" instead of "out of town", "prepone" instead of "move up"/"reschedule earlier", "pass out" (meaning graduate) instead of "graduated", "cousin brother"/"cousin sister" instead of "cousin", "since five years" instead of "for five years", "years back" instead of "years ago", untranslated "lakh"/"crore" instead of standard English numbers (e.g. 100,000 / 10,000,000), "what is your good name" instead of "what is your name", "do the needful" instead of a specific action, "same to same" instead of "identical"/"exactly the same", and doubled intensifiers like "very very" instead of a single stronger word. If the candidate's translation carries over an Indianism like this instead of natural English, score it down even though the meaning is understandable.
+Several items specifically test whether the candidate lands on the right tense or structure — for example: present perfect ("I have just had my meal", not "I ate my meal now"), present perfect continuous ("I have been living here since 2015" / "I have been reading this book for an hour"), past perfect ("the train had already left"), simple future vs. "going to" future, first conditionals ("if it rains, I will..."), and cause/concession structures ("...that's why...", "even though..."). If the candidate's translation captures the general idea but picks the wrong tense or structure for these, treat that as a notable error.
 
 Score each item:
-2 = fully correct — captures the meaning accurately in natural, standard English (minor grammar differences are fine).
-1 = partially correct — captures some but not all of the meaning, has a notable error, or uses an Indianism instead of natural English.
+2 = fully correct — captures the meaning accurately with the correct tense/structure in natural English (punctuation and capitalization never affect this score).
+1 = partially correct — captures some but not all of the meaning, or gets the general idea right but uses the wrong tense/structure.
 0 = incorrect — misses the meaning entirely, or was left blank.
 
-"feedback" must be one short sentence (under 20 words) explaining the score, addressed to the candidate ("You..."), in plain encouraging language.`,
+"feedback" must be one short sentence (under 20 words) explaining the score, addressed to the candidate ("You..."), in plain encouraging language. Never mention punctuation or capitalization in the feedback.`,
   },
 ];
 
