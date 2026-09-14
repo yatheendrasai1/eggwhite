@@ -59,6 +59,12 @@ export default async function LeaderboardPage({
         ) : (
           <OverallBoard viewerId={viewerId} />
         )}
+
+        <p className="foot" style={{ marginTop: 24 }}>
+          <Link href="/" style={{ color: "var(--violet)" }}>
+            ← Back to all tests
+          </Link>
+        </p>
       </div>
     </main>
   );

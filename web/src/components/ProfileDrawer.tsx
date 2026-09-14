@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { NicknameEditor } from "@/components/NicknameEditor";
+import { SignOutButton } from "@/components/AuthButtons";
 
 export function ProfileDrawer({
   userName,
@@ -77,6 +78,11 @@ export function ProfileDrawer({
               </p>
             </div>
             <NicknameEditor initialNickname={initialNickname} />
+            <div
+              style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--line)" }}
+            >
+              <SignOutButton />
+            </div>
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/auth";
-import { SignInLink, SignOutButton } from "@/components/AuthButtons";
+import { SignInLink } from "@/components/AuthButtons";
 import { AboutUs } from "@/components/AboutUs";
 import { ProfileDrawer } from "@/components/ProfileDrawer";
 import { connectDB } from "@/lib/db";
@@ -38,7 +38,6 @@ export async function Navbar() {
               userEmail={user.email || ""}
               initialNickname={nickname}
             />
-            <SignOutButton />
           </>
         ) : (
           <>
