@@ -172,12 +172,10 @@ body {
   font-family: var(--body);
   font-weight: 600;
   font-size: clamp(17px, 4vw, 20px);
-  color: var(--ink-soft);
   letter-spacing: normal;
 }
 .masthead-quiet h1 em {
   font-style: normal;
-  color: var(--ink-soft);
   font-weight: 400;
 }
 
