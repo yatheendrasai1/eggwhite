@@ -13,7 +13,7 @@ const options = {
 };
 
 declare global {
-  var _eggwhiteMongo: Promise<MongoClient> | undefined;
+  var _egvitMongo: Promise<MongoClient> | undefined;
 }
 
 export function getMongoClient(): Promise<MongoClient> {
@@ -21,13 +21,13 @@ export function getMongoClient(): Promise<MongoClient> {
   if (!uri) throw new Error("MONGODB_URI is not set — see web/.env.example");
 
   if (process.env.NODE_ENV === "development") {
-    if (!global._eggwhiteMongo) {
-      global._eggwhiteMongo = new MongoClient(uri, options).connect();
+    if (!global._egvitMongo) {
+      global._egvitMongo = new MongoClient(uri, options).connect();
     }
-    return global._eggwhiteMongo;
+    return global._egvitMongo;
   }
-  if (!global._eggwhiteMongo) {
-    global._eggwhiteMongo = new MongoClient(uri, options).connect();
+  if (!global._egvitMongo) {
+    global._egvitMongo = new MongoClient(uri, options).connect();
   }
-  return global._eggwhiteMongo;
+  return global._egvitMongo;
 }

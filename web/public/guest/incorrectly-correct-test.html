@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>try{var t=localStorage.getItem("eggwhite:theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>try{var t=localStorage.getItem("egvit:theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Incorrectly Correct Things — Eggwhite</title>
+<title>The Incorrectly Correct Things — Egvit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
@@ -176,15 +176,15 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 
 <div class="navbar">
   <a class="navbar-brand" href="index.html">
-    <img class="nav-logo" src="eggwhite-icon.png" alt="Eggwhite">
-    <span class="nav-name">Eggwhite</span>
+    <img class="nav-logo" src="egvit-icon.png" alt="Egvit">
+    <span class="nav-name">Egvit</span>
   </a>
   <a class="login-link" href="/signin?callbackUrl=/migrate">Login / Sign up</a>
   <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">🌙</button>
 </div>
 <script>
 (function(){
-  var KEY="eggwhite:theme";
+  var KEY="egvit:theme";
   var btn=document.getElementById("themeToggle");
   function isDark(){
     var t=document.documentElement.getAttribute("data-theme");
@@ -250,11 +250,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 </div>
 
 <script>
-/* ============ eggwhite storage helper ============ */
+/* ============ egvit storage helper ============ */
 const EW = (() => {
-  const NAME = "eggwhite:name";
-  const HISTORY = "eggwhite:history";
-  const rec = f => "eggwhite:test:" + f;
+  const NAME = "egvit:name";
+  const HISTORY = "egvit:history";
+  const rec = f => "egvit:test:" + f;
   const gj = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
   const sj = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
   const rm = k => { try { localStorage.removeItem(k); } catch (e) {} };
@@ -500,7 +500,7 @@ function render(){
 }
 
 /* ================================================================
-   eggwhite — session persistence & single-open-test enforcement
+   egvit — session persistence & single-open-test enforcement
    ================================================================ */
 const EW_SELF = "incorrectly-correct-test.html";
 let REC = null;

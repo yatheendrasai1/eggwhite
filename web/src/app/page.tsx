@@ -33,10 +33,10 @@ export default async function LandingPage() {
         <header className="login-masthead">
           <div className="login-logo-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="login-logo" src="/eggwhite-icon.png" alt="" />
+            <img className="login-logo" src="/egvit-icon.png" alt="" />
             <span className="login-bubble">Hey there! 👋</span>
           </div>
-          <p className="login-name">eggwhite</p>
+          <p className="login-name">egvit</p>
           <p className="login-caption">
             Whisk up your grammar and vocabulary with a few playful, self-scoring tests.
           </p>

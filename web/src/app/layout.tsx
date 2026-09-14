@@ -19,7 +19,7 @@ const googleSansFlex = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "eggwhite — English Tests",
+  title: "egvit — English Tests",
   description:
     "Self-scoring English grammar and vocabulary tests. Your progress is saved to your account.",
 };

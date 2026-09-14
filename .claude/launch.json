@@ -2,13 +2,13 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "eggwhite-static",
+      "name": "egvit-static",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4173"],
       "port": 4173
     },
     {
-      "name": "eggwhite-web",
+      "name": "egvit-web",
       "cwd": "web",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],

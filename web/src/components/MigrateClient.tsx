@@ -88,7 +88,7 @@ export function MigrateClient({ userName }: { userName: string }) {
           you&rsquo;re all set.
         </p>
         <button className="btn" onClick={() => router.push("/")}>
-          Continue to eggwhite
+          Continue to egvit
         </button>
       </div>
     );
@@ -105,7 +105,7 @@ export function MigrateClient({ userName }: { userName: string }) {
           untouched — try again from a test page&rsquo;s &ldquo;Login / Sign up&rdquo; link.
         </p>
         <button className="btn" onClick={() => router.push("/")}>
-          Continue to eggwhite
+          Continue to egvit
         </button>
       </div>
     );
@@ -134,7 +134,7 @@ export function MigrateClient({ userName }: { userName: string }) {
         <div style={{ marginBottom: 16 }} />
       )}
       <button className="btn" onClick={() => router.push("/")}>
-        Continue to eggwhite
+        Continue to egvit
       </button>
     </div>
   );

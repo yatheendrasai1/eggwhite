@@ -16,7 +16,7 @@ export const GUEST_FILE_TEST_ID: Record<string, TestId> = {
 export const GUEST_FILES = Object.keys(GUEST_FILE_TEST_ID);
 
 export function guestRecordKey(file: string): string {
-  return "eggwhite:test:" + file;
+  return "egvit:test:" + file;
 }
 
 export type GuestRecord = {

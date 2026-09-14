@@ -1,4 +1,4 @@
-# eggwhite
+# egvit
 
 English grammar & vocabulary improvement tests.
 

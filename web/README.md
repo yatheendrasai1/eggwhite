@@ -1,6 +1,6 @@
-# eggwhite — web
+# egvit — web
 
-Full-stack rewrite of the eggwhite English tests.
+Full-stack rewrite of the egvit English tests.
 
 - **Next.js 16** (App Router, TypeScript) — one deployable unit for UI **and** API.
 - **MongoDB Atlas** via **Mongoose** (`Attempt` model) + the native driver for the auth adapter.

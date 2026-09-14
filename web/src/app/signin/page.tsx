@@ -19,10 +19,10 @@ export default async function SignInPage({
         <header className="login-masthead">
           <div className="login-logo-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="login-logo" src="/eggwhite-icon.png" alt="" />
+            <img className="login-logo" src="/egvit-icon.png" alt="" />
             <span className="login-bubble">Welcome back! 🎉</span>
           </div>
-          <p className="login-name">eggwhite</p>
+          <p className="login-name">egvit</p>
           <p className="login-caption">
             One click and you&rsquo;re in — we only peek at your name and email, just enough
             to put your name on the scoreboard.

@@ -11,11 +11,11 @@ type Cached = {
 };
 
 declare global {
-  var _eggwhiteMongoose: Cached | undefined;
+  var _egvitMongoose: Cached | undefined;
 }
 
-const cached: Cached = global._eggwhiteMongoose ?? { conn: null, promise: null };
-global._eggwhiteMongoose = cached;
+const cached: Cached = global._egvitMongoose ?? { conn: null, promise: null };
+global._egvitMongoose = cached;
 
 export async function connectDB(): Promise<typeof mongoose> {
   if (cached.conn) return cached.conn;

@@ -26,8 +26,8 @@ export async function Navbar() {
         style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="nav-logo" src="/eggwhite-icon.png" alt="Eggwhite" />
-        <span className="nav-name">Eggwhite</span>
+        <img className="nav-logo" src="/egvit-icon.png" alt="Egvit" />
+        <span className="nav-name">Egvit</span>
       </Link>
       <div className="nav-spacer">
         {user ? (

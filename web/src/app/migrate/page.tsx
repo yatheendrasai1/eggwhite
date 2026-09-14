@@ -15,8 +15,8 @@ export default async function MigratePage() {
         <BackHome />
         <header className="login-masthead">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="login-logo" src="/eggwhite-icon.png" alt="" />
-          <p className="login-name">eggwhite</p>
+          <img className="login-logo" src="/egvit-icon.png" alt="" />
+          <p className="login-name">egvit</p>
           <p className="login-caption">Bringing your guest-mode progress over to your account.</p>
         </header>
         <MigrateClient userName={session.user.name || ""} />
