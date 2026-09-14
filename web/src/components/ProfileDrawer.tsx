@@ -61,6 +61,21 @@ export function ProfileDrawer({
             <p className="lede" style={{ marginBottom: 20 }}>
               Manage how you show up on the leaderboard.
             </p>
+            <div className="auth-card" style={{ marginBottom: 20 }}>
+              <p className="section-label" style={{ marginBottom: 10 }}>
+                Name
+              </p>
+              <input
+                type="text"
+                value={userName || "—"}
+                disabled
+                className="fill"
+                style={{ width: "100%" }}
+              />
+              <p className="foot" style={{ margin: "8px 0 0" }}>
+                From your Google account — can&rsquo;t be changed here.
+              </p>
+            </div>
             <NicknameEditor initialNickname={initialNickname} />
           </div>
         </div>

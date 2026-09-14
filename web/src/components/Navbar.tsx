@@ -28,14 +28,10 @@ export async function Navbar() {
         <span className="nav-name">Eggwhite</span>
       </Link>
       <div className="nav-spacer">
-        <AboutUs />
         {user ? (
           <>
             <Link href="/leaderboard" className="nav-btn" style={{ textDecoration: "none" }}>
               Leaderboard
-            </Link>
-            <Link href="/me" className="nav-user" style={{ textDecoration: "none" }}>
-              {user.name || user.email}
             </Link>
             <ProfileDrawer
               userName={user.name || ""}
@@ -45,7 +41,10 @@ export async function Navbar() {
             <SignOutButton />
           </>
         ) : (
-          <SignInLink />
+          <>
+            <AboutUs />
+            <SignInLink />
+          </>
         )}
       </div>
     </nav>

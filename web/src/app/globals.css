@@ -1593,6 +1593,11 @@ a.test:active {
   outline: none;
   background: #fff;
 }
+.fill:disabled {
+  background: var(--line);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
 .q-hint {
   margin: 8px 0 0 33px;
   font-size: 12.5px;
