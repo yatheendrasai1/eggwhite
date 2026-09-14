@@ -15,6 +15,7 @@ import {
 import { EnglishLevelResults } from "@/components/EnglishLevelResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
+import { useLoading } from "@/components/LoadingOverlay";
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -52,6 +53,7 @@ export function EnglishLevelRunner({
   const [busy, setBusy] = useState<"discontinue" | "retake" | null>(null);
   const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { withLoading } = useLoading();
 
   const done = countDone(answers);
 
@@ -118,7 +120,7 @@ export function EnglishLevelRunner({
     setSubmitting(true);
     try {
       if (saveTimer.current) clearTimeout(saveTimer.current);
-      await patchAttempt(attemptId, { answers, complete: true });
+      await withLoading(() => patchAttempt(attemptId, { answers, complete: true }));
       setCompleted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -133,7 +135,7 @@ export function EnglishLevelRunner({
       return;
     setBusy("discontinue");
     try {
-      await deleteAttempt(attemptId);
+      await withLoading(() => deleteAttempt(attemptId));
       router.push("/");
     } finally {
       setBusy(null);
@@ -144,7 +146,7 @@ export function EnglishLevelRunner({
     if (!confirm("Clear this attempt and start the test over?")) return;
     setBusy("retake");
     try {
-      await deleteAttempt(attemptId);
+      await withLoading(() => deleteAttempt(attemptId));
       router.push("/tests/english-level");
       router.refresh();
     } finally {

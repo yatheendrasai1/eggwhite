@@ -2,10 +2,20 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { SignInLink, SignOutButton } from "@/components/AuthButtons";
 import { AboutUs } from "@/components/AboutUs";
+import { ProfileDrawer } from "@/components/ProfileDrawer";
+import { connectDB } from "@/lib/db";
+import { UserProfileModel } from "@/lib/models/UserProfile";
 
 export async function Navbar() {
   const session = await auth();
   const user = session?.user;
+
+  let nickname: string | null = null;
+  if (user?.id) {
+    await connectDB();
+    const profile = await UserProfileModel.findOne({ userId: user.id }).lean();
+    nickname = profile?.nickname || null;
+  }
 
   return (
     <nav className="navbar">
@@ -27,6 +37,11 @@ export async function Navbar() {
             <Link href="/me" className="nav-user" style={{ textDecoration: "none" }}>
               {user.name || user.email}
             </Link>
+            <ProfileDrawer
+              userName={user.name || ""}
+              userEmail={user.email || ""}
+              initialNickname={nickname}
+            />
             <SignOutButton />
           </>
         ) : (

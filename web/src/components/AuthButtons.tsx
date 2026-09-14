@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 import { Spinner } from "@/components/Spinner";
+import { useLoading } from "@/components/LoadingOverlay";
 
 function GoogleIcon() {
   return (
@@ -29,6 +30,7 @@ function GoogleIcon() {
 
 export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
   const [pending, setPending] = useState(false);
+  const { withLoading } = useLoading();
   return (
     <div className="stack">
       <button
@@ -37,7 +39,7 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
         disabled={pending}
         onClick={() => {
           setPending(true);
-          signIn("google", { callbackUrl });
+          withLoading(() => signIn("google", { callbackUrl }));
         }}
       >
         {pending ? <Spinner /> : <GoogleIcon />}
@@ -53,6 +55,7 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
 
 export function SignInLink() {
   const [pending, setPending] = useState(false);
+  const { withLoading } = useLoading();
   return (
     <button
       type="button"
@@ -60,7 +63,7 @@ export function SignInLink() {
       disabled={pending}
       onClick={() => {
         setPending(true);
-        signIn(undefined, { callbackUrl: "/" });
+        withLoading(() => signIn(undefined, { callbackUrl: "/" }));
       }}
     >
       {pending ? <Spinner /> : "Sign in"}
@@ -70,6 +73,7 @@ export function SignInLink() {
 
 export function SignOutButton() {
   const [pending, setPending] = useState(false);
+  const { withLoading } = useLoading();
   return (
     <button
       type="button"
@@ -77,7 +81,7 @@ export function SignOutButton() {
       disabled={pending}
       onClick={() => {
         setPending(true);
-        signOut({ callbackUrl: "/" });
+        withLoading(() => signOut({ callbackUrl: "/" }));
       }}
     >
       {pending ? <Spinner /> : "Sign out"}

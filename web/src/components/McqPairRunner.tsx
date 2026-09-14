@@ -11,6 +11,7 @@ import {
 import { McqPairResults } from "@/components/McqPairResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
+import { useLoading } from "@/components/LoadingOverlay";
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -97,6 +98,7 @@ export function McqPairRunner({
   const [busy, setBusy] = useState<"discontinue" | "retake" | null>(null);
   const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { withLoading } = useLoading();
 
   const total = totalMcqPair(config);
   const done = countDoneMcqPair(answers);
@@ -159,7 +161,7 @@ export function McqPairRunner({
     setSubmitting(true);
     try {
       if (saveTimer.current) clearTimeout(saveTimer.current);
-      await patchAttempt(attemptId, { answers, complete: true });
+      await withLoading(() => patchAttempt(attemptId, { answers, complete: true }));
       setCompleted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -174,7 +176,7 @@ export function McqPairRunner({
       return;
     setBusy("discontinue");
     try {
-      await deleteAttempt(attemptId);
+      await withLoading(() => deleteAttempt(attemptId));
       router.push("/");
     } finally {
       setBusy(null);
@@ -185,7 +187,7 @@ export function McqPairRunner({
     if (!confirm("Clear this attempt and start the test over?")) return;
     setBusy("retake");
     try {
-      await deleteAttempt(attemptId);
+      await withLoading(() => deleteAttempt(attemptId));
       router.push(config.href);
       router.refresh();
     } finally {

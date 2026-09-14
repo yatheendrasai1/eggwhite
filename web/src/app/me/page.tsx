@@ -32,12 +32,6 @@ export default async function MePage() {
           <p className="lede">Every test you&rsquo;ve started or finished on this account.</p>
         </header>
 
-        <p className="foot" style={{ margin: "0 0 20px" }}>
-          <Link href="/profile" style={{ color: "var(--violet)" }}>
-            Edit your leaderboard nickname →
-          </Link>
-        </p>
-
         {attempts.length === 0 ? (
           <p className="filler">Nothing yet. Start a test from the home page.</p>
         ) : (

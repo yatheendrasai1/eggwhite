@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Public_Sans, JetBrains_Mono, Bangers } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import { LoadingProvider } from "@/components/LoadingOverlay";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -42,8 +43,10 @@ export default function RootLayout({
       className={`${fraunces.variable} ${publicSans.variable} ${jetbrainsMono.variable} ${bangers.variable}`}
     >
       <body>
-        <Navbar />
-        {children}
+        <LoadingProvider>
+          <Navbar />
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   );

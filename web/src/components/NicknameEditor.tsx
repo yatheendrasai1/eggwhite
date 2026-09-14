@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { Spinner } from "@/components/Spinner";
+import { useLoading } from "@/components/LoadingOverlay";
 
 export function NicknameEditor({ initialNickname }: { initialNickname: string | null }) {
   const [value, setValue] = useState(initialNickname ?? "");
   const [saved, setSaved] = useState(initialNickname ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const { withLoading } = useLoading();
 
   const dirty = value.trim() !== (saved ?? "");
 
@@ -15,15 +17,17 @@ export function NicknameEditor({ initialNickname }: { initialNickname: string | 
     setSaving(true);
     setError("");
     try {
-      const res = await fetch("/api/profile", {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ nickname: value.trim() }),
+      await withLoading(async () => {
+        const res = await fetch("/api/profile", {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ nickname: value.trim() }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const data = await res.json();
+        setSaved(data.nickname ?? "");
+        setValue(data.nickname ?? "");
       });
-      if (!res.ok) throw new Error(String(res.status));
-      const data = await res.json();
-      setSaved(data.nickname ?? "");
-      setValue(data.nickname ?? "");
     } catch {
       setError("Couldn't save — try again.");
     } finally {

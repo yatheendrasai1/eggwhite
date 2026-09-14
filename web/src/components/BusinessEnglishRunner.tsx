@@ -11,6 +11,7 @@ import {
 import { BusinessEnglishResults } from "@/components/BusinessEnglishResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
+import { useLoading } from "@/components/LoadingOverlay";
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -52,6 +53,7 @@ export function BusinessEnglishRunner({
   const [busy, setBusy] = useState<"discontinue" | "retake" | null>(null);
   const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { withLoading } = useLoading();
 
   const picksCount = Object.keys(answers.picks).length;
   const flaggedCount = Object.keys(answers.flagged).length;
@@ -113,7 +115,7 @@ export function BusinessEnglishRunner({
     setSubmitting(true);
     try {
       if (saveTimer.current) clearTimeout(saveTimer.current);
-      await patchAttempt(attemptId, { answers, complete: true });
+      await withLoading(() => patchAttempt(attemptId, { answers, complete: true }));
       setCompleted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -128,7 +130,7 @@ export function BusinessEnglishRunner({
       return;
     setBusy("discontinue");
     try {
-      await deleteAttempt(attemptId);
+      await withLoading(() => deleteAttempt(attemptId));
       router.push("/");
     } finally {
       setBusy(null);
@@ -139,7 +141,7 @@ export function BusinessEnglishRunner({
     if (!confirm("Clear this attempt and start the test over?")) return;
     setBusy("retake");
     try {
-      await deleteAttempt(attemptId);
+      await withLoading(() => deleteAttempt(attemptId));
       router.push("/tests/business-english");
       router.refresh();
     } finally {

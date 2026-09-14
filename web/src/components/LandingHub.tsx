@@ -7,6 +7,7 @@ import type { AttemptDTO } from "@/lib/attempts";
 import { TESTS, byId } from "@/lib/tests/registry";
 import { deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
+import { useLoading } from "@/components/LoadingOverlay";
 
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
@@ -27,6 +28,7 @@ export function LandingHub({
 }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
+  const { withLoading } = useLoading();
 
   const activeIds = new Set(active.map((a) => a.testId));
   const history = attempts.filter((a) => a.status === "completed");
@@ -36,7 +38,7 @@ export function LandingHub({
       return;
     setBusyId(id);
     try {
-      await deleteAttempt(id);
+      await withLoading(() => deleteAttempt(id));
       router.refresh();
     } finally {
       setBusyId(null);
