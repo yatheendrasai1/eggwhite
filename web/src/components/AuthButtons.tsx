@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { signIn, signOut } from "next-auth/react";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
@@ -49,6 +50,12 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
       <a href="/guest/index.html" className="oauth-btn guest-btn">
         Be My Guest! 🤗
       </a>
+      <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "2px 0 0", textAlign: "center" }}>
+        Have a username instead?{" "}
+        <Link href="/account/login" style={{ color: "var(--violet)" }}>
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 }
