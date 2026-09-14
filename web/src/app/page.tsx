@@ -10,7 +10,7 @@ export default async function LandingPage() {
     return (
       <main className="page">
         <div className="wrap">
-          <header className="masthead">
+          <header className="masthead masthead-quiet">
             <h1>
               Test <em>your</em> English
             </h1>
@@ -22,8 +22,6 @@ export default async function LandingPage() {
             attempts={await listAttempts(session.user.id)}
             userName={session.user.name || ""}
           />
-
-          <p className="foot">Results are saved to your eggwhite account.</p>
         </div>
       </main>
     );
