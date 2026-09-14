@@ -6,6 +6,9 @@ import { serializeAttempt } from "@/lib/attempts";
 import { patchAttemptSchema } from "@/lib/validation";
 import { computeProgress, computeSummary } from "@/lib/tests/score";
 import { recordResultIfFirst } from "@/lib/results";
+import { isProTest } from "@/lib/tests/proTests";
+import { isProAtTime, tryConsumeProSubmission } from "@/lib/pro";
+import { UserProfileModel } from "@/lib/models/UserProfile";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -63,6 +66,16 @@ export async function PATCH(
   doc.progress = computeProgress(doc.testId, answers);
 
   if (parsed.data.complete) {
+    if (isProTest(doc.testId)) {
+      const profile = await UserProfileModel.findOne({ userId: session.user.id }).lean();
+      if (!isProAtTime(profile, doc.startedAt)) {
+        return NextResponse.json({ error: "pro access required" }, { status: 403 });
+      }
+      const usage = await tryConsumeProSubmission(session.user.id);
+      if (!usage.allowed) {
+        return NextResponse.json({ error: "daily pro limit reached" }, { status: 429 });
+      }
+    }
     doc.status = "completed";
     doc.completedAt = new Date();
     doc.summary = computeSummary(doc.testId, answers);

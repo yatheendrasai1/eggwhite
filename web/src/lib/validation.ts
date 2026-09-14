@@ -33,7 +33,17 @@ export const updateProfileSchema = z.object({
   nickname: z.string().trim().max(32).optional(),
 });
 
+export const redeemPasscodeSchema = z.object({
+  code: z.string().trim().min(1).max(64),
+});
+
+export const createPasscodeSchema = z.object({
+  label: z.string().trim().max(64).optional(),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
 export type MigrateInput = z.infer<typeof migrateSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+export type RedeemPasscodeInput = z.infer<typeof redeemPasscodeSchema>;
+export type CreatePasscodeInput = z.infer<typeof createPasscodeSchema>;

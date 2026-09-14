@@ -103,6 +103,17 @@ body {
   color: var(--violet);
   padding-top: 3px;
 }
+.pro-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: var(--yolk);
+  border-radius: 4px;
+  padding: 2px 6px;
+  line-height: 1.4;
+}
 .nav-spacer {
   margin-left: auto;
   display: flex;
@@ -1876,6 +1887,172 @@ a.test:active {
 }
 .results.drill .lv-code {
   width: 82px;
+}
+
+/* ---------- dashboard ---------- */
+.dash-section {
+  margin-bottom: 32px;
+}
+.dash-section h2 {
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+.dash-new {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.dash-input {
+  flex: 1;
+  min-width: 160px;
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--ink);
+  background: #fff;
+}
+.dash-input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-soft);
+}
+.dash-new-result {
+  margin: -6px 0 16px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.dash-new-result code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--violet-soft);
+  color: var(--violet);
+  border-radius: 6px;
+  padding: 3px 7px;
+}
+.dash-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dash-row {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 13px 15px;
+}
+.dash-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.dash-row-label {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 15.5px;
+}
+.dash-row-label.mute {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+.dash-code-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dash-code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink);
+  background: #fbf8f1;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 4px 8px;
+  user-select: all;
+}
+.dash-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  min-width: 24px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.dash-copy-btn:hover {
+  border-color: var(--violet);
+  color: var(--violet);
+}
+.dash-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 3px 7px;
+  flex: none;
+}
+.dash-status.unused {
+  background: var(--violet-soft);
+  color: var(--violet);
+}
+.dash-status.used {
+  background: var(--good-soft);
+  color: var(--good);
+}
+.dash-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.dash-row-meta b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.dash-row-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.dash-delete-btn {
+  font-family: var(--body);
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 6px 11px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--bad);
+  cursor: pointer;
+}
+.dash-delete-btn:hover {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+.dash-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 @media (max-width: 460px) {
