@@ -1,5 +1,6 @@
 import type { TestId } from "@/lib/models/Attempt";
 import { isMcqPair } from "@/lib/tests/mcqPairConfigs";
+import { isTranslationTest } from "@/lib/tests/translationConfigs";
 
 export type TestMeta = {
   id: TestId;
@@ -9,7 +10,7 @@ export type TestMeta = {
   desc: string;
   meta: string;
   tag: string;
-  kind: "v" | "o" | "g" | "t";
+  kind: "v" | "o" | "g" | "t" | "p";
   total: number;
   /** Archived tests are dropped from the main list and the leaderboard,
    *  but stay playable — reachable from the archive nav. */
@@ -113,6 +114,17 @@ export const TESTS: TestMeta[] = [
     total: 25,
     archived: true,
   },
+  {
+    id: "translation-drama-v1",
+    slug: "translation-drama-v1",
+    href: "/tests/translation-drama-v1",
+    title: "The Translation Drama — Version 1",
+    desc: "15 workplace lines in Telugu, Tinglish, and Hinglish. Translate each into English — graded by AI on meaning, not exact wording.",
+    meta: "15 items · AI-graded",
+    tag: "Pro · Translation",
+    kind: "p",
+    total: 15,
+  },
 ];
 
 export const byId = (id: string) => TESTS.find((t) => t.id === id);
@@ -127,5 +139,6 @@ export function emptyAnswers(testId: TestId): unknown {
   if (testId === "english-level") return {};
   if (testId === "business-english") return { flagged: {}, picks: {} };
   if (isMcqPair(testId)) return { picks1: {}, picks2: {} };
+  if (isTranslationTest(testId)) return { fills: {} };
   return { fills: {}, picks: {} };
 }

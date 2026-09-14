@@ -9,6 +9,9 @@ import { recordResultIfFirst } from "@/lib/results";
 import { isProTest } from "@/lib/tests/proTests";
 import { isProAtTime, tryConsumeProSubmission } from "@/lib/pro";
 import { UserProfileModel } from "@/lib/models/UserProfile";
+import { isTranslationTest, TRANSLATION_CONFIGS } from "@/lib/tests/translationConfigs";
+import type { TranslationAnswers } from "@/lib/tests/translation";
+import { evaluateTranslation } from "@/lib/tests/translationEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -71,14 +74,45 @@ export async function PATCH(
       if (!isProAtTime(profile, doc.startedAt)) {
         return NextResponse.json({ error: "pro access required" }, { status: 403 });
       }
+    }
+
+    // Run any LLM grading before touching the daily quota or marking the
+    // attempt completed, so a Gemini failure doesn't burn the user's quota
+    // or leave the attempt stuck as "completed" with no real score.
+    let translationResult: Awaited<ReturnType<typeof evaluateTranslation>> | null = null;
+    if (isTranslationTest(doc.testId)) {
+      try {
+        translationResult = await evaluateTranslation(
+          TRANSLATION_CONFIGS[doc.testId],
+          (answers ?? { fills: {} }) as TranslationAnswers
+        );
+      } catch (err) {
+        console.error("translation grading failed", err);
+        return NextResponse.json({ error: "grading failed, please try again" }, { status: 502 });
+      }
+    }
+
+    if (isProTest(doc.testId)) {
       const usage = await tryConsumeProSubmission(session.user.id);
       if (!usage.allowed) {
         return NextResponse.json({ error: "daily pro limit reached" }, { status: 429 });
       }
     }
+
     doc.status = "completed";
     doc.completedAt = new Date();
-    doc.summary = computeSummary(doc.testId, answers);
+    if (translationResult) {
+      doc.summary = {
+        line: translationResult.summaryLine,
+        pct: Math.round(translationResult.pct),
+        level: translationResult.band.code,
+        parts: { avgScore: Math.round(translationResult.total) },
+      };
+      doc.detail = translationResult;
+      doc.markModified("detail");
+    } else {
+      doc.summary = computeSummary(doc.testId, answers);
+    }
   }
 
   doc.markModified("answers");

@@ -9,6 +9,7 @@ export const TEST_IDS = [
   "articles",
   "corporate-confusion",
   "incorrectly-correct",
+  "translation-drama-v1",
 ] as const;
 export type TestId = (typeof TEST_IDS)[number];
 
@@ -41,6 +42,12 @@ const AttemptSchema = new Schema(
       ),
       default: undefined,
     },
+    /**
+     * Per-item review detail for tests whose scoring can't be cheaply
+     * recomputed client-side (e.g. LLM-graded translation tests). Absent for
+     * every other test, which recomputes its review from `answers` instead.
+     */
+    detail: { type: Schema.Types.Mixed, default: undefined },
     startedAt: { type: Date, default: Date.now },
     completedAt: { type: Date },
   },

@@ -1828,6 +1828,11 @@ a.test:active {
   --accent-soft: var(--rose-soft);
   --accent-rung: #efd3db;
 }
+.drill.accent-violet {
+  --accent: var(--violet);
+  --accent-soft: var(--violet-soft);
+  --accent-rung: #f1ddb0;
+}
 .drill .eyebrow,
 .drill .part-num,
 .drill .taking,
@@ -1887,6 +1892,110 @@ a.test:active {
 }
 .results.drill .lv-code {
   width: 82px;
+}
+
+/* ---------- translation test (The Translation Drama) ---------- */
+.translit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.translit-row {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+.translit-lang {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent, var(--violet));
+  flex: none;
+  width: 62px;
+}
+.translit-text {
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.translate-input {
+  width: 100%;
+  min-height: 64px;
+  resize: vertical;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: var(--body);
+  font-size: 15.5px;
+  color: var(--ink);
+  background: #fbf8f1;
+}
+.translate-input:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--accent, var(--violet));
+  box-shadow: 0 0 0 3px var(--accent-soft, var(--violet-soft));
+}
+.translate-input:disabled {
+  background: var(--line);
+  color: var(--ink-soft);
+}
+.tr-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.tr-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.tr-yours {
+  margin: 10px 0 0;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.tr-yours b {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.tr-feedback {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.verdict {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  padding: 3px 8px;
+  flex: none;
+}
+.verdict-correct {
+  background: #e2f0ea;
+  color: #2a6e52;
+}
+.verdict-partial {
+  background: var(--ochre-soft);
+  color: var(--ochre);
+}
+.verdict-incorrect {
+  background: #fbe1e1;
+  color: #a6383d;
+}
+.tag-p {
+  background: var(--violet-soft);
+  color: var(--violet);
 }
 
 /* ---------- dashboard ---------- */

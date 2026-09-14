@@ -9,10 +9,13 @@ import { DrillResults } from "@/components/DrillResults";
 import { DRILL_CONFIGS } from "@/lib/tests/drillConfigs";
 import { McqPairResults } from "@/components/McqPairResults";
 import { MCQ_PAIR_CONFIGS, isMcqPair } from "@/lib/tests/mcqPairConfigs";
+import { TranslationResults } from "@/components/TranslationResults";
+import { isTranslationTest } from "@/lib/tests/translationConfigs";
 import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
 import type { DrillAnswers } from "@/lib/tests/drill";
 import type { McqPairAnswers } from "@/lib/tests/mcqPair";
+import type { TranslationResult } from "@/lib/tests/translation";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +57,8 @@ export default async function ResultsPage({
             config={MCQ_PAIR_CONFIGS[attempt.testId]}
             answers={attempt.answers as McqPairAnswers}
           />
+        ) : isTranslationTest(attempt.testId) ? (
+          <TranslationResults result={attempt.detail as TranslationResult} />
         ) : (
           <DrillResults
             config={DRILL_CONFIGS[attempt.testId]}

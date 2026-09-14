@@ -9,6 +9,8 @@ export type AttemptDTO = {
   answers: unknown;
   progress: { done: number; total: number };
   summary: AttemptSummary | null;
+  /** Per-item review for LLM-graded tests — see Attempt.detail. Null for every other test. */
+  detail: unknown | null;
   startedAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -26,6 +28,7 @@ export function serializeAttempt(doc: any): AttemptDTO {
       total: doc.progress?.total ?? 0,
     },
     summary: doc.summary ?? null,
+    detail: doc.detail ?? null,
     startedAt: new Date(doc.startedAt ?? doc.createdAt).toISOString(),
     updatedAt: new Date(doc.updatedAt).toISOString(),
     completedAt: doc.completedAt ? new Date(doc.completedAt).toISOString() : null,

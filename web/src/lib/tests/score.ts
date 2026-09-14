@@ -25,6 +25,8 @@ import {
   type McqPairAnswers,
 } from "@/lib/tests/mcqPair";
 import { MCQ_PAIR_CONFIGS, isMcqPair } from "@/lib/tests/mcqPairConfigs";
+import { countDoneTranslation, type TranslationAnswers } from "@/lib/tests/translation";
+import { TRANSLATION_CONFIGS, isTranslationTest } from "@/lib/tests/translationConfigs";
 
 export type AttemptSummary = {
   line: string;
@@ -51,6 +53,12 @@ export function computeProgress(
     return {
       done: countDoneMcqPair((answers ?? { picks1: {}, picks2: {} }) as McqPairAnswers),
       total: totalMcqPair(config),
+    };
+  }
+  if (isTranslationTest(testId)) {
+    return {
+      done: countDoneTranslation((answers ?? { fills: {} }) as TranslationAnswers),
+      total: TRANSLATION_CONFIGS[testId].items.length,
     };
   }
   return {
