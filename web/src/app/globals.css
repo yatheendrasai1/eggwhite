@@ -1662,7 +1662,9 @@ a.test:active {
 .btn .spinner,
 .btn-ghost .spinner,
 .btn-exit .spinner,
-.oauth-btn .spinner {
+.oauth-btn .spinner,
+.nav-btn .spinner,
+.dash-delete-btn .spinner {
   margin-right: 8px;
 }
 @keyframes spin {

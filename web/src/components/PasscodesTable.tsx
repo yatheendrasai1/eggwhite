@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/Spinner";
 
 export type PasscodeRow = {
   id: string;
@@ -122,7 +123,13 @@ export function PasscodesTable({
               onClick={() => handleDelete(p.id)}
               disabled={deletingId === p.id}
             >
-              {deletingId === p.id ? "Deleting…" : "Delete"}
+              {deletingId === p.id ? (
+                <>
+                  <Spinner /> Deleting…
+                </>
+              ) : (
+                "Delete"
+              )}
             </button>
           </div>
         </li>

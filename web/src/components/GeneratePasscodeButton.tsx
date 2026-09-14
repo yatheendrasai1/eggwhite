@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/Spinner";
 
 export function GeneratePasscodeButton() {
   const router = useRouter();
@@ -43,7 +44,13 @@ export function GeneratePasscodeButton() {
           maxLength={64}
         />
         <button className="nav-btn solid" onClick={generate} disabled={busy}>
-          {busy ? "Generating…" : "Generate passcode"}
+          {busy ? (
+            <>
+              <Spinner /> Generating…
+            </>
+          ) : (
+            "Generate passcode"
+          )}
         </button>
       </div>
       {code && (

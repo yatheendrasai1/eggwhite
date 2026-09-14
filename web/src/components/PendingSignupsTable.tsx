@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/Spinner";
 
 export type PendingSignupRow = {
   id: string;
@@ -99,7 +100,13 @@ export function PendingSignupsTable({ pending }: { pending: PendingSignupRow[] }
               onClick={() => handleReject(p.id)}
               disabled={deletingId === p.id}
             >
-              {deletingId === p.id ? "Rejecting…" : "Reject"}
+              {deletingId === p.id ? (
+                <>
+                  <Spinner /> Rejecting…
+                </>
+              ) : (
+                "Reject"
+              )}
             </button>
           </div>
         </li>
