@@ -5,6 +5,7 @@ import { AttemptModel } from "@/lib/models/Attempt";
 import { serializeAttempt } from "@/lib/attempts";
 import { patchAttemptSchema } from "@/lib/validation";
 import { computeProgress, computeSummary } from "@/lib/tests/score";
+import { recordResultIfFirst } from "@/lib/results";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -69,6 +70,22 @@ export async function PATCH(
 
   doc.markModified("answers");
   await doc.save();
+
+  if (parsed.data.complete && doc.summary) {
+    await recordResultIfFirst({
+      userId: session.user.id,
+      testId: doc.testId,
+      attemptId: String(doc._id),
+      summary: {
+        line: doc.summary.line ?? "",
+        pct: doc.summary.pct ?? 0,
+        level: doc.summary.level ?? "",
+        parts: doc.summary.parts ?? {},
+      },
+      takenAt: doc.completedAt ?? new Date(),
+    });
+  }
+
   return NextResponse.json({ attempt: serializeAttempt(doc) });
 }
 

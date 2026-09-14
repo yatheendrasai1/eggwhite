@@ -5,6 +5,7 @@ import { AttemptModel } from "@/lib/models/Attempt";
 import { migrateSchema } from "@/lib/validation";
 import { computeProgress, computeSummary } from "@/lib/tests/score";
 import { GUEST_FILE_TEST_ID } from "@/lib/guestMigration";
+import { recordResultIfFirst } from "@/lib/results";
 
 /**
  * Imports guest-mode (localStorage) progress into the signed-in user's
@@ -57,24 +58,30 @@ export async function POST(req: Request) {
     const isCompleted = record.status === "completed";
     const startedAt =
       typeof record.startedAt === "number" ? new Date(record.startedAt) : new Date();
+    const completedAt =
+      typeof record.completedAt === "number" ? new Date(record.completedAt) : new Date();
+    const summary = isCompleted ? computeSummary(testId, answers) : undefined;
 
-    await AttemptModel.create({
+    const created = await AttemptModel.create({
       userId,
       testId,
       status: isCompleted ? "completed" : "in_progress",
       answers,
       progress: computeProgress(testId, answers),
       startedAt,
-      ...(isCompleted
-        ? {
-            completedAt:
-              typeof record.completedAt === "number"
-                ? new Date(record.completedAt)
-                : new Date(),
-            summary: computeSummary(testId, answers),
-          }
-        : {}),
+      ...(isCompleted ? { completedAt, summary } : {}),
     });
+
+    if (isCompleted && summary) {
+      await recordResultIfFirst({
+        userId,
+        testId,
+        attemptId: String(created._id),
+        summary,
+        takenAt: completedAt,
+      });
+    }
+
     migrated.push(testId);
   }
 

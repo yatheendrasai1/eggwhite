@@ -28,6 +28,12 @@ export const migrateSchema = z.object({
     .max(20),
 });
 
+export const updateProfileSchema = z.object({
+  /** Empty string clears the nickname. */
+  nickname: z.string().trim().max(32).optional(),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
 export type MigrateInput = z.infer<typeof migrateSchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;

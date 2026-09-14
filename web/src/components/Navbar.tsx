@@ -21,6 +21,9 @@ export async function Navbar() {
         <AboutUs />
         {user ? (
           <>
+            <Link href="/leaderboard" className="nav-btn" style={{ textDecoration: "none" }}>
+              Leaderboard
+            </Link>
             <Link href="/me" className="nav-user" style={{ textDecoration: "none" }}>
               {user.name || user.email}
             </Link>
