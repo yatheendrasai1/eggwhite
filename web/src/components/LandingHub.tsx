@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { AttemptDTO } from "@/lib/attempts";
-import { TESTS, byId } from "@/lib/tests/registry";
+import { ACTIVE_TESTS, byId } from "@/lib/tests/registry";
 import { deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
@@ -32,6 +32,7 @@ export function LandingHub({
 
   const activeIds = new Set(active.map((a) => a.testId));
   const history = attempts.filter((a) => a.status === "completed");
+  const available = ACTIVE_TESTS.filter((t) => !activeIds.has(t.id));
 
   async function discontinue(id: string) {
     if (!confirm("Discontinue this test? The saved answers and result for it will be erased."))
@@ -91,30 +92,38 @@ export function LandingHub({
         </>
       )}
 
-      <p className={`section-label${active.length > 0 ? " second" : ""}`}>
-        Available tests
-      </p>
-      <ul className="tests">
-        {TESTS.filter((t) => !activeIds.has(t.id)).map((t, i) => {
-          const n = String(i + 1).padStart(2, "0");
-          return (
-            <li key={t.id}>
-              <Link className="test" href={t.href}>
-                <div className="test-top">
-                  <span className="test-idx">{n}</span>
-                  <h3 className="test-title">{t.title}</h3>
-                </div>
-                <p className="test-desc">{t.desc}</p>
-                <div className="test-foot">
-                  <span className={`tag tag-${t.kind}`}>{t.tag}</span>
-                  <span className="test-idx">{t.meta}</span>
-                  <span className="go">Start &rarr;</span>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      {available.length > 0 ? (
+        <>
+          <p className={`section-label${active.length > 0 ? " second" : ""}`}>
+            Available tests
+          </p>
+          <ul className="tests">
+            {available.map((t, i) => {
+              const n = String(i + 1).padStart(2, "0");
+              return (
+                <li key={t.id}>
+                  <Link className="test" href={t.href}>
+                    <div className="test-top">
+                      <span className="test-idx">{n}</span>
+                      <h3 className="test-title">{t.title}</h3>
+                    </div>
+                    <p className="test-desc">{t.desc}</p>
+                    <div className="test-foot">
+                      <span className={`tag tag-${t.kind}`}>{t.tag}</span>
+                      <span className="test-idx">{t.meta}</span>
+                      <span className="go">Start &rarr;</span>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : (
+        <p className={`filler${active.length > 0 ? " second" : ""}`}>
+          No new tests right now — browse older ones from the Archive in the navbar.
+        </p>
+      )}
 
       {history.length > 0 && (
         <>

@@ -328,6 +328,9 @@ body {
 .section-label.second {
   margin-top: 32px;
 }
+.filler.second {
+  margin-top: 32px;
+}
 
 /* ---------- test cards (landing) ---------- */
 .tests {
@@ -1421,6 +1424,47 @@ a.test:active {
   .drawer-panel {
     animation: none;
   }
+}
+
+.drawer-overlay-left {
+  justify-content: flex-start;
+}
+.drawer-panel-left {
+  box-shadow: 8px 0 28px rgba(0, 0, 0, 0.18);
+  animation: drawer-in-left 0.22s ease-out;
+}
+@keyframes drawer-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer-panel-left {
+    animation: none;
+  }
+}
+.archive-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.archive-item {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+}
+.archive-item:hover {
+  border-color: var(--violet);
 }
 
 .oauth-btn {

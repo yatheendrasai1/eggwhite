@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { TESTS } from "@/lib/tests/registry";
+import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import { getTestLeaderboard, getOverallLeaderboard } from "@/lib/leaderboard";
 import { LeaderboardTestPicker } from "@/components/LeaderboardTestPicker";
 import type { TestId } from "@/lib/models/Attempt";
@@ -22,7 +22,7 @@ export default async function LeaderboardPage({
   if (!session?.user?.id) redirect("/signin?callbackUrl=/leaderboard");
 
   const { test } = await searchParams;
-  const activeTest = TESTS.find((t) => t.id === test);
+  const activeTest = ACTIVE_TESTS.find((t) => t.id === test);
   const active = activeTest ? activeTest.id : "overall";
   const viewerId = session.user.id;
 
@@ -31,7 +31,7 @@ export default async function LeaderboardPage({
       <div className="wrap">
         <header className="masthead lb-header">
           <h1>Leaderboard</h1>
-          <LeaderboardTestPicker options={TESTS} value={active} />
+          <LeaderboardTestPicker options={ACTIVE_TESTS} value={active} />
         </header>
 
         {activeTest ? (
@@ -64,7 +64,7 @@ async function OverallBoard({ viewerId }: { viewerId: string }) {
             {r.displayName}
             <br />
             <span className="lb-meta">
-              {r.testsCompleted}/{TESTS.length} tests
+              {r.testsCompleted}/{ACTIVE_TESTS.length} tests
             </span>
           </span>
           <span className="lb-score">

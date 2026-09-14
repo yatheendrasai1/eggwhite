@@ -1,9 +1,12 @@
 import { connectDB } from "@/lib/db";
 import { ResultModel } from "@/lib/models/Result";
 import { resolveDisplayNames } from "@/lib/users";
+import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import type { TestId } from "@/lib/models/Attempt";
 
 const LIMIT = 50;
+/** Archived tests are excluded from the leaderboard entirely. */
+const ACTIVE_TEST_IDS = ACTIVE_TESTS.map((t) => t.id);
 
 export type TestLeaderboardRow = {
   rank: number;
@@ -28,6 +31,7 @@ export async function getTestLeaderboard(
   testId: TestId,
   viewerId?: string
 ): Promise<TestLeaderboardRow[]> {
+  if (!ACTIVE_TEST_IDS.includes(testId)) return [];
   await connectDB();
   const docs = await ResultModel.find({ testId })
     .sort({ pct: -1, takenAt: 1 })
@@ -56,6 +60,7 @@ export async function getOverallLeaderboard(
     avgPct: number;
     testsCompleted: number;
   }>([
+    { $match: { testId: { $in: ACTIVE_TEST_IDS } } },
     {
       $group: {
         _id: "$userId",

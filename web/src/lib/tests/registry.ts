@@ -11,6 +11,9 @@ export type TestMeta = {
   tag: string;
   kind: "v" | "o" | "g" | "t";
   total: number;
+  /** Archived tests are dropped from the main list and the leaderboard,
+   *  but stay playable — reachable from the archive nav. */
+  archived?: boolean;
 };
 
 export const TESTS: TestMeta[] = [
@@ -24,6 +27,7 @@ export const TESTS: TestMeta[] = [
     tag: "Vocabulary & Grammar",
     kind: "v",
     total: 60,
+    archived: true,
   },
   {
     id: "business-english",
@@ -35,6 +39,7 @@ export const TESTS: TestMeta[] = [
     tag: "Corporate English",
     kind: "o",
     total: 20,
+    archived: true,
   },
   {
     id: "preposition-party",
@@ -46,6 +51,7 @@ export const TESTS: TestMeta[] = [
     tag: "Grammar Drill",
     kind: "g",
     total: 32,
+    archived: true,
   },
   {
     id: "tension",
@@ -57,6 +63,7 @@ export const TESTS: TestMeta[] = [
     tag: "Grammar Drill",
     kind: "t",
     total: 32,
+    archived: true,
   },
   {
     id: "tension-2",
@@ -68,6 +75,7 @@ export const TESTS: TestMeta[] = [
     tag: "Grammar Drill",
     kind: "t",
     total: 32,
+    archived: true,
   },
   {
     id: "articles",
@@ -79,6 +87,7 @@ export const TESTS: TestMeta[] = [
     tag: "Grammar Drill",
     kind: "g",
     total: 32,
+    archived: true,
   },
   {
     id: "corporate-confusion",
@@ -90,6 +99,7 @@ export const TESTS: TestMeta[] = [
     tag: "Corporate English",
     kind: "g",
     total: 30,
+    archived: true,
   },
   {
     id: "incorrectly-correct",
@@ -101,11 +111,17 @@ export const TESTS: TestMeta[] = [
     tag: "Grammar & Vocabulary",
     kind: "t",
     total: 25,
+    archived: true,
   },
 ];
 
 export const byId = (id: string) => TESTS.find((t) => t.id === id);
 export const bySlug = (slug: string) => TESTS.find((t) => t.slug === slug);
+
+/** Non-archived tests — shown on the main list and counted on the leaderboard. */
+export const ACTIVE_TESTS = TESTS.filter((t) => !t.archived);
+/** Archived tests — reachable from the archive nav, playable, but leaderboard-exempt. */
+export const ARCHIVED_TESTS = TESTS.filter((t) => t.archived);
 
 export function emptyAnswers(testId: TestId): unknown {
   if (testId === "english-level") return {};

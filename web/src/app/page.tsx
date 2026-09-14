@@ -11,15 +11,10 @@ export default async function LandingPage() {
       <main className="page">
         <div className="wrap">
           <header className="masthead">
-            <p className="eyebrow">eggwhite · English practice</p>
             <h1>
               Test <em>your</em> English
             </h1>
-            <p className="lede">
-              A small collection of self-scoring tests for grammar and vocabulary. Sign in
-              and your progress is saved to your account — close the tab and pick up any
-              device.
-            </p>
+            <p className="lede">A small collection of self-scoring tests for grammar and vocabulary.</p>
           </header>
 
           <LandingHub
