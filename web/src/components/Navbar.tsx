@@ -29,7 +29,7 @@ export async function Navbar() {
 
   return (
     <nav className="navbar">
-      <SideMenu />
+      <SideMenu showDashboard={showDashboard} showLeaderboard={!!user} />
       <Link
         href="/"
         style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
@@ -42,11 +42,19 @@ export async function Navbar() {
       <div className="nav-spacer">
         {user ? (
           <>
-            <Link href="/leaderboard" className="nav-btn" style={{ textDecoration: "none" }}>
+            <Link
+              href="/leaderboard"
+              className="nav-btn nav-btn-wide"
+              style={{ textDecoration: "none" }}
+            >
               Leaderboard
             </Link>
             {showDashboard && (
-              <Link href="/dashboard" className="nav-btn" style={{ textDecoration: "none" }}>
+              <Link
+                href="/dashboard"
+                className="nav-btn nav-btn-wide"
+                style={{ textDecoration: "none" }}
+              >
                 Dashboard
               </Link>
             )}

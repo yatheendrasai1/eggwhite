@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export function SideMenu() {
+export function SideMenu({
+  showDashboard = false,
+  showLeaderboard = false,
+}: {
+  showDashboard?: boolean;
+  showLeaderboard?: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   function close() {
@@ -51,6 +57,22 @@ export function SideMenu() {
               <em>Menu</em>
             </h2>
             <ul className="side-menu-list">
+              {showLeaderboard && (
+                <li className="side-menu-item-mobile">
+                  <Link href="/leaderboard" className="side-menu-item" onClick={close}>
+                    Leaderboard
+                    <span className="side-menu-chevron">→</span>
+                  </Link>
+                </li>
+              )}
+              {showDashboard && (
+                <li className="side-menu-item-mobile">
+                  <Link href="/dashboard" className="side-menu-item" onClick={close}>
+                    Dashboard
+                    <span className="side-menu-chevron">→</span>
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/archive" className="side-menu-item" onClick={close}>
                   Archived tests

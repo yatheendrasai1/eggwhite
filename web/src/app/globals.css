@@ -55,6 +55,11 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body {
   background: var(--paper);
   color: var(--ink);
@@ -236,6 +241,16 @@ body {
   border-left: 1.5px solid var(--yolk);
   border-bottom: 1.5px solid var(--yolk);
   transform: rotate(45deg);
+}
+@media (max-width: 420px) {
+  .login-bubble {
+    left: 50%;
+    top: -42px;
+    transform: translateX(-50%);
+  }
+  .login-bubble::after {
+    display: none;
+  }
 }
 .login-name {
   font-family: var(--brand);
@@ -1392,6 +1407,11 @@ a.test:active {
   color: var(--violet);
   flex: none;
 }
+@media (min-width: 561px) {
+  .side-menu-item-mobile {
+    display: none;
+  }
+}
 .drawer-overlay {
   position: fixed;
   inset: 0;
@@ -2207,12 +2227,21 @@ a.test:active {
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 560px) {
+  .nav-btn-wide {
+    display: none;
+  }
+}
 @media (max-width: 400px) {
   .wrap {
     padding: 0 14px;
   }
   .navbar {
     padding: 0 14px;
+    gap: 8px;
+  }
+  .nav-name {
+    font-size: 19px;
   }
   .progress-in {
     padding: 11px 14px;
