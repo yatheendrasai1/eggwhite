@@ -52,7 +52,7 @@ export function SideMenu() {
             </h2>
             <ul className="side-menu-list">
               <li>
-                <Link href="/#archived-tests" className="side-menu-item" onClick={close}>
+                <Link href="/archive" className="side-menu-item" onClick={close}>
                   Archived tests
                   <span className="side-menu-chevron">→</span>
                 </Link>

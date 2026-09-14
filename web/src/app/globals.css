@@ -451,10 +451,6 @@ a.test:active {
   background: #e2f0ea;
   color: #2a6e52;
 }
-.badge-archived {
-  background: var(--line);
-  color: var(--ink-soft);
-}
 .test-locked {
   opacity: 0.55;
   cursor: default;
