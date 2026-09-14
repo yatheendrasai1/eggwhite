@@ -22,7 +22,7 @@ export async function connectDB(): Promise<typeof mongoose> {
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error("MONGODB_URI is not set — see web/.env.example");
   if (!cached.promise) {
-    cached.promise = mongoose.connect(uri, { bufferCommands: false });
+    cached.promise = mongoose.connect(uri, { dbName: "eggwhite", bufferCommands: false });
   }
   cached.conn = await cached.promise;
   return cached.conn;
