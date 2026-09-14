@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { BackHome } from "@/components/BackHome";
 import {
   countDoneMcqPair,
   totalMcqPair,
@@ -199,6 +199,7 @@ export function McqPairRunner({
   if (completed) {
     return (
       <div className="wrap">
+        <BackHome />
         <McqPairResults config={config} answers={answers} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
@@ -228,11 +229,7 @@ export function McqPairRunner({
     <div className={`drill accent-${config.accent}`}>
       <div className="wrap">
         <header className="masthead">
-          <p className="foot" style={{ margin: "0 0 12px", textAlign: "left" }}>
-            <Link href="/" style={{ color: "var(--violet)" }}>
-              ← Back to home
-            </Link>
-          </p>
+          <BackHome />
           <p className="eyebrow">{config.eyebrow}</p>
           <h1>
             {config.titleLead}

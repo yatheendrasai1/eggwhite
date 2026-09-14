@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { BackHome } from "@/components/BackHome";
 import {
   MAILS,
   VOCAB,
@@ -153,6 +153,7 @@ export function BusinessEnglishRunner({
   if (completed) {
     return (
       <div className="wrap">
+        <BackHome />
         <BusinessEnglishResults answers={answers} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
@@ -182,11 +183,7 @@ export function BusinessEnglishRunner({
     <>
       <div className="wrap">
         <header className="masthead">
-          <p className="foot" style={{ margin: "0 0 12px", textAlign: "left" }}>
-            <Link href="/" style={{ color: "var(--violet)" }}>
-              ← Back to home
-            </Link>
-          </p>
+          <BackHome />
           <p className="eyebrow">Round 2 · Editing &amp; corporate vocabulary</p>
           <h1>
             How sharp is your <em>working English</em>?

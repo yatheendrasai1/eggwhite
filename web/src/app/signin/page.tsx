@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { SignInButtons } from "@/components/AuthButtons";
+import { BackHome } from "@/components/BackHome";
 
 export default async function SignInPage({
   searchParams,
@@ -14,6 +15,7 @@ export default async function SignInPage({
   return (
     <main className="page">
       <div className="wrap">
+        <BackHome />
         <header className="login-masthead">
           <div className="login-logo-wrap">
             {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { listAttempts } from "@/lib/attempts";
 import { byId } from "@/lib/tests/registry";
+import { BackHome } from "@/components/BackHome";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ export default async function MePage() {
     <main className="page">
       <div className="wrap">
         <header className="masthead">
+          <BackHome />
           <p className="eyebrow">{session.user.email}</p>
           <h1>
             Your <em>attempts</em>
@@ -61,12 +63,6 @@ export default async function MePage() {
             })}
           </ul>
         )}
-
-        <p className="foot">
-          <Link href="/" style={{ color: "var(--violet)" }}>
-            ← Back to all tests
-          </Link>
-        </p>
       </div>
     </main>
   );

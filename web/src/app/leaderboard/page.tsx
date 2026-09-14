@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import { getTestLeaderboard, getOverallLeaderboard } from "@/lib/leaderboard";
 import { LeaderboardTestPicker } from "@/components/LeaderboardTestPicker";
+import { BackHome } from "@/components/BackHome";
 import type { TestId } from "@/lib/models/Attempt";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +29,7 @@ export default async function LeaderboardPage({
   return (
     <main className="page">
       <div className="wrap">
+        <BackHome />
         <header className="masthead lb-header">
           <h1>Leaderboard</h1>
           <LeaderboardTestPicker options={ACTIVE_TESTS} value={active} />
@@ -39,12 +40,6 @@ export default async function LeaderboardPage({
         ) : (
           <OverallBoard viewerId={viewerId} />
         )}
-
-        <p className="foot" style={{ marginTop: 24 }}>
-          <Link href="/" style={{ color: "var(--violet)" }}>
-            ← Back to all tests
-          </Link>
-        </p>
       </div>
     </main>
   );

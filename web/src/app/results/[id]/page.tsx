@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getAttemptById } from "@/lib/attempts";
 import { byId } from "@/lib/tests/registry";
+import { BackHome } from "@/components/BackHome";
 import { EnglishLevelResults } from "@/components/EnglishLevelResults";
 import { BusinessEnglishResults } from "@/components/BusinessEnglishResults";
 import { DrillResults } from "@/components/DrillResults";
@@ -37,6 +37,7 @@ export default async function ResultsPage({
     <main className="page">
       <div className="wrap">
         <header className="masthead">
+          <BackHome />
           <p className="eyebrow">Result · {meta?.title ?? attempt.testId}</p>
           <h1>
             Your <em>result</em>
@@ -59,11 +60,6 @@ export default async function ResultsPage({
             answers={attempt.answers as DrillAnswers}
           />
         )}
-      </div>
-      <div className="wrap" style={{ paddingBottom: 40 }}>
-        <Link className="btn btn-ghost" href="/">
-          Back to all tests
-        </Link>
       </div>
     </main>
   );

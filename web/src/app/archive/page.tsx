@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { ARCHIVED_TESTS } from "@/lib/tests/registry";
+import { BackHome } from "@/components/BackHome";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,7 @@ export default async function ArchivePage() {
     <main className="page">
       <div className="wrap">
         <header className="masthead">
+          <BackHome />
           <h1>
             Archived <em>tests</em>
           </h1>
@@ -43,12 +45,6 @@ export default async function ArchivePage() {
             );
           })}
         </ul>
-
-        <p className="foot" style={{ marginTop: 24 }}>
-          <Link href="/" style={{ color: "var(--violet)" }}>
-            ← Back to all tests
-          </Link>
-        </p>
       </div>
     </main>
   );

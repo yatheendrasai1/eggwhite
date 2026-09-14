@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { MigrateClient } from "@/components/MigrateClient";
+import { BackHome } from "@/components/BackHome";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ export default async function MigratePage() {
   return (
     <main className="page">
       <div className="wrap">
+        <BackHome />
         <header className="login-masthead">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="login-logo" src="/eggwhite-icon.png" alt="" />
