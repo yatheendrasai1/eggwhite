@@ -14,6 +14,7 @@ export async function Navbar() {
 
   let nickname: string | null = null;
   let isPro = false;
+  let proExpiresAt: string | null = null;
   let showDashboard = false;
   if (user?.id) {
     await connectDB();
@@ -22,6 +23,7 @@ export async function Navbar() {
       .lean();
     nickname = profile?.nickname || null;
     isPro = isProActive(profile);
+    proExpiresAt = profile?.proExpiresAt ? profile.proExpiresAt.toISOString() : null;
     showDashboard = isTiv(profile);
   }
 
@@ -52,6 +54,8 @@ export async function Navbar() {
               userName={user.name || ""}
               userEmail={user.email || ""}
               initialNickname={nickname}
+              isPro={isPro}
+              proExpiresAt={proExpiresAt}
             />
           </>
         ) : (
