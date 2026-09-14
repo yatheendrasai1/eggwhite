@@ -4,6 +4,7 @@ import { connectDB } from "@/lib/db";
 import { ensureAttempt } from "@/lib/ensureAttempt";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive } from "@/lib/pro";
+import { BackHome } from "@/components/BackHome";
 import { TranslationRunner } from "@/components/TranslationRunner";
 import { TRANSLATION_DRAMA_V1 } from "@/lib/tests/translationDrama";
 
@@ -15,7 +16,22 @@ export default async function TranslationDramaV1Page() {
 
   await connectDB();
   const profile = await UserProfileModel.findOne({ userId: session.user.id }).lean();
-  if (!isProActive(profile)) redirect("/");
+  if (!isProActive(profile)) {
+    return (
+      <main className="page">
+        <div className="wrap">
+          <header className="masthead">
+            <BackHome />
+            <p className="eyebrow">Pro · LLM-graded</p>
+            <h1>
+              The <em>Translation</em> Drama
+            </h1>
+          </header>
+          <p className="filler">You need a pro account to participate in this test.</p>
+        </div>
+      </main>
+    );
+  }
 
   const res = await ensureAttempt(session.user.id, "translation-drama-v1");
 
