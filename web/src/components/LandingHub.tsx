@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { AttemptDTO } from "@/lib/attempts";
-import { ACTIVE_TESTS, byId } from "@/lib/tests/registry";
+import { ACTIVE_TESTS, ARCHIVED_TESTS, byId } from "@/lib/tests/registry";
 import { deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
@@ -121,7 +121,7 @@ export function LandingHub({
         </>
       ) : (
         <p className={`filler${active.length > 0 ? " second" : ""}`}>
-          No new tests right now — browse older ones from the Archive in the navbar.
+          No new tests right now — browse older ones in Archived tests below.
         </p>
       )}
 
@@ -145,6 +145,34 @@ export function LandingHub({
             })}
           </ul>
         </>
+      )}
+
+      {ARCHIVED_TESTS.length > 0 && (
+        <section id="archived-tests">
+          <p className="section-label second">Archived tests</p>
+          <p className="foot" style={{ margin: "-8px 0 14px" }}>
+            Older tests, kept for practice. Scores here don&rsquo;t count toward the
+            leaderboard.
+          </p>
+          <ul className="tests">
+            {ARCHIVED_TESTS.map((t) => (
+              <li key={t.id}>
+                <Link className="test" href={t.href}>
+                  <div className="test-top">
+                    <span className="badge badge-archived">Archived</span>
+                    <h3 className="test-title">{t.title}</h3>
+                  </div>
+                  <p className="test-desc">{t.desc}</p>
+                  <div className="test-foot">
+                    <span className={`tag tag-${t.kind}`}>{t.tag}</span>
+                    <span className="test-idx">{t.meta}</span>
+                    <span className="go">Start &rarr;</span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </>
   );

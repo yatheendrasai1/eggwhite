@@ -451,6 +451,10 @@ a.test:active {
   background: #e2f0ea;
   color: #2a6e52;
 }
+.badge-archived {
+  background: var(--line);
+  color: var(--ink-soft);
+}
 .test-locked {
   opacity: 0.55;
   cursor: default;
@@ -1361,6 +1365,8 @@ a.test:active {
   color: var(--ink);
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 .side-menu-item:hover {
   border-color: var(--violet);
@@ -1369,21 +1375,6 @@ a.test:active {
   color: var(--violet);
   flex: none;
 }
-.side-menu-back {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0 0 12px;
-  font-family: var(--body);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--violet);
-  cursor: pointer;
-}
-.side-menu-back:hover {
-  text-decoration: underline;
-}
-
 .drawer-overlay {
   position: fixed;
   inset: 0;
@@ -1519,27 +1510,6 @@ a.test:active {
     animation: none;
   }
 }
-.archive-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.archive-item {
-  display: block;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px 16px;
-  text-decoration: none;
-  color: inherit;
-}
-.archive-item:hover {
-  border-color: var(--violet);
-}
-
 .oauth-btn {
   width: 100%;
   display: flex;
