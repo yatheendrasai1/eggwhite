@@ -1338,6 +1338,42 @@ a.test:active {
   font-weight: 400;
   color: var(--violet);
 }
+.profile-info {
+  margin: 0 0 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 4px 18px;
+}
+.profile-info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+}
+.profile-info-row + .profile-info-row {
+  border-top: 1px solid var(--line);
+}
+.profile-info-row dt {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  flex: none;
+}
+.profile-info-row dd {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 @keyframes drawer-in {
   from {
     transform: translateX(100%);

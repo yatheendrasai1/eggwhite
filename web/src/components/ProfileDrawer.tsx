@@ -55,28 +55,19 @@ export function ProfileDrawer({
             >
               ×
             </button>
-            <p className="eyebrow">{userEmail}</p>
             <h2 className="drawer-title">
               Your <em>profile</em>
             </h2>
-            <p className="lede" style={{ marginBottom: 20 }}>
-              Manage how you show up on the leaderboard.
-            </p>
-            <div className="auth-card" style={{ marginBottom: 20 }}>
-              <p className="section-label" style={{ marginBottom: 10 }}>
-                Name
-              </p>
-              <input
-                type="text"
-                value={userName || "—"}
-                disabled
-                className="fill"
-                style={{ width: "100%" }}
-              />
-              <p className="foot" style={{ margin: "8px 0 0" }}>
-                From your Google account — can&rsquo;t be changed here.
-              </p>
-            </div>
+            <dl className="profile-info">
+              <div className="profile-info-row">
+                <dt>Name</dt>
+                <dd>{userName || "—"}</dd>
+              </div>
+              <div className="profile-info-row">
+                <dt>Mail ID</dt>
+                <dd>{userEmail || "—"}</dd>
+              </div>
+            </dl>
             <NicknameEditor initialNickname={initialNickname} />
             <div
               style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--line)" }}
