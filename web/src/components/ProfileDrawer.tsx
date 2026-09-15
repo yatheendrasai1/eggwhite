@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { NicknameEditor } from "@/components/NicknameEditor";
 import { RedeemCodeForm } from "@/components/RedeemCodeForm";
 import { SignOutButton } from "@/components/AuthButtons";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import type { Theme } from "@/lib/theme";
 
 function fmtDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -15,12 +17,14 @@ export function ProfileDrawer({
   initialNickname,
   isPro,
   proExpiresAt,
+  initialTheme,
 }: {
   userName: string;
   userEmail: string;
   initialNickname: string | null;
   isPro: boolean;
   proExpiresAt: string | null;
+  initialTheme: Theme;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -78,6 +82,7 @@ export function ProfileDrawer({
               </div>
             </div>
             <NicknameEditor initialNickname={initialNickname} />
+            <ThemeToggle initialTheme={initialTheme} />
             {isPro ? (
               <div className="profile-info" style={{ marginBottom: 20 }}>
                 <div className="profile-info-row">

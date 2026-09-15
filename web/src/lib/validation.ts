@@ -28,9 +28,12 @@ export const migrateSchema = z.object({
     .max(20),
 });
 
+export const themeSchema = z.enum(["light", "dark", "system"]);
+
 export const updateProfileSchema = z.object({
   /** Empty string clears the nickname. */
   nickname: z.string().trim().max(32).optional(),
+  theme: themeSchema.optional(),
 });
 
 export const redeemPasscodeSchema = z.object({

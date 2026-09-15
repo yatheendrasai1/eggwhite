@@ -7,6 +7,7 @@ import { SideMenu } from "@/components/SideMenu";
 import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive, isTiv } from "@/lib/pro";
+import type { Theme } from "@/lib/theme";
 
 export async function Navbar() {
   const session = await auth();
@@ -16,15 +17,17 @@ export async function Navbar() {
   let isPro = false;
   let proExpiresAt: string | null = null;
   let showDashboard = false;
+  let theme: Theme = "system";
   if (user?.id) {
     await connectDB();
     const profile = await UserProfileModel.findOne({ userId: user.id })
-      .select("nickname proExpiresAt isTiv")
+      .select("nickname proExpiresAt isTiv theme")
       .lean();
     nickname = profile?.nickname || null;
     isPro = isProActive(profile);
     proExpiresAt = profile?.proExpiresAt ? profile.proExpiresAt.toISOString() : null;
     showDashboard = isTiv(profile);
+    theme = (profile?.theme as Theme) || "system";
   }
 
   return (
@@ -64,6 +67,7 @@ export async function Navbar() {
               initialNickname={nickname}
               isPro={isPro}
               proExpiresAt={proExpiresAt}
+              initialTheme={theme}
             />
           </>
         ) : (

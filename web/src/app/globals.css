@@ -30,6 +30,51 @@
   --mono: var(--font-google-sans-flex), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
+/* Dark palette: applied when the OS prefers dark and no explicit choice
+   overrides it, or when the user has explicitly chosen "dark". */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1e1a15;
+    --card: #2a251e;
+    --ink: #f2ecdd;
+    --ink-soft: #b3a78e;
+    --line: #423b2f;
+    --violet: #e8b84b;
+    --violet-soft: #4a3b1a;
+    --ochre: #e8935a;
+    --ochre-soft: #4a3223;
+    --slate: #8c8270;
+    --good: #5fbf95;
+    --good-soft: #1c3a2c;
+    --bad: #e8735a;
+    --bad-soft: #402019;
+    --steel: #5fb8c2;
+    --steel-soft: #1d3a3d;
+    --rose: #e8809f;
+    --rose-soft: #3d2530;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1e1a15;
+  --card: #2a251e;
+  --ink: #f2ecdd;
+  --ink-soft: #b3a78e;
+  --line: #423b2f;
+  --violet: #e8b84b;
+  --violet-soft: #4a3b1a;
+  --ochre: #e8935a;
+  --ochre-soft: #4a3223;
+  --slate: #8c8270;
+  --good: #5fbf95;
+  --good-soft: #1c3a2c;
+  --bad: #e8735a;
+  --bad-soft: #402019;
+  --steel: #5fb8c2;
+  --steel-soft: #1d3a3d;
+  --rose: #e8809f;
+  --rose-soft: #3d2530;
+}
+
 @theme inline {
   --color-paper: var(--paper);
   --color-card: var(--card);
@@ -484,8 +529,8 @@ a.test:active {
   color: var(--violet);
 }
 .badge-done {
-  background: #e2f0ea;
-  color: #2a6e52;
+  background: var(--good-soft);
+  color: var(--good);
 }
 .test-locked {
   opacity: 0.55;
@@ -958,6 +1003,45 @@ a.test:active {
 .btn-exit:hover {
   border-color: var(--bad);
   color: var(--bad);
+}
+
+/* ---------- theme toggle ---------- */
+.theme-toggle {
+  display: flex;
+  gap: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 4px;
+  margin-top: 8px;
+}
+.theme-toggle-opt {
+  flex: 1;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.theme-toggle-opt:hover {
+  color: var(--ink);
+}
+.theme-toggle-opt.active {
+  background: var(--card);
+  color: var(--violet);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.theme-toggle-opt:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.theme-toggle-opt:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: 2px;
 }
 
 /* ---------- results ---------- */
@@ -2040,16 +2124,16 @@ a.test:active {
   flex: none;
 }
 .verdict-correct {
-  background: #e2f0ea;
-  color: #2a6e52;
+  background: var(--good-soft);
+  color: var(--good);
 }
 .verdict-partial {
   background: var(--ochre-soft);
   color: var(--ochre);
 }
 .verdict-incorrect {
-  background: #fbe1e1;
-  color: #a6383d;
+  background: var(--bad-soft);
+  color: var(--bad);
 }
 .tag-p {
   background: var(--violet-soft);

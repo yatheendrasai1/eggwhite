@@ -12,6 +12,8 @@ const UserProfileSchema = new Schema(
     proExpiresAt: { type: Date, default: null },
     /** Grants access to /dashboard. Set manually via scripts/grant-tiv.mjs. */
     isTiv: { type: Boolean, default: false },
+    /** UI theme preference. "system" defers to the OS/browser setting. */
+    theme: { type: String, enum: ["light", "dark", "system"], default: "system" },
   },
   { timestamps: true }
 );

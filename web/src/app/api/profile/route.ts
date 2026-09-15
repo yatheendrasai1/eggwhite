@@ -11,7 +11,7 @@ export async function GET() {
   }
   await connectDB();
   const doc = await UserProfileModel.findOne({ userId: session.user.id }).lean();
-  return NextResponse.json({ nickname: doc?.nickname || null });
+  return NextResponse.json({ nickname: doc?.nickname || null, theme: doc?.theme || "system" });
 }
 
 export async function PATCH(req: Request) {
@@ -36,12 +36,15 @@ export async function PATCH(req: Request) {
   }
 
   await connectDB();
-  const nickname = parsed.data.nickname?.trim() || undefined;
+  const update: Record<string, unknown> = {};
+  if (parsed.data.nickname !== undefined) update.nickname = parsed.data.nickname.trim();
+  if (parsed.data.theme !== undefined) update.theme = parsed.data.theme;
+
   const doc = await UserProfileModel.findOneAndUpdate(
     { userId: session.user.id },
-    { $set: { nickname: nickname ?? "" } },
+    { $set: update },
     { upsert: true, new: true }
   );
 
-  return NextResponse.json({ nickname: doc.nickname || null });
+  return NextResponse.json({ nickname: doc.nickname || null, theme: doc.theme || "system" });
 }

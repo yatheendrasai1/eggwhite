@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { LoadingProvider } from "@/components/LoadingOverlay";
 import { ToastProvider } from "@/components/Toast";
+import { getSessionTheme } from "@/lib/theme";
 
 /** Logo + main headings. */
 const eduHand = localFont({
@@ -25,13 +26,18 @@ export const metadata: Metadata = {
     "Self-scoring English grammar and vocabulary tests. Your progress is saved to your account.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const theme = await getSessionTheme();
   return (
-    <html lang="en" className={`${eduHand.variable} ${googleSansFlex.variable}`}>
+    <html
+      lang="en"
+      className={`${eduHand.variable} ${googleSansFlex.variable}`}
+      data-theme={theme === "system" ? undefined : theme}
+    >
       <body>
         <ToastProvider>
           <LoadingProvider>
