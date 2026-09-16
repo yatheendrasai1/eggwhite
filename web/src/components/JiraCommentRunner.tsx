@@ -28,6 +28,14 @@ function wordCountBand(words: number): "grey" | "orange" | "green" | "red" {
   return "red";
 }
 
+/** Short cue paired with the word count, matching the color bands above. */
+function wordCountPhrase(words: number): string {
+  if (words <= 50) return "Keep going…";
+  if (words <= 100) return "Almost there…";
+  if (words <= 200) return "You're there";
+  return "Getting verbose…";
+}
+
 export function JiraCommentRunner({
   config,
   attemptId,
@@ -225,10 +233,10 @@ export function JiraCommentRunner({
               <div className="q-head">
                 <span className="q-num">01</span>
                 <p className="q-text" style={{ margin: 0 }}>
-                  Write the Jira comment
+                  Your comment
                 </p>
                 <span className={`word-count-badge wcb-${wordCountBand(words)}`}>
-                  {words} words
+                  {words} words · {wordCountPhrase(words)}
                 </span>
               </div>
               <textarea
