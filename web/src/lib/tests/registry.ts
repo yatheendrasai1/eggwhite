@@ -1,6 +1,7 @@
 import type { TestId } from "@/lib/models/Attempt";
 import { isMcqPair } from "@/lib/tests/mcqPairConfigs";
 import { isTranslationTest } from "@/lib/tests/translationConfigs";
+import { isJiraCommentTest } from "@/lib/tests/jiraCommentConfigs";
 
 export type TestMeta = {
   id: TestId;
@@ -125,6 +126,17 @@ export const TESTS: TestMeta[] = [
     kind: "p",
     total: 15,
   },
+  {
+    id: "framing-the-situation",
+    slug: "framing-the-situation",
+    href: "/tests/framing-the-situation",
+    title: "Framing the Situation",
+    desc: "Read a real workplace scenario and write the Jira comment it calls for — graded by AI on tense, structure, prepositions, and clarity.",
+    meta: "1 written response · AI-graded",
+    tag: "Pro · Writing",
+    kind: "p",
+    total: 1,
+  },
 ];
 
 export const byId = (id: string) => TESTS.find((t) => t.id === id);
@@ -140,5 +152,6 @@ export function emptyAnswers(testId: TestId): unknown {
   if (testId === "business-english") return { flagged: {}, picks: {} };
   if (isMcqPair(testId)) return { picks1: {}, picks2: {} };
   if (isTranslationTest(testId)) return { fills: {} };
+  if (isJiraCommentTest(testId)) return { response: "" };
   return { fills: {}, picks: {} };
 }

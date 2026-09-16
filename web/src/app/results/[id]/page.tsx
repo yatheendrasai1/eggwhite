@@ -11,11 +11,14 @@ import { McqPairResults } from "@/components/McqPairResults";
 import { MCQ_PAIR_CONFIGS, isMcqPair } from "@/lib/tests/mcqPairConfigs";
 import { TranslationResults } from "@/components/TranslationResults";
 import { isTranslationTest } from "@/lib/tests/translationConfigs";
+import { JiraCommentResults } from "@/components/JiraCommentResults";
+import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
 import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
 import type { DrillAnswers } from "@/lib/tests/drill";
 import type { McqPairAnswers } from "@/lib/tests/mcqPair";
 import type { TranslationResult } from "@/lib/tests/translation";
+import type { JiraCommentResult } from "@/lib/tests/jiraComment";
 
 export const dynamic = "force-dynamic";
 
@@ -59,6 +62,11 @@ export default async function ResultsPage({
           />
         ) : isTranslationTest(attempt.testId) ? (
           <TranslationResults result={attempt.detail as TranslationResult} />
+        ) : isJiraCommentTest(attempt.testId) ? (
+          <JiraCommentResults
+            result={attempt.detail as JiraCommentResult}
+            config={JIRA_COMMENT_CONFIGS[attempt.testId]}
+          />
         ) : (
           <DrillResults
             config={DRILL_CONFIGS[attempt.testId]}

@@ -27,6 +27,8 @@ import {
 import { MCQ_PAIR_CONFIGS, isMcqPair } from "@/lib/tests/mcqPairConfigs";
 import { countDoneTranslation, type TranslationAnswers } from "@/lib/tests/translation";
 import { TRANSLATION_CONFIGS, isTranslationTest } from "@/lib/tests/translationConfigs";
+import { countDoneJiraComment, type JiraCommentAnswers } from "@/lib/tests/jiraComment";
+import { isJiraCommentTest } from "@/lib/tests/jiraCommentConfigs";
 
 export type AttemptSummary = {
   line: string;
@@ -59,6 +61,12 @@ export function computeProgress(
     return {
       done: countDoneTranslation((answers ?? { fills: {} }) as TranslationAnswers),
       total: TRANSLATION_CONFIGS[testId].items.length,
+    };
+  }
+  if (isJiraCommentTest(testId)) {
+    return {
+      done: countDoneJiraComment((answers ?? { response: "" }) as JiraCommentAnswers),
+      total: 1,
     };
   }
   return {

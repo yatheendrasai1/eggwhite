@@ -10,6 +10,7 @@ export const TEST_IDS = [
   "corporate-confusion",
   "incorrectly-correct",
   "translation-drama-v1",
+  "framing-the-situation",
 ] as const;
 export type TestId = (typeof TEST_IDS)[number];
 

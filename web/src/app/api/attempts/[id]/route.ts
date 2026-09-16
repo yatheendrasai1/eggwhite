@@ -12,6 +12,9 @@ import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isTranslationTest, TRANSLATION_CONFIGS } from "@/lib/tests/translationConfigs";
 import type { TranslationAnswers } from "@/lib/tests/translation";
 import { evaluateTranslation } from "@/lib/tests/translationEval";
+import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
+import type { JiraCommentAnswers } from "@/lib/tests/jiraComment";
+import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -76,6 +79,15 @@ export async function PATCH(
       }
     }
 
+    if (isTranslationTest(doc.testId) || isJiraCommentTest(doc.testId)) {
+      // Persist the submitted answers before calling the grading LLM, so a
+      // Gemini failure never loses the candidate's work — the attempt stays
+      // in_progress with the answers saved, and resubmitting just retries
+      // grading on the same saved answer instead of redoing anything.
+      doc.markModified("answers");
+      await doc.save();
+    }
+
     // Run any LLM grading before touching the daily quota or marking the
     // attempt completed, so a Gemini failure doesn't burn the user's quota
     // or leave the attempt stuck as "completed" with no real score.
@@ -88,6 +100,19 @@ export async function PATCH(
         );
       } catch (err) {
         console.error("translation grading failed", err);
+        return NextResponse.json({ error: "grading failed, please try again" }, { status: 502 });
+      }
+    }
+
+    let jiraResult: Awaited<ReturnType<typeof evaluateJiraComment>> | null = null;
+    if (isJiraCommentTest(doc.testId)) {
+      try {
+        jiraResult = await evaluateJiraComment(
+          JIRA_COMMENT_CONFIGS[doc.testId],
+          (answers ?? { response: "" }) as JiraCommentAnswers
+        );
+      } catch (err) {
+        console.error("jira comment grading failed", err);
         return NextResponse.json({ error: "grading failed, please try again" }, { status: 502 });
       }
     }
@@ -109,6 +134,15 @@ export async function PATCH(
         parts: { total: translationResult.total, maxScore: translationResult.maxScore },
       };
       doc.detail = translationResult;
+      doc.markModified("detail");
+    } else if (jiraResult) {
+      doc.summary = {
+        line: jiraResult.summaryLine,
+        pct: Math.round((jiraResult.total / jiraResult.maxScore) * 100),
+        level: jiraResult.band.code,
+        parts: { total: jiraResult.total, maxScore: jiraResult.maxScore },
+      };
+      doc.detail = jiraResult;
       doc.markModified("detail");
     } else {
       doc.summary = computeSummary(doc.testId, answers);

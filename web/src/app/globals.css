@@ -2162,6 +2162,24 @@ a.test:active {
   color: var(--violet);
 }
 
+/* ---------- Jira comment writing test (Framing the Situation) ---------- */
+.jira-textarea {
+  min-height: 260px;
+}
+.task-list {
+  margin: 8px 0 0;
+  padding: 0 0 0 20px;
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.task-list li {
+  margin-bottom: 6px;
+}
+.task-list li:last-child {
+  margin-bottom: 0;
+}
+
 /* ---------- dashboard ---------- */
 .dash-section {
   margin-bottom: 32px;
