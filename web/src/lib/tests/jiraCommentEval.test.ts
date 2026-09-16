@@ -14,7 +14,7 @@ vi.mock("@/lib/prompts", () => ({
 
 import { callGemini } from "@/lib/gemini";
 import { getPromptTemplate } from "@/lib/prompts";
-import { countWords, countDoneJiraComment } from "@/lib/tests/jiraComment";
+import { countWords, countDoneJiraComment, buildExportText } from "@/lib/tests/jiraComment";
 import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
 
 const mockCallGemini = vi.mocked(callGemini);
@@ -98,6 +98,7 @@ describe("evaluateJiraComment", () => {
     expect(result.band.code).toBe("A");
     expect(result.suggestions).toEqual([{ quote: "informations", fix: "information" }]);
     expect(result.response).toBe(answers.response);
+    expect(result.rubric).toBe("Grade this Jira comment against the rubric.");
   });
 
   it("clamps an out-of-range category score into 0..max", async () => {
@@ -176,5 +177,48 @@ describe("countDoneJiraComment", () => {
   it("is 0 when the response is blank or whitespace", () => {
     expect(countDoneJiraComment({ response: "" })).toBe(0);
     expect(countDoneJiraComment({ response: "   " })).toBe(0);
+  });
+});
+
+describe("buildExportText", () => {
+  it("combines the rubric, backstory, task, and response into one block", () => {
+    const config = makeConfig();
+    const result = {
+      response: "Hi Venkat, here is my update.",
+      rubric: "Score on tense, framing, prepositions, clarity, coverage.",
+      categories: [],
+      total: 92,
+      maxScore: 100,
+      band: BANDS[3],
+      bandIdx: 3,
+      suggestions: [],
+      summaryLine: "A · 92/100",
+    };
+
+    const text = buildExportText(config, result);
+
+    expect(text).toContain("Score on tense, framing, prepositions, clarity, coverage.");
+    expect(text).toContain("A bug was found.");
+    expect(text).toContain("- Explain the limit");
+    expect(text).toContain("Hi Venkat, here is my update.");
+    expect(text.indexOf("Score on tense")).toBeLessThan(text.indexOf("A bug was found."));
+    expect(text.indexOf("A bug was found.")).toBeLessThan(text.indexOf("Hi Venkat, here is my update."));
+  });
+
+  it("falls back to (blank) for an empty response", () => {
+    const config = makeConfig();
+    const result = {
+      response: "",
+      rubric: "Rubric text.",
+      categories: [],
+      total: 0,
+      maxScore: 100,
+      band: BANDS[0],
+      bandIdx: 0,
+      suggestions: [],
+      summaryLine: "D · 0/100",
+    };
+
+    expect(buildExportText(config, result)).toContain("(blank)");
   });
 });

@@ -1,4 +1,5 @@
 import type { JiraCommentConfig, JiraCommentResult } from "@/lib/tests/jiraComment";
+import { JiraCommentExportPanel } from "@/components/JiraCommentExportPanel";
 
 export function JiraCommentResults({
   result,
@@ -74,6 +75,8 @@ export function JiraCommentResults({
           </p>
         ))}
       </details>
+
+      <JiraCommentExportPanel result={result} config={config} />
     </section>
   );
 }

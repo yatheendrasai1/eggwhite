@@ -101,6 +101,7 @@ export async function evaluateJiraComment(
 
   return {
     response,
+    rubric: template,
     categories,
     total,
     maxScore,

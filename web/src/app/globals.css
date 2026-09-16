@@ -2179,6 +2179,17 @@ a.test:active {
 .task-list li:last-child {
   margin-bottom: 0;
 }
+.export-textarea {
+  min-height: 280px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  cursor: text;
+}
+.export-textarea:focus {
+  background: var(--surface2);
+}
 
 /* ---------- dashboard ---------- */
 .dash-section {

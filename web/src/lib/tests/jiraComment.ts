@@ -85,6 +85,8 @@ export type JiraCommentSuggestion = {
 
 export type JiraCommentResult = {
   response: string;
+  /** The exact rubric text sent to the grading LLM for this attempt. */
+  rubric: string;
   categories: JiraCommentCategoryResult[];
   total: number;
   maxScore: number;
@@ -93,3 +95,37 @@ export type JiraCommentResult = {
   suggestions: JiraCommentSuggestion[];
   summaryLine: string;
 };
+
+/**
+ * Combines the rubric, backstory/task, and the candidate's own response into
+ * one plain-text block — meant to be copied out (e.g. into another AI chat
+ * or a review doc), not rendered as-is.
+ */
+export function buildExportText(config: JiraCommentConfig, result: JiraCommentResult): string {
+  const { scenario } = config;
+  const story = scenario.story.join("\n\n");
+  const task = scenario.task.map((t) => `- ${t}`).join("\n");
+
+  return [
+    "EVALUATION RUBRIC",
+    "==================",
+    result.rubric,
+    "",
+    "",
+    "BACKSTORY",
+    "==================",
+    `Role: ${scenario.role}`,
+    `Ticket: ${scenario.ticket}`,
+    `Writing to: ${scenario.recipient}`,
+    "",
+    story,
+    "",
+    "Required in the response:",
+    task,
+    "",
+    "",
+    "CANDIDATE'S RESPONSE",
+    "==================",
+    result.response || "(blank)",
+  ].join("\n");
+}
