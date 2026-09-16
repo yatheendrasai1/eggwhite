@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive } from "@/lib/pro";
 import { getActiveAttempts, listAttempts } from "@/lib/attempts";
+import { getDisabledTestIds } from "@/lib/tests/testSettings";
 import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
 
@@ -31,6 +32,7 @@ export default async function LandingPage() {
             attempts={await listAttempts(session.user.id)}
             userName={session.user.name || ""}
             isPro={isPro}
+            disabledTestIds={Array.from(await getDisabledTestIds())}
           />
         </div>
       </main>

@@ -11,6 +11,7 @@ export default async function TensionPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/tension");
 
   const res = await ensureAttempt(session.user.id, "tension");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

@@ -11,6 +11,7 @@ export default async function IncorrectlyCorrectPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/incorrectly-correct");
 
   const res = await ensureAttempt(session.user.id, "incorrectly-correct");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

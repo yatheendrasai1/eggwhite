@@ -11,6 +11,7 @@ export default async function ArticlesPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/articles");
 
   const res = await ensureAttempt(session.user.id, "articles");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

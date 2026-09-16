@@ -34,6 +34,7 @@ export default async function TranslationDramaV1Page() {
   }
 
   const res = await ensureAttempt(session.user.id, "translation-drama-v1");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

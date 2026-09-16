@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/db";
 import { ResultModel } from "@/lib/models/Result";
+import { UserProfileModel } from "@/lib/models/UserProfile";
 import { resolveDisplayNames } from "@/lib/users";
 import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import type { TestId } from "@/lib/models/Attempt";
@@ -7,6 +8,13 @@ import type { TestId } from "@/lib/models/Attempt";
 const LIMIT = 50;
 /** Archived tests are excluded from the leaderboard entirely. */
 const ACTIVE_TEST_IDS = ACTIVE_TESTS.map((t) => t.id);
+
+async function getHiddenUserIds(): Promise<string[]> {
+  const docs = await UserProfileModel.find({ hideFromLeaderboard: true })
+    .select("userId")
+    .lean();
+  return docs.map((d) => d.userId);
+}
 
 export type TestLeaderboardRow = {
   rank: number;
@@ -33,7 +41,8 @@ export async function getTestLeaderboard(
 ): Promise<TestLeaderboardRow[]> {
   if (!ACTIVE_TEST_IDS.includes(testId)) return [];
   await connectDB();
-  const docs = await ResultModel.find({ testId })
+  const hiddenUserIds = await getHiddenUserIds();
+  const docs = await ResultModel.find({ testId, userId: { $nin: hiddenUserIds } })
     .sort({ pct: -1, takenAt: 1 })
     .limit(LIMIT)
     .lean();
@@ -55,12 +64,13 @@ export async function getOverallLeaderboard(
   viewerId?: string
 ): Promise<OverallLeaderboardRow[]> {
   await connectDB();
+  const hiddenUserIds = await getHiddenUserIds();
   const agg = await ResultModel.aggregate<{
     _id: string;
     avgPct: number;
     testsCompleted: number;
   }>([
-    { $match: { testId: { $in: ACTIVE_TEST_IDS } } },
+    { $match: { testId: { $in: ACTIVE_TEST_IDS }, userId: { $nin: hiddenUserIds } } },
     {
       $group: {
         _id: "$userId",

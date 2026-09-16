@@ -10,6 +10,7 @@ export default async function BusinessEnglishPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/business-english");
 
   const res = await ensureAttempt(session.user.id, "business-english");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

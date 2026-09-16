@@ -2401,6 +2401,25 @@ a.test:active {
   opacity: 0.6;
   cursor: default;
 }
+.dash-toggle-btn {
+  font-family: var(--body);
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 6px 11px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--good);
+  cursor: pointer;
+}
+.dash-toggle-btn:hover {
+  border-color: var(--good);
+  background: var(--good-soft);
+}
+.dash-toggle-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
 
 @media (max-width: 460px) {
   .split {

@@ -34,6 +34,7 @@ export default async function FramingTheSituationPage() {
   }
 
   const res = await ensureAttempt(session.user.id, "framing-the-situation");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

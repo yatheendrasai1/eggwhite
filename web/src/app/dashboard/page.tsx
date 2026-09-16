@@ -6,10 +6,14 @@ import { UserProfileModel } from "@/lib/models/UserProfile";
 import { PasscodeModel } from "@/lib/models/Passcode";
 import { isTiv } from "@/lib/pro";
 import { resolveDisplayNames } from "@/lib/users";
+import { ACTIVE_TESTS } from "@/lib/tests/registry";
+import { getDisabledTestIds } from "@/lib/tests/testSettings";
 import { BackHome } from "@/components/BackHome";
 import { GeneratePasscodeButton } from "@/components/GeneratePasscodeButton";
 import { PasscodesTable } from "@/components/PasscodesTable";
 import { PendingSignupsTable } from "@/components/PendingSignupsTable";
+import { ManageTestsTable } from "@/components/ManageTestsTable";
+import { ManageLeaderboardAccountsTable } from "@/components/ManageLeaderboardAccountsTable";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +37,7 @@ export default async function DashboardPage() {
   if (!isTiv(profile)) notFound();
 
   const client = await getMongoClient();
-  const [passcodes, proProfiles, pendingSignups] = await Promise.all([
+  const [passcodes, proProfiles, pendingSignups, disabledTestIds, accounts] = await Promise.all([
     PasscodeModel.find().sort({ createdAt: -1 }).lean(),
     UserProfileModel.find({ proExpiresAt: { $ne: null } })
       .sort({ proExpiresAt: 1 })
@@ -45,6 +49,13 @@ export default async function DashboardPage() {
       .sort({ createdAt: -1 })
       .project({ username: 1, entryCode: 1, createdAt: 1 })
       .toArray(),
+    getDisabledTestIds(),
+    client
+      .db("eggwhite")
+      .collection("users")
+      .find({ status: { $ne: "pending" } })
+      .project({ name: 1, email: 1, username: 1 })
+      .toArray(),
   ]);
 
   const namesFor = Array.from(
@@ -55,6 +66,14 @@ export default async function DashboardPage() {
   );
   const names = await resolveDisplayNames(namesFor);
 
+  const accountIds = accounts.map((a) => String(a._id));
+  const hiddenFlags = await UserProfileModel.find({ userId: { $in: accountIds } })
+    .select("userId hideFromLeaderboard")
+    .lean();
+  const hiddenSet = new Set(
+    hiddenFlags.filter((p) => p.hideFromLeaderboard).map((p) => p.userId)
+  );
+
   return (
     <main className="page">
       <div className="wrap">
@@ -62,6 +81,41 @@ export default async function DashboardPage() {
         <header className="masthead">
           <h1>Dashboard</h1>
         </header>
+
+        <section className="dash-section">
+          <h2>Manage tests</h2>
+          <p className="filler" style={{ marginBottom: 12 }}>
+            Disabling a test hides it from the home page for everybody and blocks new
+            attempts. Attempts already in progress can still be finished. Archived tests
+            aren&rsquo;t controlled here — they stay visible always.
+          </p>
+          <ManageTestsTable
+            tests={ACTIVE_TESTS.map((t) => ({
+              id: t.id,
+              title: t.title,
+              tag: t.tag,
+              enabled: !disabledTestIds.has(t.id),
+            }))}
+          />
+        </section>
+
+        <section className="dash-section">
+          <h2>Leaderboard accounts</h2>
+          <p className="filler" style={{ marginBottom: 12 }}>
+            Hide test or admin accounts so their results don&rsquo;t count toward the
+            leaderboard for anybody.
+          </p>
+          <ManageLeaderboardAccountsTable
+            accounts={accounts
+              .map((a) => ({
+                userId: String(a._id),
+                name: (a.name as string) || (a.username as string) || "",
+                email: (a.email as string) || "",
+                hidden: hiddenSet.has(String(a._id)),
+              }))
+              .sort((a, b) => (a.name || a.email).localeCompare(b.name || b.email))}
+          />
+        </section>
 
         <section className="dash-section">
           <h2>Passcodes</h2>

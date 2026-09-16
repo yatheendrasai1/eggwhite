@@ -11,6 +11,7 @@ export default async function CorporateConfusionPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/corporate-confusion");
 
   const res = await ensureAttempt(session.user.id, "corporate-confusion");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

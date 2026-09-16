@@ -44,9 +44,19 @@ export const createPasscodeSchema = z.object({
   label: z.string().trim().max(64).optional(),
 });
 
+export const updateTestSettingSchema = z.object({
+  enabled: z.boolean(),
+});
+
+export const updateUserLeaderboardSchema = z.object({
+  hideFromLeaderboard: z.boolean(),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
 export type MigrateInput = z.infer<typeof migrateSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 export type RedeemPasscodeInput = z.infer<typeof redeemPasscodeSchema>;
 export type CreatePasscodeInput = z.infer<typeof createPasscodeSchema>;
+export type UpdateTestSettingInput = z.infer<typeof updateTestSettingSchema>;
+export type UpdateUserLeaderboardInput = z.infer<typeof updateUserLeaderboardSchema>;

@@ -10,6 +10,7 @@ export default async function EnglishLevelPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/english-level");
 
   const res = await ensureAttempt(session.user.id, "english-level");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

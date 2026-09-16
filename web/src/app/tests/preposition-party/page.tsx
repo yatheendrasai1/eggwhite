@@ -11,6 +11,7 @@ export default async function PrepositionPartyPage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/preposition-party");
 
   const res = await ensureAttempt(session.user.id, "preposition-party");
+  if (!res.ok) redirect("/");
 
   return (
     <main className="page">

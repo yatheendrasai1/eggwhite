@@ -24,20 +24,23 @@ export function LandingHub({
   attempts,
   userName,
   isPro,
+  disabledTestIds,
 }: {
   active: AttemptDTO[];
   attempts: AttemptDTO[];
   userName: string;
   isPro: boolean;
+  disabledTestIds: string[];
 }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
   const { withLoading } = useLoading();
   const { showToast } = useToast();
 
+  const disabled = new Set(disabledTestIds);
   const activeIds = new Set(active.map((a) => a.testId));
   const history = attempts.filter((a) => a.status === "completed");
-  const available = ACTIVE_TESTS.filter((t) => !activeIds.has(t.id));
+  const available = ACTIVE_TESTS.filter((t) => !activeIds.has(t.id) && !disabled.has(t.id));
 
   async function discontinue(id: string) {
     if (!confirm("Discontinue this test? The saved answers and result for it will be erased."))
