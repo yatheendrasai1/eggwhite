@@ -19,6 +19,11 @@ function seed(initial: unknown): JiraCommentAnswers {
   return { response: src.response ?? "" };
 }
 
+/** The on-textarea word count badge reads as muted grey below this many
+ *  words, then switches to full-contrast ink — a soft "you're getting
+ *  there" cue, independent of the scenario's actual target word range. */
+const WORD_COUNT_GREY_UNTIL = 150;
+
 export function JiraCommentRunner({
   config,
   attemptId,
@@ -219,14 +224,21 @@ export function JiraCommentRunner({
                   Write the Jira comment
                 </p>
               </div>
-              <textarea
-                className="translate-input jira-textarea"
-                value={answers.response}
-                autoComplete="off"
-                spellCheck={true}
-                placeholder={`Aim for ${minWords}–${maxWords} words…`}
-                onChange={(e) => setResponse(e.target.value)}
-              />
+              <div className="ta-wrap">
+                <textarea
+                  className="translate-input jira-textarea"
+                  value={answers.response}
+                  autoComplete="off"
+                  spellCheck={true}
+                  placeholder={`Aim for ${minWords}–${maxWords} words…`}
+                  onChange={(e) => setResponse(e.target.value)}
+                />
+                <span
+                  className={`word-count-badge${words >= WORD_COUNT_GREY_UNTIL ? " reached" : ""}`}
+                >
+                  {words} words
+                </span>
+              </div>
             </article>
           </section>
         </main>

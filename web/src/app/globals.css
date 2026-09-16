@@ -2171,6 +2171,28 @@ a.test:active {
 .jira-textarea {
   min-height: 260px;
 }
+.ta-wrap {
+  position: relative;
+}
+.word-count-badge {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--slate);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 7px;
+  pointer-events: none;
+  transition: color 0.15s;
+}
+.word-count-badge.reached {
+  color: var(--ink);
+}
 .task-list {
   margin: 8px 0 0;
   padding: 0 0 0 20px;
