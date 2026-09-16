@@ -19,10 +19,14 @@ function seed(initial: unknown): JiraCommentAnswers {
   return { response: src.response ?? "" };
 }
 
-/** The on-textarea word count badge reads as muted grey below this many
- *  words, then switches to full-contrast ink — a soft "you're getting
- *  there" cue, independent of the scenario's actual target word range. */
-const WORD_COUNT_GREY_UNTIL = 150;
+/** Word count badge color bands — independent of the scenario's actual
+ *  target word range, just a soft progress cue. */
+function wordCountBand(words: number): "grey" | "orange" | "green" | "red" {
+  if (words <= 50) return "grey";
+  if (words <= 100) return "orange";
+  if (words <= 200) return "green";
+  return "red";
+}
 
 export function JiraCommentRunner({
   config,
@@ -223,22 +227,18 @@ export function JiraCommentRunner({
                 <p className="q-text" style={{ margin: 0 }}>
                   Write the Jira comment
                 </p>
-              </div>
-              <div className="ta-wrap">
-                <textarea
-                  className="translate-input jira-textarea"
-                  value={answers.response}
-                  autoComplete="off"
-                  spellCheck={true}
-                  placeholder={`Aim for ${minWords}–${maxWords} words…`}
-                  onChange={(e) => setResponse(e.target.value)}
-                />
-                <span
-                  className={`word-count-badge${words >= WORD_COUNT_GREY_UNTIL ? " reached" : ""}`}
-                >
+                <span className={`word-count-badge wcb-${wordCountBand(words)}`}>
                   {words} words
                 </span>
               </div>
+              <textarea
+                className="translate-input jira-textarea"
+                value={answers.response}
+                autoComplete="off"
+                spellCheck={true}
+                placeholder={`Aim for ${minWords}–${maxWords} words…`}
+                onChange={(e) => setResponse(e.target.value)}
+              />
             </article>
           </section>
         </main>
@@ -247,29 +247,31 @@ export function JiraCommentRunner({
       <div className="submit-bar">
         <div className="submit-in">
           <p className={`warn${warn ? " show" : ""}`}>{warn}</p>
-          <button className="btn" onClick={submit} disabled={submitting}>
-            {submitting ? (
-              <>
-                <Spinner /> Grading…
-              </>
-            ) : (
-              "Submit for grading"
-            )}
-          </button>
-          <button
-            type="button"
-            className="btn btn-exit"
-            onClick={discontinue}
-            disabled={busy !== null}
-          >
-            {busy === "discontinue" ? (
-              <>
-                <Spinner /> Discontinuing…
-              </>
-            ) : (
-              "Discontinue test"
-            )}
-          </button>
+          <div className="jira-submit-row">
+            <button className="btn" onClick={submit} disabled={submitting}>
+              {submitting ? (
+                <>
+                  <Spinner /> Grading…
+                </>
+              ) : (
+                "Submit for grading"
+              )}
+            </button>
+            <button
+              type="button"
+              className="btn btn-exit"
+              onClick={discontinue}
+              disabled={busy !== null}
+            >
+              {busy === "discontinue" ? (
+                <>
+                  <Spinner /> Discontinuing…
+                </>
+              ) : (
+                "Discontinue test"
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

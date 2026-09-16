@@ -224,6 +224,11 @@ body {
 .page:has(.submit-bar) {
   padding-bottom: 190px;
 }
+/* The Jira comment test's submit-bar is a single row (not stacked), so it's
+   shorter — give it tighter clearance instead of the stacked-button default. */
+.page:has(.jira-submit-row) {
+  padding-bottom: 120px;
+}
 
 /* ---------- header ---------- */
 .masthead {
@@ -2169,29 +2174,42 @@ a.test:active {
 
 /* ---------- Jira comment writing test (Framing the Situation) ---------- */
 .jira-textarea {
-  min-height: 260px;
-}
-.ta-wrap {
-  position: relative;
+  min-height: 338px;
 }
 .word-count-badge {
-  position: absolute;
-  top: 8px;
-  right: 10px;
+  margin-left: auto;
+  align-self: center;
+  flex: none;
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--slate);
-  background: var(--card);
+  background: var(--surface2);
   border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 2px 7px;
-  pointer-events: none;
+  padding: 3px 8px;
   transition: color 0.15s;
 }
-.word-count-badge.reached {
-  color: var(--ink);
+.wcb-grey {
+  color: var(--slate);
+}
+.wcb-orange {
+  color: var(--ochre);
+}
+.wcb-green {
+  color: var(--good);
+}
+.wcb-red {
+  color: var(--bad);
+}
+.jira-submit-row {
+  display: flex;
+  gap: 10px;
+}
+.jira-submit-row .btn {
+  width: auto;
+  flex: 1;
+  margin-top: 0;
 }
 .task-list {
   margin: 8px 0 0;
