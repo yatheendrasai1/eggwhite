@@ -219,6 +219,11 @@ body {
   padding-top: calc(var(--nav-h) + 4px);
   padding-bottom: 64px;
 }
+/* Pages with a fixed submit-bar (Submit + Discontinue, stacked) need enough
+   bottom clearance that the bar never covers the last bit of content. */
+.page:has(.submit-bar) {
+  padding-bottom: 190px;
+}
 
 /* ---------- header ---------- */
 .masthead {
