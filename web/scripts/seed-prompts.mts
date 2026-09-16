@@ -55,11 +55,16 @@ Judge by **whether the timeline is understandable**, not by matching one "correc
 - 0–4: Tense appears near-random; timeline cannot be reconstructed from the text.
 
 ### 2. Sentence Framing / Structure — 25 pts
-Assess whether ideas are organized logically and each sentence is a complete, well-formed unit — regardless of paragraph vs. bullet style, formal vs. casual tone, or short vs. long sentences.
-- 20–25: Logical progression (issue → cause → action → ask), no fragments/run-ons, ideas connect smoothly.
-- 12–19: Mostly clear; one or two sentences are overloaded, awkward, or slightly out of order.
-- 5–11: Ideas are disjointed or oddly sequenced; reader must re-read to reconstruct the logic.
-- 0–4: No discernible structure; sentences don't connect into a coherent whole.
+Start at 25 and deduct using the counts below (regardless of paragraph vs. bullet style, formal vs. casual tone, or short vs. long sentences — those are not errors). Floor at 0.
+
+**List every instance found, then deduct:**
+- **–2 per run-on sentence or sentence fragment** (two+ independent clauses joined with no connector/punctuation, or a clause missing a subject/verb)
+- **–2 per overloaded sentence**, defined as a single sentence cramming 3 or more distinct actions/ideas together without any separation (e.g., "we added the banner and gave test cases and she checked and confirmed")
+- **–2 per comma splice** (two independent clauses joined only by a comma)
+- **–3 per instance where information appears out of logical order** in a way that disrupts the issue → cause → action → ask flow (not just a stylistic reordering — only count it if a first-time reader would be confused about sequence)
+- **–1 per instance of an abrupt topic jump** with no transition (e.g., jumping from the bug to the ask with no linking sentence)
+
+Report the raw count of each error type found, the deduction math, and the resulting score.
 
 ### 3. Prepositions & Word Usage — 20 pts
 Check for correct, natural prepositions and word choice in context (e.g., "a limit **on** the amount," "a deviation **from** the criteria," "flagged **as** a blocker," "reach out **to** Venkat," "by tomorrow," "beyond ₹10,000"). Also flag wrong word forms (e.g., "informations," "the develop of this").
@@ -69,20 +74,28 @@ Check for correct, natural prepositions and word choice in context (e.g., "a lim
 - 0–3: Pervasive misuse; reads as broken or translated.
 
 ### 4. Clarity & Understandability — 15 pts
-Imagine Venkat (a non-technical PM) reading this cold. Can he understand the situation and what's being asked of him in one read?
-- 12–15: Fully clear in one read.
-- 7–11: Understandable but needs a second pass on a part or two.
-- 3–6: Meaning has to be pieced together with effort.
-- 0–2: Confusing or ambiguous; the ask is unclear.
+Imagine Venkat (a non-technical PM) reading this cold, once, with no chance to re-read. Start at 15 and deduct using the counts below. Floor at 0.
+
+**List every instance found, then deduct:**
+- **–2 per passage that requires a re-read** to understand what happened or what's being asked (a passage a first-time reader would have to stop and parse twice)
+- **–4 per genuinely ambiguous statement**, defined as a sentence that could reasonably be read two different ways with materially different meaning (e.g., unclear whether the fix is done or still pending; unclear whether Sneha approved or blocked it)
+- **–5 if the core ask to Venkat is missing or so unclear that a reader wouldn't know what decision/input is being requested**
+- **–3 if the reader would be confused about current status** (is this fixed, half-fixed, or broken right now?)
+
+These deductions can overlap conceptually with Framing/Prepositions errors that happen to also cause confusion — that's fine, score them here too if they independently cost a first-time reader clarity. Don't re-deduct the exact same sentence for the exact same reason twice within this category.
+
+Report the raw count of each error type found, the deduction math, and the resulting score.
 
 ### 5. Task Coverage — 10 pts
-Check off the four required content points (regardless of order or phrasing):
-- [ ] Explains the ₹10,000 limit and why the banner/fix was added
-- [ ] Acknowledges Sneha's concern about deviation from acceptance criteria
-- [ ] Asks Venkat about the likelihood/need for mandates above ₹10,000
-- [ ] Mentions the block-splitting alternative AND notes the extra effort / can't be done by tomorrow
+This is a strict checklist, not a holistic judgment. Each item below is binary — either the response clearly contains it (2 pts) or it doesn't (0 pts). No partial credit within an item, regardless of phrasing quality (a badly-worded but present point still gets full credit for that item — wording is scored elsewhere).
 
-Score: 8–10 (all 4), 5–7 (any 3), 2–4 (any 1–2), 0–1 (none).
+- [ ] **(2 pts)** States that a ₹10,000 limit exists on recurring mandates
+- [ ] **(2 pts)** Explains this limit was the (newly discovered) reason for the banner/fix — not just that a fix exists, but that it's connected to the limit
+- [ ] **(2 pts)** Acknowledges Sneha's concern that this is a deviation from the signed-off acceptance criteria
+- [ ] **(2 pts)** Explicitly asks Venkat for input on how likely/necessary mandates above ₹10,000 are
+- [ ] **(2 pts)** Mentions the block-splitting alternative AND notes it needs significant extra effort / can't be ready by tomorrow (both halves required for these 2 pts — mentioning the alternative alone without the effort/timing caveat does not earn the points)
+
+Sum the checked items for the category score (0, 2, 4, 6, 8, or 10 — no other values are valid).
 
 ## What to explicitly ignore
 - Punctuation, capitalization, and spelling errors — UNLESS a word is unrecognizable or changes the meaning (e.g., "loose" instead of "lose").
@@ -96,7 +109,22 @@ Score: 8–10 (all 4), 5–7 (any 3), 2–4 (any 1–2), 0–1 (none).
 - **Informal tone / casual phrasing** (e.g., "Hey Venkat, quick update"): Do not penalize — informality is not a language error.
 - **Answers out of order** (e.g., asks the question before explaining the limit): Only penalize under Structure if it genuinely hurts logical flow for a first-time reader; do not penalize Task Coverage for order.
 - **Mixed language influence** (e.g., translated-sounding phrasing, non-native constructions): Score under the relevant category (usually Prepositions/Word Usage or Framing) rather than marking down separately as a language-background penalty.
-- **Missing recipient/greeting or sign-off**: Not required by the task; do not penalize.`,
+- **Missing recipient/greeting or sign-off**: Not required by the task; do not penalize.
+
+## Output format
+
+For each response, return:
+
+1. **Tense Usage**: list each error found with the exact phrase, then the resulting score out of 30.
+2. **Sentence Framing**: list each error found by type (run-on / overloaded / comma splice / out-of-order / abrupt jump) with the exact phrase, the deduction math (e.g., "25 − 2×2 (overloaded) − 3 (out of order) = 18"), and the resulting score out of 25.
+3. **Prepositions & Word Usage**: list each error found with the exact phrase, then the resulting score out of 20.
+4. **Clarity**: list each error found by type with the exact phrase, the deduction math, and the resulting score out of 15.
+5. **Task Coverage**: the 5-item checklist with each item marked covered/not covered, then the resulting score out of 10.
+6. A **total score out of 100**.
+7. A **band label**: 85–100 Fluent (professional-ready) · 65–84 Good (minor polish needed) · 45–64 Understandable (needs real improvement) · Below 45 (struggles to communicate clearly).
+8. Up to 3 **specific improvement suggestions**, quoting the exact phrase from the response and offering a corrected version.
+
+Showing the deduction math (not just the final number) is required for every category — this is what keeps scores auditable and consistent across different graders and different test takers.`,
   },
 ];
 
