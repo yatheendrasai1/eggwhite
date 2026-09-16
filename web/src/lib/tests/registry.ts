@@ -119,7 +119,7 @@ export const TESTS: TestMeta[] = [
     id: "translation-drama-v1",
     slug: "translation-drama-v1",
     href: "/tests/translation-drama-v1",
-    title: "The Translation Drama — Version 1",
+    title: "The Translation Drama",
     desc: "15 everyday lines in Telugu, Tinglish, and Hinglish. Translate each into English — graded by AI on meaning, not exact wording.",
     meta: "15 items · AI-graded",
     tag: "Pro · Translation",
