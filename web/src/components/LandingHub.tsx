@@ -34,6 +34,7 @@ export function LandingHub({
 }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const { withLoading } = useLoading();
   const { showToast } = useToast();
 
@@ -109,28 +110,58 @@ export function LandingHub({
             {available.map((t, i) => {
               const n = String(i + 1).padStart(2, "0");
               const locked = isProTest(t.id) && !isPro;
+              const pro = isProTest(t.id);
+              const expanded = expandedId === t.id;
               return (
                 <li key={t.id}>
-                  <Link
-                    className={`test${locked ? " test-locked" : ""}`}
-                    href={t.href}
-                    onClick={(e) => {
-                      if (!locked) return;
-                      e.preventDefault();
-                      showToast("You need a pro account to participate in this test.");
-                    }}
-                  >
-                    <div className="test-top">
-                      <span className="test-idx">{n}</span>
-                      <h3 className="test-title">{t.title}</h3>
+                  <div className={`test test-collapsible${locked ? " test-locked" : ""}${expanded ? " test-expanded" : ""}`}>
+                    <div
+                      className="test-toggle"
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={expanded}
+                      onClick={() => setExpandedId(expanded ? null : t.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setExpandedId(expanded ? null : t.id);
+                        }
+                      }}
+                    >
+                      <div className="test-top">
+                        <span className="test-idx">{n}</span>
+                        <h3 className="test-title">{t.title}</h3>
+                        {pro && <span className="pro-badge">PRO</span>}
+                      </div>
+                      <div className="test-toggle-meta">
+                        <span className="test-qcount">
+                          {t.total} question{t.total === 1 ? "" : "s"}
+                        </span>
+                        <span className={`test-chevron${expanded ? " open" : ""}`} aria-hidden="true">
+                          ⌄
+                        </span>
+                      </div>
                     </div>
-                    <p className="test-desc">{t.desc}</p>
-                    <div className="test-foot">
-                      <span className={`tag tag-${t.kind}`}>{t.tag}</span>
-                      <span className="test-idx">{t.meta}</span>
-                      <span className="go">Start &rarr;</span>
-                    </div>
-                  </Link>
+                    {expanded && (
+                      <div className="test-expand">
+                        <p className="test-desc">{t.desc}</p>
+                        <div className="test-foot">
+                          <span className={`tag tag-${t.kind}`}>{t.tag}</span>
+                        </div>
+                        <Link
+                          href={t.href}
+                          className="test-start-btn"
+                          onClick={(e) => {
+                            if (!locked) return;
+                            e.preventDefault();
+                            showToast("You need a pro account to participate in this test.");
+                          }}
+                        >
+                          Let&rsquo;s go — start now →
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </li>
               );
             })}

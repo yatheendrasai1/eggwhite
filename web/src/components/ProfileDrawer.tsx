@@ -54,7 +54,7 @@ export function ProfileDrawer({
       {open && (
         <div className="drawer-overlay" onClick={() => setOpen(false)}>
           <div
-            className="drawer-panel"
+            className="drawer-panel profile-panel"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -80,8 +80,11 @@ export function ProfileDrawer({
                 <span className="profile-info-label">Mail ID</span>
                 <span className="profile-info-value">{userEmail || "—"}</span>
               </div>
+              <NicknameEditor initialNickname={initialNickname} />
             </div>
-            <NicknameEditor initialNickname={initialNickname} />
+            <p className="profile-info-caption profile-info-caption-outer">
+              Nickname takes precedence over your name on the leaderboard when set.
+            </p>
             <ThemeToggle initialTheme={initialTheme} />
             {isPro ? (
               <div className="profile-info" style={{ marginBottom: 20 }}>
