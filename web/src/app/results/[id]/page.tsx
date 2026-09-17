@@ -15,6 +15,8 @@ import { JiraCommentResults } from "@/components/JiraCommentResults";
 import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
 import { RightOrWrongResults } from "@/components/RightOrWrongResults";
 import { isRightOrWrongTest } from "@/lib/tests/rightOrWrongConfigs";
+import { ShrinkItResults } from "@/components/ShrinkItResults";
+import { isShrinkItTest } from "@/lib/tests/shrinkItConfigs";
 import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
 import type { DrillAnswers } from "@/lib/tests/drill";
@@ -66,6 +68,8 @@ export default async function ResultsPage({
           <JiraCommentResults attempt={attempt} config={JIRA_COMMENT_CONFIGS[attempt.testId]} />
         ) : isRightOrWrongTest(attempt.testId) ? (
           <RightOrWrongResults attempt={attempt} />
+        ) : isShrinkItTest(attempt.testId) ? (
+          <ShrinkItResults attempt={attempt} />
         ) : (
           <DrillResults
             config={DRILL_CONFIGS[attempt.testId]}

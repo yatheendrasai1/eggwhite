@@ -31,6 +31,8 @@ import { countDoneJiraComment, type JiraCommentAnswers } from "@/lib/tests/jiraC
 import { isJiraCommentTest } from "@/lib/tests/jiraCommentConfigs";
 import { countDoneRightOrWrong, type RightOrWrongAnswers } from "@/lib/tests/rightOrWrong";
 import { RIGHT_OR_WRONG_CONFIGS, isRightOrWrongTest } from "@/lib/tests/rightOrWrongConfigs";
+import { countDoneShrinkIt, type ShrinkItAnswers } from "@/lib/tests/shrinkIt";
+import { SHRINK_IT_CONFIGS, isShrinkItTest } from "@/lib/tests/shrinkItConfigs";
 
 export type AttemptSummary = {
   line: string;
@@ -77,6 +79,13 @@ export function computeProgress(
         (answers ?? { verdicts: {}, issues: {}, fixes: {} }) as RightOrWrongAnswers
       ),
       total: RIGHT_OR_WRONG_CONFIGS[testId].items.length,
+    };
+  }
+  if (isShrinkItTest(testId)) {
+    const config = SHRINK_IT_CONFIGS[testId];
+    return {
+      done: countDoneShrinkIt((answers ?? { shrinks: {}, picks: {} }) as ShrinkItAnswers),
+      total: config.sentences.length + config.synonyms.length,
     };
   }
   return {

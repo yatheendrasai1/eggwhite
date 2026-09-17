@@ -3,6 +3,7 @@ import { isMcqPair } from "@/lib/tests/mcqPairConfigs";
 import { isTranslationTest } from "@/lib/tests/translationConfigs";
 import { isJiraCommentTest } from "@/lib/tests/jiraCommentConfigs";
 import { isRightOrWrongTest } from "@/lib/tests/rightOrWrongConfigs";
+import { isShrinkItTest } from "@/lib/tests/shrinkItConfigs";
 
 export type TestMeta = {
   id: TestId;
@@ -149,6 +150,17 @@ export const TESTS: TestMeta[] = [
     kind: "p",
     total: 20,
   },
+  {
+    id: "shrink-it",
+    slug: "shrink-it",
+    href: "/tests/shrink-it",
+    title: "Shrink It!",
+    desc: "5 sentences to compress without losing the meaning, then 10 words to swap for their plain-English twin.",
+    meta: "5 free-text + 10 MCQ · AI-graded",
+    tag: "Pro · Editing",
+    kind: "p",
+    total: 15,
+  },
 ];
 
 export const byId = (id: string) => TESTS.find((t) => t.id === id);
@@ -166,5 +178,6 @@ export function emptyAnswers(testId: TestId): unknown {
   if (isTranslationTest(testId)) return { fills: {} };
   if (isJiraCommentTest(testId)) return { response: "" };
   if (isRightOrWrongTest(testId)) return { verdicts: {}, issues: {}, fixes: {} };
+  if (isShrinkItTest(testId)) return { shrinks: {}, picks: {} };
   return { fills: {}, picks: {} };
 }

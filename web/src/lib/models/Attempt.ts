@@ -12,6 +12,7 @@ export const TEST_IDS = [
   "translation-drama-v1",
   "framing-the-situation",
   "right-or-wrong",
+  "shrink-it",
 ] as const;
 export type TestId = (typeof TEST_IDS)[number];
 

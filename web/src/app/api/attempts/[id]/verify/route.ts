@@ -13,6 +13,9 @@ import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
 import { isRightOrWrongTest, RIGHT_OR_WRONG_CONFIGS } from "@/lib/tests/rightOrWrongConfigs";
 import type { RightOrWrongAnswers } from "@/lib/tests/rightOrWrong";
 import { evaluateRightOrWrong } from "@/lib/tests/rightOrWrongEval";
+import { isShrinkItTest, SHRINK_IT_CONFIGS } from "@/lib/tests/shrinkItConfigs";
+import type { ShrinkItAnswers } from "@/lib/tests/shrinkIt";
+import { evaluateShrinkIt } from "@/lib/tests/shrinkItEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -104,6 +107,19 @@ export async function POST(
       const result = await evaluateRightOrWrong(
         RIGHT_OR_WRONG_CONFIGS[doc.testId],
         (doc.answers ?? { verdicts: {}, issues: {}, fixes: {} }) as RightOrWrongAnswers
+      );
+      doc.summary = {
+        line: result.summaryLine,
+        pct: Math.round(result.pct),
+        level: result.band.code,
+        parts: { total: result.total, maxScore: result.maxScore },
+      };
+      doc.detail = result;
+      doc.markModified("detail");
+    } else if (isShrinkItTest(doc.testId)) {
+      const result = await evaluateShrinkIt(
+        SHRINK_IT_CONFIGS[doc.testId],
+        (doc.answers ?? { shrinks: {}, picks: {} }) as ShrinkItAnswers
       );
       doc.summary = {
         line: result.summaryLine,

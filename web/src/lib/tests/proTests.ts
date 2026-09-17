@@ -5,6 +5,7 @@ export const PRO_TEST_IDS: Set<TestId> = new Set([
   "translation-drama-v1",
   "framing-the-situation",
   "right-or-wrong",
+  "shrink-it",
 ]);
 
 export function isProTest(id: TestId): boolean {

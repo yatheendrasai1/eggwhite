@@ -140,6 +140,23 @@ Mark an item correct only if BOTH of these hold:
 
 If either half is off-base, mark the item incorrect — even if the other half is right. A correct fix paired with a wrong or absent explanation of why does not count, and a correct-sounding explanation paired with a fix that doesn't actually resolve it (or introduces a new error) does not count either.`,
   },
+  {
+    key: "shrink-it-eval",
+    template: `You are grading a sentence-compression exercise for an Indian professional learning workplace English. The candidate was given a sentence (25-40 words) and asked to compress/shrink it while preserving as much of the original meaning as possible.
+
+For each item, judge how much of the original sentence's information/meaning is lost in the candidate's shortened version. Consider: dropped facts, numbers, names, qualifiers, causal relationships, deadlines, or conditions that materially change what a reader would understand from the shortened version compared to the original. Do NOT penalize for changed wording, different sentence structure, a more casual or formal register, or grammar issues — this is purely about information retained vs. lost.
+
+Score infoLossPct as an integer 0-100:
+0 = no meaningful information lost — a reader gets the same picture from either version.
+25 = a minor detail lost (e.g. a qualifier or secondary clause) but the core message survives intact.
+50 = a moderately important fact or nuance is missing, changing some of what a reader would take away.
+75 = a major piece of information (a key fact, condition, or the main point itself) is missing or distorted.
+100 = the shortened version conveys essentially nothing of the original meaning, or was left blank or unrelated to the original.
+
+Use the full range, not just these five anchor values, when a response falls between them.
+
+"feedback" must be one short sentence (under 20 words) addressed to the candidate, naming what (if anything) was lost.`,
+  },
 ];
 
 await connectDB();

@@ -18,6 +18,9 @@ import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
 import { isRightOrWrongTest, RIGHT_OR_WRONG_CONFIGS } from "@/lib/tests/rightOrWrongConfigs";
 import type { RightOrWrongAnswers } from "@/lib/tests/rightOrWrong";
 import { evaluateRightOrWrong } from "@/lib/tests/rightOrWrongEval";
+import { isShrinkItTest, SHRINK_IT_CONFIGS } from "@/lib/tests/shrinkItConfigs";
+import type { ShrinkItAnswers } from "@/lib/tests/shrinkIt";
+import { evaluateShrinkIt } from "@/lib/tests/shrinkItEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -82,7 +85,12 @@ export async function PATCH(
       }
     }
 
-    if (isTranslationTest(doc.testId) || isJiraCommentTest(doc.testId) || isRightOrWrongTest(doc.testId)) {
+    if (
+      isTranslationTest(doc.testId) ||
+      isJiraCommentTest(doc.testId) ||
+      isRightOrWrongTest(doc.testId) ||
+      isShrinkItTest(doc.testId)
+    ) {
       // Persist the submitted answers before calling the grading LLM, so a
       // Gemini failure never loses the candidate's work — the attempt stays
       // in_progress with the answers saved, and resubmitting just retries
@@ -133,6 +141,19 @@ export async function PATCH(
       }
     }
 
+    let shrinkItResult: Awaited<ReturnType<typeof evaluateShrinkIt>> | null = null;
+    if (isShrinkItTest(doc.testId)) {
+      try {
+        shrinkItResult = await evaluateShrinkIt(
+          SHRINK_IT_CONFIGS[doc.testId],
+          (answers ?? { shrinks: {}, picks: {} }) as ShrinkItAnswers
+        );
+      } catch (err) {
+        console.error("shrink it grading failed", err);
+        return NextResponse.json({ error: "grading failed, please try again" }, { status: 502 });
+      }
+    }
+
     if (isProTest(doc.testId)) {
       const usage = await tryConsumeProSubmission(session.user.id);
       if (!usage.allowed) {
@@ -168,6 +189,15 @@ export async function PATCH(
         parts: { total: rightOrWrongResult.total, maxScore: rightOrWrongResult.maxScore },
       };
       doc.detail = rightOrWrongResult;
+      doc.markModified("detail");
+    } else if (shrinkItResult) {
+      doc.summary = {
+        line: shrinkItResult.summaryLine,
+        pct: Math.round(shrinkItResult.pct),
+        level: shrinkItResult.band.code,
+        parts: { total: shrinkItResult.total, maxScore: shrinkItResult.maxScore },
+      };
+      doc.detail = shrinkItResult;
       doc.markModified("detail");
     } else {
       doc.summary = computeSummary(doc.testId, answers);
