@@ -53,13 +53,21 @@ export const updateUserLeaderboardSchema = z.object({
   hideFromLeaderboard: z.boolean(),
 });
 
-export const flagItemSchema = z.object({
-  itemKey: z.string().trim().min(1).max(64),
-  comment: z.string().trim().max(100).optional().default(""),
-});
-
-export const unflagItemSchema = z.object({
-  itemKey: z.string().trim().min(1).max(64),
+/**
+ * The client holds pending flags/comments only in localStorage — they only
+ * reach the server bundled into a verify request, at which point they're
+ * validated and persisted as the record of what was disputed.
+ */
+export const verifyFlagsSchema = z.object({
+  flags: z
+    .array(
+      z.object({
+        itemKey: z.string().trim().min(1).max(64),
+        comment: z.string().trim().max(100).optional().default(""),
+      })
+    )
+    .min(1)
+    .max(50),
 });
 
 export const updateGeminiModelSchema = z.object({
@@ -74,6 +82,5 @@ export type RedeemPasscodeInput = z.infer<typeof redeemPasscodeSchema>;
 export type CreatePasscodeInput = z.infer<typeof createPasscodeSchema>;
 export type UpdateTestSettingInput = z.infer<typeof updateTestSettingSchema>;
 export type UpdateUserLeaderboardInput = z.infer<typeof updateUserLeaderboardSchema>;
-export type FlagItemInput = z.infer<typeof flagItemSchema>;
-export type UnflagItemInput = z.infer<typeof unflagItemSchema>;
+export type VerifyFlagsInput = z.infer<typeof verifyFlagsSchema>;
 export type UpdateGeminiModelInput = z.infer<typeof updateGeminiModelSchema>;

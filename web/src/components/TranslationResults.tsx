@@ -5,7 +5,11 @@ import type { TranslationResult, TranslationItemResult } from "@/lib/tests/trans
 import type { AttemptDTO } from "@/lib/attempts";
 import { FlagItemButton } from "@/components/FlagItemButton";
 import { VerifyBar } from "@/components/VerifyBar";
-import { saveFlagsToStorage } from "@/lib/client/flagStorage";
+import {
+  type StoredFlag,
+  loadFlagsFromStorage,
+  saveFlagsToStorage,
+} from "@/lib/client/flagStorage";
 
 const VERDICT_LABEL: Record<TranslationItemResult["verdict"], string> = {
   correct: "Correct",
@@ -15,14 +19,14 @@ const VERDICT_LABEL: Record<TranslationItemResult["verdict"], string> = {
 
 function ReviewCard({
   r,
-  attemptId,
   flag,
-  onUpdate,
+  onFlag,
+  onUnflag,
 }: {
   r: TranslationItemResult;
-  attemptId: string;
-  flag: AttemptDTO["flags"][number] | undefined;
-  onUpdate: (attempt: AttemptDTO) => void;
+  flag: StoredFlag | undefined;
+  onFlag: (itemKey: string, comment: string) => void;
+  onUnflag: (itemKey: string) => void;
 }) {
   return (
     <li className="tr-card">
@@ -54,24 +58,46 @@ function ReviewCard({
         <b>Model translation:</b> {r.reference}
       </p>
       <p className="tr-feedback">{r.feedback}</p>
-      <FlagItemButton attemptId={attemptId} itemKey={`item:${r.n}`} flag={flag} onUpdate={onUpdate} />
+      <FlagItemButton itemKey={`item:${r.n}`} flag={flag} onFlag={onFlag} onUnflag={onUnflag} />
     </li>
   );
 }
 
-type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "verifyCount">;
 
 export function TranslationResults({ attempt: initialAttempt }: { attempt: ResultAttempt }) {
   const [attempt, setAttempt] = useState(initialAttempt);
+  const [flags, setFlags] = useState<StoredFlag[]>(() => loadFlagsFromStorage(initialAttempt.id));
 
   useEffect(() => {
-    saveFlagsToStorage(attempt.id, attempt.flags);
-  }, [attempt.id, attempt.flags]);
+    saveFlagsToStorage(attempt.id, flags);
+  }, [attempt.id, flags]);
+
+  function handleFlag(itemKey: string, comment: string) {
+    setFlags((prev) => {
+      const idx = prev.findIndex((f) => f.itemKey === itemKey);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = { itemKey, comment };
+        return next;
+      }
+      return [...prev, { itemKey, comment }];
+    });
+  }
+
+  function handleUnflag(itemKey: string) {
+    setFlags((prev) => prev.filter((f) => f.itemKey !== itemKey));
+  }
+
+  function handleVerified(verified: AttemptDTO) {
+    setAttempt(verified);
+    setFlags([]);
+  }
 
   const result = attempt.detail as TranslationResult;
   const wrong = result.rows.filter((r) => r.verdict !== "correct");
   const correct = result.rows.filter((r) => r.verdict === "correct");
-  const flagFor = (n: number) => attempt.flags.find((f) => f.itemKey === `item:${n}`);
+  const flagFor = (n: number) => flags.find((f) => f.itemKey === `item:${n}`);
 
   return (
     <section className="results drill accent-violet">
@@ -96,9 +122,9 @@ export function TranslationResults({ attempt: initialAttempt }: { attempt: Resul
               <ReviewCard
                 key={r.n}
                 r={r}
-                attemptId={attempt.id}
                 flag={flagFor(r.n)}
-                onUpdate={setAttempt}
+                onFlag={handleFlag}
+                onUnflag={handleUnflag}
               />
             ))}
           </ul>
@@ -113,9 +139,9 @@ export function TranslationResults({ attempt: initialAttempt }: { attempt: Resul
                 <ReviewCard
                   key={r.n}
                   r={r}
-                  attemptId={attempt.id}
                   flag={flagFor(r.n)}
-                  onUpdate={setAttempt}
+                  onFlag={handleFlag}
+                  onUnflag={handleUnflag}
                 />
               ))}
             </ul>
@@ -125,9 +151,9 @@ export function TranslationResults({ attempt: initialAttempt }: { attempt: Resul
 
       <VerifyBar
         attemptId={attempt.id}
-        flagCount={attempt.flags.length}
+        flags={flags}
         verifyCount={attempt.verifyCount}
-        onVerified={setAttempt}
+        onVerified={handleVerified}
       />
     </section>
   );

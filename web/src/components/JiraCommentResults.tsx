@@ -6,11 +6,15 @@ import type { AttemptDTO } from "@/lib/attempts";
 import { JiraCommentExportPanel } from "@/components/JiraCommentExportPanel";
 import { FlagItemButton } from "@/components/FlagItemButton";
 import { VerifyBar } from "@/components/VerifyBar";
-import { saveFlagsToStorage } from "@/lib/client/flagStorage";
+import {
+  type StoredFlag,
+  loadFlagsFromStorage,
+  saveFlagsToStorage,
+} from "@/lib/client/flagStorage";
 
 const RESPONSE_FLAG_KEY = "response";
 
-type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "verifyCount">;
 
 export function JiraCommentResults({
   attempt: initialAttempt,
@@ -20,13 +24,35 @@ export function JiraCommentResults({
   config: JiraCommentConfig;
 }) {
   const [attempt, setAttempt] = useState(initialAttempt);
+  const [flags, setFlags] = useState<StoredFlag[]>(() => loadFlagsFromStorage(initialAttempt.id));
 
   useEffect(() => {
-    saveFlagsToStorage(attempt.id, attempt.flags);
-  }, [attempt.id, attempt.flags]);
+    saveFlagsToStorage(attempt.id, flags);
+  }, [attempt.id, flags]);
+
+  function handleFlag(itemKey: string, comment: string) {
+    setFlags((prev) => {
+      const idx = prev.findIndex((f) => f.itemKey === itemKey);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = { itemKey, comment };
+        return next;
+      }
+      return [...prev, { itemKey, comment }];
+    });
+  }
+
+  function handleUnflag(itemKey: string) {
+    setFlags((prev) => prev.filter((f) => f.itemKey !== itemKey));
+  }
+
+  function handleVerified(verified: AttemptDTO) {
+    setAttempt(verified);
+    setFlags([]);
+  }
 
   const result = attempt.detail as JiraCommentResult;
-  const flag = attempt.flags.find((f) => f.itemKey === RESPONSE_FLAG_KEY);
+  const flag = flags.find((f) => f.itemKey === RESPONSE_FLAG_KEY);
 
   return (
     <section className="results drill accent-violet">
@@ -59,10 +85,10 @@ export function JiraCommentResults({
           ))}
         </ul>
         <FlagItemButton
-          attemptId={attempt.id}
           itemKey={RESPONSE_FLAG_KEY}
           flag={flag}
-          onUpdate={setAttempt}
+          onFlag={handleFlag}
+          onUnflag={handleUnflag}
         />
       </div>
 
@@ -106,9 +132,9 @@ export function JiraCommentResults({
 
       <VerifyBar
         attemptId={attempt.id}
-        flagCount={attempt.flags.length}
+        flags={flags}
         verifyCount={attempt.verifyCount}
-        onVerified={setAttempt}
+        onVerified={handleVerified}
       />
     </section>
   );

@@ -50,10 +50,14 @@ const AttemptSchema = new Schema(
      */
     detail: { type: Schema.Types.Mixed, default: undefined },
     /**
-     * Test-taker-raised doubts about an item's score, e.g. "same answer as
-     * my friend but I got partial credit." One entry per flagged item key
-     * (`item:<n>` for translation rows, `response` for the single-response
-     * jira-comment test); re-flagging the same key overwrites its comment.
+     * Record of the test-taker-raised doubts a "verify" call last acted on,
+     * e.g. "same answer as my friend but I got partial credit" (one entry
+     * per flagged item key: `item:<n>` for translation rows, `response` for
+     * the single-response jira-comment test). Pending/unverified flags live
+     * only in the browser's localStorage — see lib/client/flagStorage.ts —
+     * and are written here only once a verify request succeeds, as the
+     * durable record of what was disputed; they're never a "currently open"
+     * list to react to elsewhere.
      */
     flags: {
       type: [

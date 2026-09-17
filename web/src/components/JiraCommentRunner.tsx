@@ -15,7 +15,7 @@ import { hasActiveFlags, clearFlagsFromStorage } from "@/lib/client/flagStorage"
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
 
-type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "verifyCount">;
 
 function seed(initial: unknown): JiraCommentAnswers {
   const src = (initial ?? {}) as Partial<JiraCommentAnswers>;
@@ -45,7 +45,6 @@ export function JiraCommentRunner({
   initialAnswers,
   initiallyCompleted,
   initialDetail,
-  initialFlags,
   initialVerifyCount,
   userName,
 }: {
@@ -54,7 +53,6 @@ export function JiraCommentRunner({
   initialAnswers: unknown;
   initiallyCompleted: boolean;
   initialDetail: unknown;
-  initialFlags: AttemptDTO["flags"];
   initialVerifyCount: number;
   userName: string;
 }) {
@@ -63,7 +61,7 @@ export function JiraCommentRunner({
   const [completed, setCompleted] = useState(initiallyCompleted);
   const [resultAttempt, setResultAttempt] = useState<ResultAttempt | null>(
     initiallyCompleted
-      ? { id: attemptId, detail: initialDetail, flags: initialFlags, verifyCount: initialVerifyCount }
+      ? { id: attemptId, detail: initialDetail, verifyCount: initialVerifyCount }
       : null
   );
   const [warn, setWarn] = useState("");

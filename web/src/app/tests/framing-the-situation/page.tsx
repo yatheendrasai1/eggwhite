@@ -44,7 +44,6 @@ export default async function FramingTheSituationPage() {
         initialAnswers={res.attempt.answers}
         initiallyCompleted={res.attempt.status === "completed"}
         initialDetail={res.attempt.detail}
-        initialFlags={res.attempt.flags}
         initialVerifyCount={res.attempt.verifyCount}
         userName={session.user.name || ""}
       />

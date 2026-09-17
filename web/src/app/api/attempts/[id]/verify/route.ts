@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { connectDB } from "@/lib/db";
 import { AttemptModel } from "@/lib/models/Attempt";
 import { serializeAttempt } from "@/lib/attempts";
+import { verifyFlagsSchema } from "@/lib/validation";
 import { isTranslationTest, TRANSLATION_CONFIGS } from "@/lib/tests/translationConfigs";
 import type { TranslationAnswers } from "@/lib/tests/translation";
 import { evaluateTranslation } from "@/lib/tests/translationEval";
@@ -16,12 +17,15 @@ const OID = /^[a-f0-9]{24}$/i;
 export const MAX_VERIFIES_PER_TEST = 3;
 
 /**
- * Re-runs grading for a completed, flagged attempt, at most MAX_VERIFIES_PER_TEST
- * times. Consumes one "verify" up front (atomic $inc with rollback on failure)
- * so concurrent requests can't slip past the limit.
+ * Re-runs grading for a completed attempt against the flagged items the
+ * client sends up. Flags are never persisted before this — the client keeps
+ * them in localStorage only — so this request is also the one place they
+ * get written to the attempt, as the durable record of what was disputed.
+ * Consumes one "verify" up front (atomic $inc with rollback on failure) so
+ * concurrent requests can't slip past the MAX_VERIFIES_PER_TEST limit.
  */
 export async function POST(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
@@ -31,14 +35,25 @@ export async function POST(
   const { id } = await params;
   if (!OID.test(id)) return NextResponse.json({ error: "not found" }, { status: 404 });
 
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "invalid json" }, { status: 400 });
+  }
+  const parsed = verifyFlagsSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "invalid body", details: parsed.error.flatten() },
+      { status: 400 }
+    );
+  }
+
   await connectDB();
   const existing = await AttemptModel.findOne({ _id: id, userId: session.user.id });
   if (!existing) return NextResponse.json({ error: "not found" }, { status: 404 });
   if (existing.status !== "completed") {
     return NextResponse.json({ error: "attempt not completed" }, { status: 400 });
-  }
-  if (!existing.flags || existing.flags.length === 0) {
-    return NextResponse.json({ error: "no flagged items to verify" }, { status: 400 });
   }
 
   const doc = await AttemptModel.findOneAndUpdate(
@@ -84,7 +99,7 @@ export async function POST(
       doc.markModified("detail");
     }
     // Rule-based tests are deterministic — nothing to re-grade, but the
-    // verify still counts against the per-test limit and clears the flags.
+    // verify still counts against the per-test limit.
   } catch (err) {
     console.error("re-grading on verify failed", err);
     await AttemptModel.updateOne({ _id: id }, { $inc: { verifyCount: -1 } });
@@ -94,7 +109,12 @@ export async function POST(
     );
   }
 
+  // Only now — a successful verify — do the disputed items/comments become
+  // durable, as the record of what this verification was about.
   doc.flags.splice(0, doc.flags.length);
+  for (const f of parsed.data.flags) {
+    doc.flags.push({ itemKey: f.itemKey, comment: f.comment, createdAt: new Date() });
+  }
   doc.markModified("flags");
   await doc.save();
 

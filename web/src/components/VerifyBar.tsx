@@ -2,25 +2,26 @@
 
 import { useState } from "react";
 import type { AttemptDTO } from "@/lib/attempts";
+import type { StoredFlag } from "@/lib/client/flagStorage";
 import { verifyAttempt } from "@/lib/client/attemptsApi";
 
 const MAX_VERIFIES = 3;
 
 export function VerifyBar({
   attemptId,
-  flagCount,
+  flags,
   verifyCount,
   onVerified,
 }: {
   attemptId: string;
-  flagCount: number;
+  flags: StoredFlag[];
   verifyCount: number;
   onVerified: (attempt: AttemptDTO) => void;
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (flagCount === 0) return null;
+  if (flags.length === 0) return null;
 
   const remaining = Math.max(0, MAX_VERIFIES - verifyCount);
 
@@ -28,7 +29,7 @@ export function VerifyBar({
     setBusy(true);
     setError(null);
     try {
-      const { attempt } = await verifyAttempt(attemptId);
+      const { attempt } = await verifyAttempt(attemptId, flags);
       onVerified(attempt);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Verification failed — try again.");
@@ -40,7 +41,7 @@ export function VerifyBar({
   return (
     <div className="panel verify-bar">
       <p className="verify-bar-text">
-        {flagCount} item{flagCount > 1 ? "s" : ""} flagged for review.{" "}
+        {flags.length} item{flags.length > 1 ? "s" : ""} flagged for review.{" "}
         {remaining > 0
           ? `You can request revalidation ${remaining} more time${remaining > 1 ? "s" : ""} on this test.`
           : "You've used all your revalidations for this test."}
