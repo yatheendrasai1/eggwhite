@@ -4,6 +4,7 @@ import { SignInLink } from "@/components/AuthButtons";
 import { AboutUs } from "@/components/AboutUs";
 import { ProfileDrawer } from "@/components/ProfileDrawer";
 import { SideMenu } from "@/components/SideMenu";
+import { TutorialModal } from "@/components/TutorialModal";
 import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive, isTiv } from "@/lib/pro";
@@ -61,9 +62,7 @@ export async function Navbar() {
                 Dashboard
               </Link>
             )}
-            <Link href="/tutorial" className="nav-btn" style={{ textDecoration: "none" }}>
-              Tutorial
-            </Link>
+            <TutorialModal />
             <ProfileDrawer
               userName={user.name || ""}
               userEmail={user.email || ""}
@@ -76,9 +75,7 @@ export async function Navbar() {
         ) : (
           <>
             <AboutUs />
-            <Link href="/tutorial" className="nav-btn" style={{ textDecoration: "none" }}>
-              Tutorial
-            </Link>
+            <TutorialModal />
             <SignInLink />
           </>
         )}
