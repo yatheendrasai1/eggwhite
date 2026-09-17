@@ -15,9 +15,9 @@ import { evaluateTranslation } from "@/lib/tests/translationEval";
 import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
 import type { JiraCommentAnswers } from "@/lib/tests/jiraComment";
 import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
-import { isGrammarCourtTest, GRAMMAR_COURT_CONFIGS } from "@/lib/tests/grammarCourtConfigs";
-import type { GrammarCourtAnswers } from "@/lib/tests/grammarCourt";
-import { evaluateGrammarCourt } from "@/lib/tests/grammarCourtEval";
+import { isRightOrWrongTest, RIGHT_OR_WRONG_CONFIGS } from "@/lib/tests/rightOrWrongConfigs";
+import type { RightOrWrongAnswers } from "@/lib/tests/rightOrWrong";
+import { evaluateRightOrWrong } from "@/lib/tests/rightOrWrongEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -82,7 +82,7 @@ export async function PATCH(
       }
     }
 
-    if (isTranslationTest(doc.testId) || isJiraCommentTest(doc.testId) || isGrammarCourtTest(doc.testId)) {
+    if (isTranslationTest(doc.testId) || isJiraCommentTest(doc.testId) || isRightOrWrongTest(doc.testId)) {
       // Persist the submitted answers before calling the grading LLM, so a
       // Gemini failure never loses the candidate's work — the attempt stays
       // in_progress with the answers saved, and resubmitting just retries
@@ -120,15 +120,15 @@ export async function PATCH(
       }
     }
 
-    let grammarCourtResult: Awaited<ReturnType<typeof evaluateGrammarCourt>> | null = null;
-    if (isGrammarCourtTest(doc.testId)) {
+    let rightOrWrongResult: Awaited<ReturnType<typeof evaluateRightOrWrong>> | null = null;
+    if (isRightOrWrongTest(doc.testId)) {
       try {
-        grammarCourtResult = await evaluateGrammarCourt(
-          GRAMMAR_COURT_CONFIGS[doc.testId],
-          (answers ?? { verdicts: {}, issues: {}, fixes: {} }) as GrammarCourtAnswers
+        rightOrWrongResult = await evaluateRightOrWrong(
+          RIGHT_OR_WRONG_CONFIGS[doc.testId],
+          (answers ?? { verdicts: {}, issues: {}, fixes: {} }) as RightOrWrongAnswers
         );
       } catch (err) {
-        console.error("grammar court grading failed", err);
+        console.error("right or wrong grading failed", err);
         return NextResponse.json({ error: "grading failed, please try again" }, { status: 502 });
       }
     }
@@ -160,14 +160,14 @@ export async function PATCH(
       };
       doc.detail = jiraResult;
       doc.markModified("detail");
-    } else if (grammarCourtResult) {
+    } else if (rightOrWrongResult) {
       doc.summary = {
-        line: grammarCourtResult.summaryLine,
-        pct: Math.round(grammarCourtResult.pct),
-        level: grammarCourtResult.band.code,
-        parts: { total: grammarCourtResult.total, maxScore: grammarCourtResult.maxScore },
+        line: rightOrWrongResult.summaryLine,
+        pct: Math.round(rightOrWrongResult.pct),
+        level: rightOrWrongResult.band.code,
+        parts: { total: rightOrWrongResult.total, maxScore: rightOrWrongResult.maxScore },
       };
-      doc.detail = grammarCourtResult;
+      doc.detail = rightOrWrongResult;
       doc.markModified("detail");
     } else {
       doc.summary = computeSummary(doc.testId, answers);

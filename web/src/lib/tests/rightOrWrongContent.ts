@@ -1,25 +1,25 @@
-import type { GrammarCourtConfig } from "@/lib/tests/grammarCourt";
+import type { RightOrWrongConfig } from "@/lib/tests/rightOrWrong";
 
-export const GRAMMAR_COURT: GrammarCourtConfig = {
-  id: "grammar-court",
-  slug: "grammar-court",
-  href: "/tests/grammar-court",
+export const RIGHT_OR_WRONG: RightOrWrongConfig = {
+  id: "right-or-wrong",
+  slug: "right-or-wrong",
+  href: "/tests/right-or-wrong",
   eyebrow: "Pro · AI-graded bonus",
-  titleLead: "Grammar ",
-  titleEm: "Court",
-  titleTail: " is in session",
-  lede: "20 real workplace phrases. Some are clean, some are guilty. Deliver your verdict — and for anything you convict, name the crime and file the fix for a bonus point.",
+  titleLead: "Right ",
+  titleEm: "or",
+  titleTail: " Wrong",
+  lede: "20 real workplace phrases. Some are clean, some are broken. Call it — and for anything you catch, name the issue and write the fix for a bonus point.",
   howto: [
     "<b>Read each phrase.</b> Some are perfectly fine as written; others have a real grammar or word-usage slip. Decide which.",
-    "<b>Pick Correct or Incorrect.</b> A right call is worth +1, a wrong call costs you -1 — no free passes.",
-    "<b>Convicted one?</b> Name the issue and write the fix for a shot at a bonus point. Get the explanation wrong and nothing extra is deducted, so it's always worth a try.",
+    "<b>Pick Right or Wrong.</b> A right call is worth +1, a wrong call costs you -1 — no free passes.",
+    "<b>Caught a wrong one?</b> Name the issue and write the fix for a shot at a bonus point. Get the explanation wrong and nothing extra is deducted, so it's always worth a try.",
   ],
-  promptKey: "grammar-court-eval",
+  promptKey: "right-or-wrong-eval",
   bands: [
-    { max: 40, code: "D", name: "Held in Contempt", desc: "Verdicts are a coin flip and the case notes don't help — grammar instincts need real work." },
-    { max: 65, code: "C", name: "Case Pending", desc: "Spots the obvious slips but the trickier ones get through, and the fixes aren't landing yet." },
-    { max: 85, code: "B", name: "Sound Judgment", desc: "Calls it right most of the time and usually nails the fix when it matters." },
-    { max: 100, code: "A", name: "Chief Justice", desc: "Sharp verdicts and airtight corrections — nothing gets past this bench." },
+    { max: 40, code: "D", name: "Coin Flip", desc: "Calls feel random and the fixes aren't landing yet — grammar instincts need real work." },
+    { max: 65, code: "C", name: "Getting Warmer", desc: "Spots the obvious slips but the trickier ones get through, and the fixes aren't landing yet." },
+    { max: 85, code: "B", name: "Sharp Eye", desc: "Calls it right most of the time and usually nails the fix when it matters." },
+    { max: 100, code: "A", name: "Dead Right", desc: "Sharp calls and airtight corrections — nothing gets past you." },
   ],
   items: [
     {

@@ -127,7 +127,7 @@ For each response, return:
 Showing the deduction math (not just the final number) is required for every category — this is what keeps scores auditable and consistent across different graders and different test takers.`,
   },
   {
-    key: "grammar-court-eval",
+    key: "right-or-wrong-eval",
     template: `You are grading the bonus round of a workplace-English grammar test. For each item, the test taker already correctly identified that a phrase contains a genuine grammar or word-usage error. They have now attempted to (a) explain what the issue is and (b) supply a corrected version of the phrase.
 
 For each item you're given: the original phrase, the canonical description of the issue and the canonical corrected phrase (the answer key), and the candidate's own stated issue and fix.

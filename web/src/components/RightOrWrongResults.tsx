@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { GrammarCourtResult, GrammarCourtItemResult } from "@/lib/tests/grammarCourt";
+import type { RightOrWrongResult, RightOrWrongItemResult } from "@/lib/tests/rightOrWrong";
 import type { AttemptDTO } from "@/lib/attempts";
 import { FlagItemButton } from "@/components/FlagItemButton";
 import { VerifyBar } from "@/components/VerifyBar";
@@ -17,7 +17,7 @@ function ReviewCard({
   onFlag,
   onUnflag,
 }: {
-  r: GrammarCourtItemResult;
+  r: RightOrWrongItemResult;
   flag: StoredFlag | undefined;
   onFlag: (itemKey: string, comment: string) => void;
   onUnflag: (itemKey: string) => void;
@@ -30,8 +30,8 @@ function ReviewCard({
       <div className="rev-b" style={{ flex: 1 }}>
         <p style={{ margin: "0 0 4px", fontWeight: 600 }}>&ldquo;{r.phrase}&rdquo;</p>
         <span className="yours">
-          You called it <b>{r.verdict}</b> — it was actually{" "}
-          <b>{r.actual ? "correct" : "incorrect"}</b>.
+          You called it <b>{r.verdict === "correct" ? "right" : "wrong"}</b> — it was actually{" "}
+          <b>{r.actual ? "right" : "wrong"}</b>.
         </span>
         {!r.actual && r.correctFix && <em>Fix: {r.correctFix}</em>}
         {r.attemptedBonus && (
@@ -60,7 +60,7 @@ function ReviewCard({
 
 type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "verifyCount">;
 
-export function GrammarCourtResults({ attempt: initialAttempt }: { attempt: ResultAttempt }) {
+export function RightOrWrongResults({ attempt: initialAttempt }: { attempt: ResultAttempt }) {
   const [attempt, setAttempt] = useState(initialAttempt);
   const [flags, setFlags] = useState<StoredFlag[]>(() => loadFlagsFromStorage(initialAttempt.id));
 
@@ -89,7 +89,7 @@ export function GrammarCourtResults({ attempt: initialAttempt }: { attempt: Resu
     setFlags([]);
   }
 
-  const result = attempt.detail as GrammarCourtResult;
+  const result = attempt.detail as RightOrWrongResult;
   const wrong = result.rows.filter((r) => r.basePts < 0);
   const correct = result.rows.filter((r) => r.basePts > 0);
   const flagFor = (n: number) => flags.find((f) => f.itemKey === `item:${n}`);
@@ -110,7 +110,7 @@ export function GrammarCourtResults({ attempt: initialAttempt }: { attempt: Resu
       </div>
 
       <div className="panel">
-        <h3>Verdict-by-verdict review</h3>
+        <h3>Call-by-call review</h3>
         {wrong.length > 0 && (
           <ul className="review">
             {wrong.map((r) => (
@@ -121,7 +121,7 @@ export function GrammarCourtResults({ attempt: initialAttempt }: { attempt: Resu
         {correct.length > 0 && (
           <details className="acc">
             <summary>
-              {correct.length} correct verdict{correct.length > 1 ? "s" : ""}
+              {correct.length} correct call{correct.length > 1 ? "s" : ""}
             </summary>
             <ul className="review">
               {correct.map((r) => (

@@ -10,9 +10,9 @@ import { evaluateTranslation } from "@/lib/tests/translationEval";
 import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
 import type { JiraCommentAnswers } from "@/lib/tests/jiraComment";
 import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
-import { isGrammarCourtTest, GRAMMAR_COURT_CONFIGS } from "@/lib/tests/grammarCourtConfigs";
-import type { GrammarCourtAnswers } from "@/lib/tests/grammarCourt";
-import { evaluateGrammarCourt } from "@/lib/tests/grammarCourtEval";
+import { isRightOrWrongTest, RIGHT_OR_WRONG_CONFIGS } from "@/lib/tests/rightOrWrongConfigs";
+import type { RightOrWrongAnswers } from "@/lib/tests/rightOrWrong";
+import { evaluateRightOrWrong } from "@/lib/tests/rightOrWrongEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -100,10 +100,10 @@ export async function POST(
       };
       doc.detail = result;
       doc.markModified("detail");
-    } else if (isGrammarCourtTest(doc.testId)) {
-      const result = await evaluateGrammarCourt(
-        GRAMMAR_COURT_CONFIGS[doc.testId],
-        (doc.answers ?? { verdicts: {}, issues: {}, fixes: {} }) as GrammarCourtAnswers
+    } else if (isRightOrWrongTest(doc.testId)) {
+      const result = await evaluateRightOrWrong(
+        RIGHT_OR_WRONG_CONFIGS[doc.testId],
+        (doc.answers ?? { verdicts: {}, issues: {}, fixes: {} }) as RightOrWrongAnswers
       );
       doc.summary = {
         line: result.summaryLine,

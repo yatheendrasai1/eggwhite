@@ -1,6 +1,6 @@
 /* =========================================================================
-   Server-only Gemini grading for Grammar Court's bonus round. Kept separate
-   from grammarCourt.ts (client-safe types) so client components never pull
+   Server-only Gemini grading for Right or Wrong's bonus round. Kept separate
+   from rightOrWrong.ts (client-safe types) so client components never pull
    in the Gemini client or the Mongo-backed prompt lookup.
 
    The base +1/-1 verdict score is plain rule-based comparison against the
@@ -12,12 +12,12 @@
 import { callGemini } from "@/lib/gemini";
 import { getPromptTemplate } from "@/lib/prompts";
 import type {
-  GrammarCourtConfig,
-  GrammarCourtAnswers,
-  GrammarCourtItemResult,
-  GrammarCourtResult,
-  GrammarCourtVerdict,
-} from "@/lib/tests/grammarCourt";
+  RightOrWrongConfig,
+  RightOrWrongAnswers,
+  RightOrWrongItemResult,
+  RightOrWrongResult,
+  RightOrWrongVerdict,
+} from "@/lib/tests/rightOrWrong";
 
 type BonusCandidate = {
   n: number;
@@ -54,10 +54,10 @@ function buildPrompt(template: string, candidates: BonusCandidate[]): string {
  * can't be parsed/validated — callers should let that fail the
  * attempt-completion request rather than silently skip the bonus.
  */
-export async function evaluateGrammarCourt(
-  config: GrammarCourtConfig,
-  answers: GrammarCourtAnswers
-): Promise<GrammarCourtResult> {
+export async function evaluateRightOrWrong(
+  config: RightOrWrongConfig,
+  answers: RightOrWrongAnswers
+): Promise<RightOrWrongResult> {
   const verdicts = answers.verdicts ?? {};
   const issues = answers.issues ?? {};
   const fixes = answers.fixes ?? {};
@@ -90,7 +90,7 @@ export async function evaluateGrammarCourt(
     try {
       parsed = JSON.parse(raw);
     } catch {
-      throw new Error("Gemini returned invalid JSON for grammar court bonus grading");
+      throw new Error("Gemini returned invalid JSON for right or wrong bonus grading");
     }
 
     const results = (parsed as { results?: unknown[] })?.results;
@@ -105,9 +105,9 @@ export async function evaluateGrammarCourt(
     }
   }
 
-  const rows: GrammarCourtItemResult[] = config.items.map((it, i) => {
+  const rows: RightOrWrongItemResult[] = config.items.map((it, i) => {
     const verdict = verdicts[i];
-    const wantVerdict: GrammarCourtVerdict = it.correct ? "correct" : "incorrect";
+    const wantVerdict: RightOrWrongVerdict = it.correct ? "correct" : "incorrect";
     const basePts = verdict === wantVerdict ? 1 : -1;
     const attemptedBonus =
       !it.correct &&

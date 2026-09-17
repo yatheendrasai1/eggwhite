@@ -5,14 +5,14 @@ import { ensureAttempt } from "@/lib/ensureAttempt";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive } from "@/lib/pro";
 import { BackHome } from "@/components/BackHome";
-import { GrammarCourtRunner } from "@/components/GrammarCourtRunner";
-import { GRAMMAR_COURT } from "@/lib/tests/grammarCourtContent";
+import { RightOrWrongRunner } from "@/components/RightOrWrongRunner";
+import { RIGHT_OR_WRONG } from "@/lib/tests/rightOrWrongContent";
 
 export const dynamic = "force-dynamic";
 
-export default async function GrammarCourtPage() {
+export default async function RightOrWrongPage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/grammar-court");
+  if (!session?.user?.id) redirect("/signin?callbackUrl=/tests/right-or-wrong");
 
   await connectDB();
   const profile = await UserProfileModel.findOne({ userId: session.user.id }).lean();
@@ -24,7 +24,7 @@ export default async function GrammarCourtPage() {
             <BackHome />
             <p className="eyebrow">Pro · AI-graded bonus</p>
             <h1>
-              Grammar <em>Court</em> is in session
+              Right <em>or</em> Wrong
             </h1>
           </header>
           <p className="filler">You need a pro account to participate in this test.</p>
@@ -33,13 +33,13 @@ export default async function GrammarCourtPage() {
     );
   }
 
-  const res = await ensureAttempt(session.user.id, "grammar-court");
+  const res = await ensureAttempt(session.user.id, "right-or-wrong");
   if (!res.ok) redirect("/");
 
   return (
     <main className="page">
-      <GrammarCourtRunner
-        config={GRAMMAR_COURT}
+      <RightOrWrongRunner
+        config={RIGHT_OR_WRONG}
         attemptId={res.attempt.id}
         initialAnswers={res.attempt.answers}
         initiallyCompleted={res.attempt.status === "completed"}

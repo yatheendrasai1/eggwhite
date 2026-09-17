@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackHome } from "@/components/BackHome";
 import {
-  countDoneGrammarCourt,
-  type GrammarCourtConfig,
-  type GrammarCourtAnswers,
-  type GrammarCourtVerdict,
-} from "@/lib/tests/grammarCourt";
-import { GrammarCourtResults } from "@/components/GrammarCourtResults";
+  countDoneRightOrWrong,
+  type RightOrWrongConfig,
+  type RightOrWrongAnswers,
+  type RightOrWrongVerdict,
+} from "@/lib/tests/rightOrWrong";
+import { RightOrWrongResults } from "@/components/RightOrWrongResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import type { AttemptDTO } from "@/lib/attempts";
 import { hasActiveFlags, clearFlagsFromStorage } from "@/lib/client/flagStorage";
@@ -18,8 +18,8 @@ import { useLoading } from "@/components/LoadingOverlay";
 
 type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "verifyCount">;
 
-function seed(initial: unknown): GrammarCourtAnswers {
-  const src = (initial ?? {}) as Partial<GrammarCourtAnswers>;
+function seed(initial: unknown): RightOrWrongAnswers {
+  const src = (initial ?? {}) as Partial<RightOrWrongAnswers>;
   return {
     verdicts: { ...(src.verdicts ?? {}) },
     issues: { ...(src.issues ?? {}) },
@@ -27,7 +27,7 @@ function seed(initial: unknown): GrammarCourtAnswers {
   };
 }
 
-export function GrammarCourtRunner({
+export function RightOrWrongRunner({
   config,
   attemptId,
   initialAnswers,
@@ -36,7 +36,7 @@ export function GrammarCourtRunner({
   initialVerifyCount,
   userName,
 }: {
-  config: GrammarCourtConfig;
+  config: RightOrWrongConfig;
   attemptId: string;
   initialAnswers: unknown;
   initiallyCompleted: boolean;
@@ -45,7 +45,7 @@ export function GrammarCourtRunner({
   userName: string;
 }) {
   const router = useRouter();
-  const [answers, setAnswers] = useState<GrammarCourtAnswers>(() => seed(initialAnswers));
+  const [answers, setAnswers] = useState<RightOrWrongAnswers>(() => seed(initialAnswers));
   const [completed, setCompleted] = useState(initiallyCompleted);
   const [resultAttempt, setResultAttempt] = useState<ResultAttempt | null>(
     initiallyCompleted
@@ -61,7 +61,7 @@ export function GrammarCourtRunner({
   const { withLoading } = useLoading();
 
   const total = config.items.length;
-  const done = countDoneGrammarCourt(answers);
+  const done = countDoneRightOrWrong(answers);
 
   useEffect(() => {
     if (!flagKey) return;
@@ -74,7 +74,7 @@ export function GrammarCourtRunner({
     };
   }, []);
 
-  function commit(next: GrammarCourtAnswers) {
+  function commit(next: RightOrWrongAnswers) {
     setAnswers(next);
     if (completed) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
@@ -86,9 +86,9 @@ export function GrammarCourtRunner({
     }, 800);
   }
 
-  function setVerdict(i: number, verdict: GrammarCourtVerdict) {
+  function setVerdict(i: number, verdict: RightOrWrongVerdict) {
     commit({ ...answers, verdicts: { ...answers.verdicts, [i]: verdict } });
-    setFlagKey((k) => (k === "gcq" + i ? null : k));
+    setFlagKey((k) => (k === "rowq" + i ? null : k));
   }
 
   function setIssue(i: number, value: string) {
@@ -108,9 +108,9 @@ export function GrammarCourtRunner({
       setWarn(
         `${miss.length} phrase${miss.length > 1 ? "s" : ""} still need${
           miss.length > 1 ? "" : "s"
-        } a verdict.`
+        } a call.`
       );
-      setFlagKey("gcq" + miss[0]);
+      setFlagKey("rowq" + miss[0]);
       return;
     }
     setWarn("");
@@ -166,7 +166,7 @@ export function GrammarCourtRunner({
     return (
       <div className="wrap">
         <BackHome attemptId={attemptId} />
-        <GrammarCourtResults attempt={resultAttempt} />
+        <RightOrWrongResults attempt={resultAttempt} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
             {busy === "retake" ? (
@@ -210,7 +210,7 @@ export function GrammarCourtRunner({
       <div className="progress">
         <div className="progress-in">
           <span className="progress-count">
-            <span>{done}</span>/{total} verdicts in
+            <span>{done}</span>/{total} calls in
             {saving ? (
               <span className="autosave">
                 <Spinner size={10} /> Saving…
@@ -230,8 +230,8 @@ export function GrammarCourtRunner({
               const verdict = answers.verdicts[i];
               return (
                 <article
-                  className={`q${flagKey === "gcq" + i ? " flag" : ""}`}
-                  id={"gcq" + i}
+                  className={`q${flagKey === "rowq" + i ? " flag" : ""}`}
+                  id={"rowq" + i}
                   key={i}
                 >
                   <div className="q-head">
@@ -245,7 +245,7 @@ export function GrammarCourtRunner({
                       onClick={() => setVerdict(i, "correct")}
                     >
                       <span className="opt-l">✓</span>
-                      <span>Correct</span>
+                      <span>Right</span>
                     </button>
                     <button
                       type="button"
@@ -253,13 +253,13 @@ export function GrammarCourtRunner({
                       onClick={() => setVerdict(i, "incorrect")}
                     >
                       <span className="opt-l">✕</span>
-                      <span>Incorrect</span>
+                      <span>Wrong</span>
                     </button>
                   </div>
                   {verdict === "incorrect" && (
                     <div style={{ marginTop: 12 }}>
                       <p className="q-hint" style={{ margin: "0 0 6px", marginLeft: 0 }}>
-                        Convicted it — make the case for a bonus point (optional):
+                        Caught one — make the case for a bonus point (optional):
                       </p>
                       <textarea
                         className="translate-input"

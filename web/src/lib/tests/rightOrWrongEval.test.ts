@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { GrammarCourtConfig, GrammarCourtAnswers } from "@/lib/tests/grammarCourt";
+import type { RightOrWrongConfig, RightOrWrongAnswers } from "@/lib/tests/rightOrWrong";
 
 /**
  * Mocks the Gemini network seam and the DB-backed prompt lookup so these
@@ -14,8 +14,8 @@ vi.mock("@/lib/prompts", () => ({
 
 import { callGemini } from "@/lib/gemini";
 import { getPromptTemplate } from "@/lib/prompts";
-import { countDoneGrammarCourt } from "@/lib/tests/grammarCourt";
-import { evaluateGrammarCourt } from "@/lib/tests/grammarCourtEval";
+import { countDoneRightOrWrong } from "@/lib/tests/rightOrWrong";
+import { evaluateRightOrWrong } from "@/lib/tests/rightOrWrongEval";
 
 const mockCallGemini = vi.mocked(callGemini);
 const mockGetPromptTemplate = vi.mocked(getPromptTemplate);
@@ -29,11 +29,11 @@ const BANDS = [
 
 function makeConfig(
   items: { phrase: string; correct: boolean; issue?: string; fix?: string }[]
-): GrammarCourtConfig {
+): RightOrWrongConfig {
   return {
-    id: "grammar-court",
-    slug: "grammar-court",
-    href: "/tests/grammar-court",
+    id: "right-or-wrong",
+    slug: "right-or-wrong",
+    href: "/tests/right-or-wrong",
     eyebrow: "Pro",
     titleLead: "Grammar ",
     titleEm: "Court",
@@ -46,7 +46,7 @@ function makeConfig(
       issue: it.issue ?? "",
       fix: it.fix ?? "",
     })),
-    promptKey: "grammar-court-eval",
+    promptKey: "right-or-wrong-eval",
     bands: BANDS,
   };
 }
@@ -57,19 +57,19 @@ beforeEach(() => {
   mockGetPromptTemplate.mockResolvedValue("Grade these bonus explanations.");
 });
 
-describe("evaluateGrammarCourt", () => {
+describe("evaluateRightOrWrong", () => {
   it("scores a correct verdict as +1 and a wrong verdict as -1, with no Gemini call when nothing was attempted", async () => {
     const config = makeConfig([
       { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
       { phrase: "Please find the attached report.", correct: true },
     ]);
-    const answers: GrammarCourtAnswers = {
+    const answers: RightOrWrongAnswers = {
       verdicts: { 0: "incorrect", 1: "incorrect" }, // item 0 right call, item 1 wrong call
       issues: {},
       fixes: {},
     };
 
-    const result = await evaluateGrammarCourt(config, answers);
+    const result = await evaluateRightOrWrong(config, answers);
 
     expect(mockCallGemini).not.toHaveBeenCalled();
     expect(result.rows[0]).toMatchObject({ basePts: 1, attemptedBonus: false, bonusEarned: false });
@@ -82,7 +82,7 @@ describe("evaluateGrammarCourt", () => {
     const config = makeConfig([
       { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
     ]);
-    const answers: GrammarCourtAnswers = {
+    const answers: RightOrWrongAnswers = {
       verdicts: { 0: "incorrect" },
       issues: { 0: "missing preposition before 'me'" },
       fixes: { 0: "He explained the process to me." },
@@ -91,9 +91,9 @@ describe("evaluateGrammarCourt", () => {
       JSON.stringify({ results: [{ n: 1, correct: true, feedback: "Nailed it." }] })
     );
 
-    const result = await evaluateGrammarCourt(config, answers);
+    const result = await evaluateRightOrWrong(config, answers);
 
-    expect(mockGetPromptTemplate).toHaveBeenCalledWith("grammar-court-eval");
+    expect(mockGetPromptTemplate).toHaveBeenCalledWith("right-or-wrong-eval");
     expect(mockCallGemini).toHaveBeenCalledTimes(1);
     const promptSent = mockCallGemini.mock.calls[0][0];
     expect(promptSent).toContain("He explained me the process.");
@@ -113,7 +113,7 @@ describe("evaluateGrammarCourt", () => {
     const config = makeConfig([
       { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
     ]);
-    const answers: GrammarCourtAnswers = {
+    const answers: RightOrWrongAnswers = {
       verdicts: { 0: "incorrect" },
       issues: { 0: "totally unrelated guess" },
       fixes: { 0: "still wrong" },
@@ -122,7 +122,7 @@ describe("evaluateGrammarCourt", () => {
       JSON.stringify({ results: [{ n: 1, correct: false, feedback: "Not quite." }] })
     );
 
-    const result = await evaluateGrammarCourt(config, answers);
+    const result = await evaluateRightOrWrong(config, answers);
 
     expect(result.rows[0]).toMatchObject({ basePts: 1, attemptedBonus: true, bonusEarned: false });
     expect(result.total).toBe(1); // just the base point — no extra deduction for a wrong explanation
@@ -130,13 +130,13 @@ describe("evaluateGrammarCourt", () => {
 
   it("does not attempt the bonus (or call Gemini) when the item was actually correct, even if the candidate wrongly convicted it and filled in issue/fix", async () => {
     const config = makeConfig([{ phrase: "Please find the attached report.", correct: true }]);
-    const answers: GrammarCourtAnswers = {
+    const answers: RightOrWrongAnswers = {
       verdicts: { 0: "incorrect" },
       issues: { 0: "made up issue" },
       fixes: { 0: "made up fix" },
     };
 
-    const result = await evaluateGrammarCourt(config, answers);
+    const result = await evaluateRightOrWrong(config, answers);
 
     expect(mockCallGemini).not.toHaveBeenCalled();
     expect(result.rows[0]).toMatchObject({ basePts: -1, attemptedBonus: false, bonusEarned: false });
@@ -146,13 +146,13 @@ describe("evaluateGrammarCourt", () => {
     const config = makeConfig([
       { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
     ]);
-    const answers: GrammarCourtAnswers = {
+    const answers: RightOrWrongAnswers = {
       verdicts: { 0: "incorrect" },
       issues: { 0: "missing preposition" },
       fixes: { 0: "  " }, // blank/whitespace-only fix
     };
 
-    const result = await evaluateGrammarCourt(config, answers);
+    const result = await evaluateRightOrWrong(config, answers);
 
     expect(mockCallGemini).not.toHaveBeenCalled();
     expect(result.rows[0].attemptedBonus).toBe(false);
@@ -163,13 +163,13 @@ describe("evaluateGrammarCourt", () => {
       { phrase: "a", correct: true },
       { phrase: "b", correct: true },
     ]);
-    const answers: GrammarCourtAnswers = {
+    const answers: RightOrWrongAnswers = {
       verdicts: { 0: "incorrect", 1: "incorrect" },
       issues: {},
       fixes: {},
     };
 
-    const result = await evaluateGrammarCourt(config, answers);
+    const result = await evaluateRightOrWrong(config, answers);
 
     expect(result.total).toBe(-2);
     expect(result.pct).toBe(0);
@@ -182,7 +182,7 @@ describe("evaluateGrammarCourt", () => {
     ]);
     mockCallGemini.mockResolvedValue("not json");
     await expect(
-      evaluateGrammarCourt(config, {
+      evaluateRightOrWrong(config, {
         verdicts: { 0: "incorrect" },
         issues: { 0: "a" },
         fixes: { 0: "b" },
@@ -191,10 +191,10 @@ describe("evaluateGrammarCourt", () => {
   });
 });
 
-describe("countDoneGrammarCourt", () => {
+describe("countDoneRightOrWrong", () => {
   it("counts only items with a verdict, ignoring issue/fix text", () => {
     expect(
-      countDoneGrammarCourt({
+      countDoneRightOrWrong({
         verdicts: { 0: "correct", 1: "incorrect" },
         issues: { 2: "typed but no verdict yet" },
         fixes: {},
@@ -203,6 +203,6 @@ describe("countDoneGrammarCourt", () => {
   });
 
   it("handles empty answers", () => {
-    expect(countDoneGrammarCourt({ verdicts: {}, issues: {}, fixes: {} })).toBe(0);
+    expect(countDoneRightOrWrong({ verdicts: {}, issues: {}, fixes: {} })).toBe(0);
   });
 });

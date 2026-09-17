@@ -13,8 +13,8 @@ import { TranslationResults } from "@/components/TranslationResults";
 import { isTranslationTest } from "@/lib/tests/translationConfigs";
 import { JiraCommentResults } from "@/components/JiraCommentResults";
 import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
-import { GrammarCourtResults } from "@/components/GrammarCourtResults";
-import { isGrammarCourtTest } from "@/lib/tests/grammarCourtConfigs";
+import { RightOrWrongResults } from "@/components/RightOrWrongResults";
+import { isRightOrWrongTest } from "@/lib/tests/rightOrWrongConfigs";
 import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
 import type { DrillAnswers } from "@/lib/tests/drill";
@@ -64,8 +64,8 @@ export default async function ResultsPage({
           <TranslationResults attempt={attempt} />
         ) : isJiraCommentTest(attempt.testId) ? (
           <JiraCommentResults attempt={attempt} config={JIRA_COMMENT_CONFIGS[attempt.testId]} />
-        ) : isGrammarCourtTest(attempt.testId) ? (
-          <GrammarCourtResults attempt={attempt} />
+        ) : isRightOrWrongTest(attempt.testId) ? (
+          <RightOrWrongResults attempt={attempt} />
         ) : (
           <DrillResults
             config={DRILL_CONFIGS[attempt.testId]}
