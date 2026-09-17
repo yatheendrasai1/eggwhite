@@ -11,6 +11,7 @@ import {
 import { JiraCommentResults } from "@/components/JiraCommentResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import type { AttemptDTO } from "@/lib/attempts";
+import { hasActiveFlags, clearFlagsFromStorage } from "@/lib/client/flagStorage";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
 
@@ -132,6 +133,10 @@ export function JiraCommentRunner({
   }
 
   function goHome() {
+    if (hasActiveFlags(attemptId)) {
+      if (!confirm("If you go back, the flagged comments will be discarded.")) return;
+      clearFlagsFromStorage(attemptId);
+    }
     router.push("/");
   }
 
@@ -150,7 +155,7 @@ export function JiraCommentRunner({
   if (completed && resultAttempt) {
     return (
       <div className="wrap">
-        <BackHome />
+        <BackHome attemptId={attemptId} />
         <JiraCommentResults attempt={resultAttempt} config={config} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>

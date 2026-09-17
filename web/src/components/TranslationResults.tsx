@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { TranslationResult, TranslationItemResult } from "@/lib/tests/translation";
 import type { AttemptDTO } from "@/lib/attempts";
 import { FlagItemButton } from "@/components/FlagItemButton";
 import { VerifyBar } from "@/components/VerifyBar";
+import { saveFlagsToStorage } from "@/lib/client/flagStorage";
 
 const VERDICT_LABEL: Record<TranslationItemResult["verdict"], string> = {
   correct: "Correct",
@@ -62,6 +63,11 @@ type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">
 
 export function TranslationResults({ attempt: initialAttempt }: { attempt: ResultAttempt }) {
   const [attempt, setAttempt] = useState(initialAttempt);
+
+  useEffect(() => {
+    saveFlagsToStorage(attempt.id, attempt.flags);
+  }, [attempt.id, attempt.flags]);
+
   const result = attempt.detail as TranslationResult;
   const wrong = result.rows.filter((r) => r.verdict !== "correct");
   const correct = result.rows.filter((r) => r.verdict === "correct");

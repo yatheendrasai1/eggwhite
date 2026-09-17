@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { JiraCommentConfig, JiraCommentResult } from "@/lib/tests/jiraComment";
 import type { AttemptDTO } from "@/lib/attempts";
 import { JiraCommentExportPanel } from "@/components/JiraCommentExportPanel";
 import { FlagItemButton } from "@/components/FlagItemButton";
 import { VerifyBar } from "@/components/VerifyBar";
+import { saveFlagsToStorage } from "@/lib/client/flagStorage";
 
 const RESPONSE_FLAG_KEY = "response";
 
@@ -19,6 +20,11 @@ export function JiraCommentResults({
   config: JiraCommentConfig;
 }) {
   const [attempt, setAttempt] = useState(initialAttempt);
+
+  useEffect(() => {
+    saveFlagsToStorage(attempt.id, attempt.flags);
+  }, [attempt.id, attempt.flags]);
+
   const result = attempt.detail as JiraCommentResult;
   const flag = attempt.flags.find((f) => f.itemKey === RESPONSE_FLAG_KEY);
 

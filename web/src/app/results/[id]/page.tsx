@@ -41,7 +41,7 @@ export default async function ResultsPage({
     <main className="page">
       <div className="wrap">
         <header className="masthead">
-          <BackHome />
+          <BackHome attemptId={attempt.id} />
           <p className="eyebrow">Result · {meta?.title ?? attempt.testId}</p>
           <h1>
             Your <em>result</em>

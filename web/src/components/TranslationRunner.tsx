@@ -11,6 +11,7 @@ import {
 import { TranslationResults } from "@/components/TranslationResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import type { AttemptDTO } from "@/lib/attempts";
+import { hasActiveFlags, clearFlagsFromStorage } from "@/lib/client/flagStorage";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
 
@@ -131,6 +132,10 @@ export function TranslationRunner({
   }
 
   function goHome() {
+    if (hasActiveFlags(attemptId)) {
+      if (!confirm("If you go back, the flagged comments will be discarded.")) return;
+      clearFlagsFromStorage(attemptId);
+    }
     router.push("/");
   }
 
@@ -149,7 +154,7 @@ export function TranslationRunner({
   if (completed && resultAttempt) {
     return (
       <div className="wrap">
-        <BackHome />
+        <BackHome attemptId={attemptId} />
         <TranslationResults attempt={resultAttempt} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
