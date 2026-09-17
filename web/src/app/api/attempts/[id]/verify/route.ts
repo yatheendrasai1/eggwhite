@@ -10,6 +10,9 @@ import { evaluateTranslation } from "@/lib/tests/translationEval";
 import { isJiraCommentTest, JIRA_COMMENT_CONFIGS } from "@/lib/tests/jiraCommentConfigs";
 import type { JiraCommentAnswers } from "@/lib/tests/jiraComment";
 import { evaluateJiraComment } from "@/lib/tests/jiraCommentEval";
+import { isGrammarCourtTest, GRAMMAR_COURT_CONFIGS } from "@/lib/tests/grammarCourtConfigs";
+import type { GrammarCourtAnswers } from "@/lib/tests/grammarCourt";
+import { evaluateGrammarCourt } from "@/lib/tests/grammarCourtEval";
 
 const OID = /^[a-f0-9]{24}$/i;
 
@@ -92,6 +95,19 @@ export async function POST(
       doc.summary = {
         line: result.summaryLine,
         pct: Math.round((result.total / result.maxScore) * 100),
+        level: result.band.code,
+        parts: { total: result.total, maxScore: result.maxScore },
+      };
+      doc.detail = result;
+      doc.markModified("detail");
+    } else if (isGrammarCourtTest(doc.testId)) {
+      const result = await evaluateGrammarCourt(
+        GRAMMAR_COURT_CONFIGS[doc.testId],
+        (doc.answers ?? { verdicts: {}, issues: {}, fixes: {} }) as GrammarCourtAnswers
+      );
+      doc.summary = {
+        line: result.summaryLine,
+        pct: Math.round(result.pct),
         level: result.band.code,
         parts: { total: result.total, maxScore: result.maxScore },
       };

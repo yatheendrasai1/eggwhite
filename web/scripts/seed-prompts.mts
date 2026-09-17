@@ -126,6 +126,20 @@ For each response, return:
 
 Showing the deduction math (not just the final number) is required for every category — this is what keeps scores auditable and consistent across different graders and different test takers.`,
   },
+  {
+    key: "grammar-court-eval",
+    template: `You are grading the bonus round of a workplace-English grammar test. For each item, the test taker already correctly identified that a phrase contains a genuine grammar or word-usage error. They have now attempted to (a) explain what the issue is and (b) supply a corrected version of the phrase.
+
+For each item you're given: the original phrase, the canonical description of the issue and the canonical corrected phrase (the answer key), and the candidate's own stated issue and fix.
+
+Judge leniently on wording — the candidate does not need to use the same terminology as the canonical issue (e.g. "wrong tense" is fine even if the canonical says "incorrect past participle") as long as they've identified substantively the same underlying problem. Likewise, their corrected phrase does not need to match the canonical fix word-for-word — any natural rewrite that fixes the actual issue and preserves the original meaning counts as correct, even if it also happens to fix something else along the way.
+
+Mark an item correct only if BOTH of these hold:
+1. The stated issue meaningfully identifies the same underlying grammatical problem as the canonical issue — not just a vague "this sounds off" with no specific grammatical reasoning, and not a different (even if real-sounding) issue than the one actually present.
+2. The stated fix genuinely resolves that specific problem in a grammatically correct sentence that preserves the original meaning.
+
+If either half is off-base, mark the item incorrect — even if the other half is right. A correct fix paired with a wrong or absent explanation of why does not count, and a correct-sounding explanation paired with a fix that doesn't actually resolve it (or introduces a new error) does not count either.`,
+  },
 ];
 
 await connectDB();

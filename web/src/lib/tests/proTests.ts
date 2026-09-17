@@ -4,6 +4,7 @@ import type { TestId } from "@/lib/models/Attempt";
 export const PRO_TEST_IDS: Set<TestId> = new Set([
   "translation-drama-v1",
   "framing-the-situation",
+  "grammar-court",
 ]);
 
 export function isProTest(id: TestId): boolean {

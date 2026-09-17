@@ -2,6 +2,7 @@ import type { TestId } from "@/lib/models/Attempt";
 import { isMcqPair } from "@/lib/tests/mcqPairConfigs";
 import { isTranslationTest } from "@/lib/tests/translationConfigs";
 import { isJiraCommentTest } from "@/lib/tests/jiraCommentConfigs";
+import { isGrammarCourtTest } from "@/lib/tests/grammarCourtConfigs";
 
 export type TestMeta = {
   id: TestId;
@@ -137,6 +138,17 @@ export const TESTS: TestMeta[] = [
     kind: "p",
     total: 1,
   },
+  {
+    id: "grammar-court",
+    slug: "grammar-court",
+    href: "/tests/grammar-court",
+    title: "Grammar Court",
+    desc: "20 workplace phrases — some clean, some guilty. Deliver a verdict, then convict with a reason and a fix for a bonus point.",
+    meta: "20 items · AI-graded bonus",
+    tag: "Pro · Verdict",
+    kind: "p",
+    total: 20,
+  },
 ];
 
 export const byId = (id: string) => TESTS.find((t) => t.id === id);
@@ -153,5 +165,6 @@ export function emptyAnswers(testId: TestId): unknown {
   if (isMcqPair(testId)) return { picks1: {}, picks2: {} };
   if (isTranslationTest(testId)) return { fills: {} };
   if (isJiraCommentTest(testId)) return { response: "" };
+  if (isGrammarCourtTest(testId)) return { verdicts: {}, issues: {}, fixes: {} };
   return { fills: {}, picks: {} };
 }

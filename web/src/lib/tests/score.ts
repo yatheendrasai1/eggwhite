@@ -29,6 +29,8 @@ import { countDoneTranslation, type TranslationAnswers } from "@/lib/tests/trans
 import { TRANSLATION_CONFIGS, isTranslationTest } from "@/lib/tests/translationConfigs";
 import { countDoneJiraComment, type JiraCommentAnswers } from "@/lib/tests/jiraComment";
 import { isJiraCommentTest } from "@/lib/tests/jiraCommentConfigs";
+import { countDoneGrammarCourt, type GrammarCourtAnswers } from "@/lib/tests/grammarCourt";
+import { GRAMMAR_COURT_CONFIGS, isGrammarCourtTest } from "@/lib/tests/grammarCourtConfigs";
 
 export type AttemptSummary = {
   line: string;
@@ -67,6 +69,14 @@ export function computeProgress(
     return {
       done: countDoneJiraComment((answers ?? { response: "" }) as JiraCommentAnswers),
       total: 1,
+    };
+  }
+  if (isGrammarCourtTest(testId)) {
+    return {
+      done: countDoneGrammarCourt(
+        (answers ?? { verdicts: {}, issues: {}, fixes: {} }) as GrammarCourtAnswers
+      ),
+      total: GRAMMAR_COURT_CONFIGS[testId].items.length,
     };
   }
   return {
