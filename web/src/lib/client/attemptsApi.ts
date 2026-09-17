@@ -33,3 +33,38 @@ export async function startAttempt(testId: string): Promise<AttemptDTO> {
   if (!res.ok) throw new Error(data?.error || `POST /api/attempts → ${res.status}`);
   return data.attempt as AttemptDTO;
 }
+
+export async function flagAttemptItem(
+  id: string,
+  itemKey: string,
+  comment: string
+): Promise<AttemptDTO> {
+  const res = await fetch(`/api/attempts/${id}/flags`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ itemKey, comment }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.error || `POST /api/attempts/${id}/flags → ${res.status}`);
+  return data.attempt as AttemptDTO;
+}
+
+export async function unflagAttemptItem(id: string, itemKey: string): Promise<AttemptDTO> {
+  const res = await fetch(`/api/attempts/${id}/flags`, {
+    method: "DELETE",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ itemKey }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.error || `DELETE /api/attempts/${id}/flags → ${res.status}`);
+  return data.attempt as AttemptDTO;
+}
+
+export async function verifyAttempt(
+  id: string
+): Promise<{ attempt: AttemptDTO; verifiesRemaining: number }> {
+  const res = await fetch(`/api/attempts/${id}/verify`, { method: "POST" });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.error || `POST /api/attempts/${id}/verify → ${res.status}`);
+  return data as { attempt: AttemptDTO; verifiesRemaining: number };
+}

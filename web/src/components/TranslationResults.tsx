@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import type { TranslationResult, TranslationItemResult } from "@/lib/tests/translation";
+import type { AttemptDTO } from "@/lib/attempts";
+import { FlagItemButton } from "@/components/FlagItemButton";
+import { VerifyBar } from "@/components/VerifyBar";
 
 const VERDICT_LABEL: Record<TranslationItemResult["verdict"], string> = {
   correct: "Correct",
@@ -6,7 +12,17 @@ const VERDICT_LABEL: Record<TranslationItemResult["verdict"], string> = {
   incorrect: "Incorrect",
 };
 
-function ReviewCard({ r }: { r: TranslationItemResult }) {
+function ReviewCard({
+  r,
+  attemptId,
+  flag,
+  onUpdate,
+}: {
+  r: TranslationItemResult;
+  attemptId: string;
+  flag: AttemptDTO["flags"][number] | undefined;
+  onUpdate: (attempt: AttemptDTO) => void;
+}) {
   return (
     <li className="tr-card">
       <div className="tr-head">
@@ -37,13 +53,19 @@ function ReviewCard({ r }: { r: TranslationItemResult }) {
         <b>Model translation:</b> {r.reference}
       </p>
       <p className="tr-feedback">{r.feedback}</p>
+      <FlagItemButton attemptId={attemptId} itemKey={`item:${r.n}`} flag={flag} onUpdate={onUpdate} />
     </li>
   );
 }
 
-export function TranslationResults({ result }: { result: TranslationResult }) {
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
+
+export function TranslationResults({ attempt: initialAttempt }: { attempt: ResultAttempt }) {
+  const [attempt, setAttempt] = useState(initialAttempt);
+  const result = attempt.detail as TranslationResult;
   const wrong = result.rows.filter((r) => r.verdict !== "correct");
   const correct = result.rows.filter((r) => r.verdict === "correct");
+  const flagFor = (n: number) => attempt.flags.find((f) => f.itemKey === `item:${n}`);
 
   return (
     <section className="results drill accent-violet">
@@ -65,7 +87,13 @@ export function TranslationResults({ result }: { result: TranslationResult }) {
         {wrong.length > 0 && (
           <ul className="review">
             {wrong.map((r) => (
-              <ReviewCard key={r.n} r={r} />
+              <ReviewCard
+                key={r.n}
+                r={r}
+                attemptId={attempt.id}
+                flag={flagFor(r.n)}
+                onUpdate={setAttempt}
+              />
             ))}
           </ul>
         )}
@@ -76,12 +104,25 @@ export function TranslationResults({ result }: { result: TranslationResult }) {
             </summary>
             <ul className="review">
               {correct.map((r) => (
-                <ReviewCard key={r.n} r={r} />
+                <ReviewCard
+                  key={r.n}
+                  r={r}
+                  attemptId={attempt.id}
+                  flag={flagFor(r.n)}
+                  onUpdate={setAttempt}
+                />
               ))}
             </ul>
           </details>
         )}
       </div>
+
+      <VerifyBar
+        attemptId={attempt.id}
+        flagCount={attempt.flags.length}
+        verifyCount={attempt.verifyCount}
+        onVerified={setAttempt}
+      />
     </section>
   );
 }

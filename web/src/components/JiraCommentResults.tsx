@@ -1,13 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import type { JiraCommentConfig, JiraCommentResult } from "@/lib/tests/jiraComment";
+import type { AttemptDTO } from "@/lib/attempts";
 import { JiraCommentExportPanel } from "@/components/JiraCommentExportPanel";
+import { FlagItemButton } from "@/components/FlagItemButton";
+import { VerifyBar } from "@/components/VerifyBar";
+
+const RESPONSE_FLAG_KEY = "response";
+
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
 
 export function JiraCommentResults({
-  result,
+  attempt: initialAttempt,
   config,
 }: {
-  result: JiraCommentResult;
+  attempt: ResultAttempt;
   config: JiraCommentConfig;
 }) {
+  const [attempt, setAttempt] = useState(initialAttempt);
+  const result = attempt.detail as JiraCommentResult;
+  const flag = attempt.flags.find((f) => f.itemKey === RESPONSE_FLAG_KEY);
+
   return (
     <section className="results drill accent-violet">
       <div className="scorecard">
@@ -38,6 +52,12 @@ export function JiraCommentResults({
             </li>
           ))}
         </ul>
+        <FlagItemButton
+          attemptId={attempt.id}
+          itemKey={RESPONSE_FLAG_KEY}
+          flag={flag}
+          onUpdate={setAttempt}
+        />
       </div>
 
       {result.suggestions.length > 0 && (
@@ -77,6 +97,13 @@ export function JiraCommentResults({
       </details>
 
       <JiraCommentExportPanel result={result} config={config} />
+
+      <VerifyBar
+        attemptId={attempt.id}
+        flagCount={attempt.flags.length}
+        verifyCount={attempt.verifyCount}
+        onVerified={setAttempt}
+      />
     </section>
   );
 }

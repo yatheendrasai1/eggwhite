@@ -7,12 +7,14 @@ import {
   countWords,
   type JiraCommentConfig,
   type JiraCommentAnswers,
-  type JiraCommentResult,
 } from "@/lib/tests/jiraComment";
 import { JiraCommentResults } from "@/components/JiraCommentResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
+import type { AttemptDTO } from "@/lib/attempts";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
+
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
 
 function seed(initial: unknown): JiraCommentAnswers {
   const src = (initial ?? {}) as Partial<JiraCommentAnswers>;
@@ -42,6 +44,8 @@ export function JiraCommentRunner({
   initialAnswers,
   initiallyCompleted,
   initialDetail,
+  initialFlags,
+  initialVerifyCount,
   userName,
 }: {
   config: JiraCommentConfig;
@@ -49,13 +53,17 @@ export function JiraCommentRunner({
   initialAnswers: unknown;
   initiallyCompleted: boolean;
   initialDetail: unknown;
+  initialFlags: AttemptDTO["flags"];
+  initialVerifyCount: number;
   userName: string;
 }) {
   const router = useRouter();
   const [answers, setAnswers] = useState<JiraCommentAnswers>(() => seed(initialAnswers));
   const [completed, setCompleted] = useState(initiallyCompleted);
-  const [result, setResult] = useState<JiraCommentResult | null>(
-    (initialDetail as JiraCommentResult | null) ?? null
+  const [resultAttempt, setResultAttempt] = useState<ResultAttempt | null>(
+    initiallyCompleted
+      ? { id: attemptId, detail: initialDetail, flags: initialFlags, verifyCount: initialVerifyCount }
+      : null
   );
   const [warn, setWarn] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -101,7 +109,7 @@ export function JiraCommentRunner({
       const attempt = await withLoading(() =>
         patchAttempt(attemptId, { answers, complete: true })
       );
-      setResult((attempt.detail as JiraCommentResult) ?? null);
+      setResultAttempt(attempt);
       setCompleted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -139,11 +147,11 @@ export function JiraCommentRunner({
     }
   }
 
-  if (completed && result) {
+  if (completed && resultAttempt) {
     return (
       <div className="wrap">
         <BackHome />
-        <JiraCommentResults result={result} config={config} />
+        <JiraCommentResults attempt={resultAttempt} config={config} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
             {busy === "retake" ? (

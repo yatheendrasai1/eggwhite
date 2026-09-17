@@ -49,6 +49,27 @@ const AttemptSchema = new Schema(
      * every other test, which recomputes its review from `answers` instead.
      */
     detail: { type: Schema.Types.Mixed, default: undefined },
+    /**
+     * Test-taker-raised doubts about an item's score, e.g. "same answer as
+     * my friend but I got partial credit." One entry per flagged item key
+     * (`item:<n>` for translation rows, `response` for the single-response
+     * jira-comment test); re-flagging the same key overwrites its comment.
+     */
+    flags: {
+      type: [
+        new Schema(
+          {
+            itemKey: { type: String, required: true },
+            comment: { type: String, default: "", maxlength: 100 },
+            createdAt: { type: Date, default: Date.now },
+          },
+          { _id: false }
+        ),
+      ],
+      default: [],
+    },
+    /** How many times this attempt's flagged items have been revalidated. Capped at 3 — see MAX_VERIFIES in the verify route. */
+    verifyCount: { type: Number, default: 0 },
     startedAt: { type: Date, default: Date.now },
     completedAt: { type: Date },
   },

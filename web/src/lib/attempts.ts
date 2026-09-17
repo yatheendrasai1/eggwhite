@@ -11,6 +11,10 @@ export type AttemptDTO = {
   summary: AttemptSummary | null;
   /** Per-item review for LLM-graded tests — see Attempt.detail. Null for every other test. */
   detail: unknown | null;
+  /** Test-taker-raised doubts about an item's score. See Attempt.flags. */
+  flags: { itemKey: string; comment: string; createdAt: string }[];
+  /** How many times flagged items on this attempt have been revalidated (max 3). */
+  verifyCount: number;
   startedAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -29,6 +33,12 @@ export function serializeAttempt(doc: any): AttemptDTO {
     },
     summary: doc.summary ?? null,
     detail: doc.detail ?? null,
+    flags: (doc.flags ?? []).map((f: { itemKey: string; comment: string; createdAt: Date }) => ({
+      itemKey: f.itemKey,
+      comment: f.comment ?? "",
+      createdAt: new Date(f.createdAt).toISOString(),
+    })),
+    verifyCount: doc.verifyCount ?? 0,
     startedAt: new Date(doc.startedAt ?? doc.createdAt).toISOString(),
     updatedAt: new Date(doc.updatedAt).toISOString(),
     completedAt: doc.completedAt ? new Date(doc.completedAt).toISOString() : null,

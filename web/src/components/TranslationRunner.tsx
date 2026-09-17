@@ -7,12 +7,14 @@ import {
   countDoneTranslation,
   type TranslationConfig,
   type TranslationAnswers,
-  type TranslationResult,
 } from "@/lib/tests/translation";
 import { TranslationResults } from "@/components/TranslationResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
+import type { AttemptDTO } from "@/lib/attempts";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
+
+type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "flags" | "verifyCount">;
 
 function seed(initial: unknown): TranslationAnswers {
   const src = (initial ?? {}) as Partial<TranslationAnswers>;
@@ -25,6 +27,8 @@ export function TranslationRunner({
   initialAnswers,
   initiallyCompleted,
   initialDetail,
+  initialFlags,
+  initialVerifyCount,
   userName,
 }: {
   config: TranslationConfig;
@@ -32,13 +36,17 @@ export function TranslationRunner({
   initialAnswers: unknown;
   initiallyCompleted: boolean;
   initialDetail: unknown;
+  initialFlags: AttemptDTO["flags"];
+  initialVerifyCount: number;
   userName: string;
 }) {
   const router = useRouter();
   const [answers, setAnswers] = useState<TranslationAnswers>(() => seed(initialAnswers));
   const [completed, setCompleted] = useState(initiallyCompleted);
-  const [result, setResult] = useState<TranslationResult | null>(
-    (initialDetail as TranslationResult | null) ?? null
+  const [resultAttempt, setResultAttempt] = useState<ResultAttempt | null>(
+    initiallyCompleted
+      ? { id: attemptId, detail: initialDetail, flags: initialFlags, verifyCount: initialVerifyCount }
+      : null
   );
   const [warn, setWarn] = useState("");
   const [flagKey, setFlagKey] = useState<string | null>(null);
@@ -100,7 +108,7 @@ export function TranslationRunner({
       const attempt = await withLoading(() =>
         patchAttempt(attemptId, { answers, complete: true })
       );
-      setResult((attempt.detail as TranslationResult) ?? null);
+      setResultAttempt(attempt);
       setCompleted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -138,11 +146,11 @@ export function TranslationRunner({
     }
   }
 
-  if (completed && result) {
+  if (completed && resultAttempt) {
     return (
       <div className="wrap">
         <BackHome />
-        <TranslationResults result={result} />
+        <TranslationResults attempt={resultAttempt} />
         <div style={{ marginBottom: 40 }}>
           <button className="btn btn-ghost" onClick={retake} disabled={busy !== null}>
             {busy === "retake" ? (

@@ -17,8 +17,6 @@ import type { ELAnswers } from "@/lib/tests/englishLevel";
 import type { BEAnswers } from "@/lib/tests/businessEnglish";
 import type { DrillAnswers } from "@/lib/tests/drill";
 import type { McqPairAnswers } from "@/lib/tests/mcqPair";
-import type { TranslationResult } from "@/lib/tests/translation";
-import type { JiraCommentResult } from "@/lib/tests/jiraComment";
 
 export const dynamic = "force-dynamic";
 
@@ -61,12 +59,9 @@ export default async function ResultsPage({
             answers={attempt.answers as McqPairAnswers}
           />
         ) : isTranslationTest(attempt.testId) ? (
-          <TranslationResults result={attempt.detail as TranslationResult} />
+          <TranslationResults attempt={attempt} />
         ) : isJiraCommentTest(attempt.testId) ? (
-          <JiraCommentResults
-            result={attempt.detail as JiraCommentResult}
-            config={JIRA_COMMENT_CONFIGS[attempt.testId]}
-          />
+          <JiraCommentResults attempt={attempt} config={JIRA_COMMENT_CONFIGS[attempt.testId]} />
         ) : (
           <DrillResults
             config={DRILL_CONFIGS[attempt.testId]}

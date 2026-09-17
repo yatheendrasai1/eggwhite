@@ -52,6 +52,15 @@ export const updateUserLeaderboardSchema = z.object({
   hideFromLeaderboard: z.boolean(),
 });
 
+export const flagItemSchema = z.object({
+  itemKey: z.string().trim().min(1).max(64),
+  comment: z.string().trim().max(100).optional().default(""),
+});
+
+export const unflagItemSchema = z.object({
+  itemKey: z.string().trim().min(1).max(64),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
 export type MigrateInput = z.infer<typeof migrateSchema>;
@@ -60,3 +69,5 @@ export type RedeemPasscodeInput = z.infer<typeof redeemPasscodeSchema>;
 export type CreatePasscodeInput = z.infer<typeof createPasscodeSchema>;
 export type UpdateTestSettingInput = z.infer<typeof updateTestSettingSchema>;
 export type UpdateUserLeaderboardInput = z.infer<typeof updateUserLeaderboardSchema>;
+export type FlagItemInput = z.infer<typeof flagItemSchema>;
+export type UnflagItemInput = z.infer<typeof unflagItemSchema>;
