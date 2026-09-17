@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { TEST_IDS } from "@/lib/models/Attempt";
+import { GEMINI_MODELS } from "@/lib/gemini";
 
 export const startAttemptSchema = z.object({
   testId: z.enum(TEST_IDS),
@@ -61,6 +62,10 @@ export const unflagItemSchema = z.object({
   itemKey: z.string().trim().min(1).max(64),
 });
 
+export const updateGeminiModelSchema = z.object({
+  model: z.enum(GEMINI_MODELS),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
 export type MigrateInput = z.infer<typeof migrateSchema>;
@@ -71,3 +76,4 @@ export type UpdateTestSettingInput = z.infer<typeof updateTestSettingSchema>;
 export type UpdateUserLeaderboardInput = z.infer<typeof updateUserLeaderboardSchema>;
 export type FlagItemInput = z.infer<typeof flagItemSchema>;
 export type UnflagItemInput = z.infer<typeof unflagItemSchema>;
+export type UpdateGeminiModelInput = z.infer<typeof updateGeminiModelSchema>;

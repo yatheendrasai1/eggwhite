@@ -8,12 +8,29 @@ import { isTiv } from "@/lib/pro";
 import { resolveDisplayNames } from "@/lib/users";
 import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import { getDisabledTestIds } from "@/lib/tests/testSettings";
+import { getGeminiModel, GEMINI_MODELS } from "@/lib/gemini";
 import { BackHome } from "@/components/BackHome";
 import { GeneratePasscodeButton } from "@/components/GeneratePasscodeButton";
 import { PasscodesTable } from "@/components/PasscodesTable";
 import { PendingSignupsTable } from "@/components/PendingSignupsTable";
 import { ManageTestsTable } from "@/components/ManageTestsTable";
 import { ManageLeaderboardAccountsTable } from "@/components/ManageLeaderboardAccountsTable";
+import { GeminiModelPicker } from "@/components/GeminiModelPicker";
+
+const GEMINI_MODEL_INFO: Record<string, { label: string; note: string }> = {
+  "gemini-3.8-flash": {
+    label: "Gemini 3.8 Flash",
+    note: "Cheapest and fastest. $0.75 / $3.75 per 1M input/output tokens (introductory).",
+  },
+  "gemini-3.6-flash": {
+    label: "Gemini 3.6 Flash",
+    note: "Previous-gen Flash. $1.50 / $7.50 per 1M input/output tokens.",
+  },
+  "gemini-3.1-pro": {
+    label: "Gemini 3.1 Pro",
+    note: "Strongest reasoning, most consistent grading. $2.00 / $12.00 per 1M input/output tokens.",
+  },
+};
 
 export const dynamic = "force-dynamic";
 
@@ -37,26 +54,28 @@ export default async function DashboardPage() {
   if (!isTiv(profile)) notFound();
 
   const client = await getMongoClient();
-  const [passcodes, proProfiles, pendingSignups, disabledTestIds, accounts] = await Promise.all([
-    PasscodeModel.find().sort({ createdAt: -1 }).lean(),
-    UserProfileModel.find({ proExpiresAt: { $ne: null } })
-      .sort({ proExpiresAt: 1 })
-      .lean(),
-    client
-      .db("eggwhite")
-      .collection("users")
-      .find({ status: "pending" })
-      .sort({ createdAt: -1 })
-      .project({ username: 1, entryCode: 1, createdAt: 1 })
-      .toArray(),
-    getDisabledTestIds(),
-    client
-      .db("eggwhite")
-      .collection("users")
-      .find({ status: { $ne: "pending" } })
-      .project({ name: 1, email: 1, username: 1 })
-      .toArray(),
-  ]);
+  const [passcodes, proProfiles, pendingSignups, disabledTestIds, accounts, geminiModel] =
+    await Promise.all([
+      PasscodeModel.find().sort({ createdAt: -1 }).lean(),
+      UserProfileModel.find({ proExpiresAt: { $ne: null } })
+        .sort({ proExpiresAt: 1 })
+        .lean(),
+      client
+        .db("eggwhite")
+        .collection("users")
+        .find({ status: "pending" })
+        .sort({ createdAt: -1 })
+        .project({ username: 1, entryCode: 1, createdAt: 1 })
+        .toArray(),
+      getDisabledTestIds(),
+      client
+        .db("eggwhite")
+        .collection("users")
+        .find({ status: { $ne: "pending" } })
+        .project({ name: 1, email: 1, username: 1 })
+        .toArray(),
+      getGeminiModel(),
+    ]);
 
   const namesFor = Array.from(
     new Set([
@@ -96,6 +115,23 @@ export default async function DashboardPage() {
               tag: t.tag,
               enabled: !disabledTestIds.has(t.id),
             }))}
+          />
+        </section>
+
+        <section className="dash-section">
+          <h2>Grading model</h2>
+          <p className="filler" style={{ marginBottom: 12 }}>
+            Which Gemini model grades the LLM-graded tests (translation, jira comment) and
+            their revalidations. Takes effect on the next grading call — nothing needs a
+            restart.
+          </p>
+          <GeminiModelPicker
+            options={GEMINI_MODELS.map((id) => ({
+              id,
+              label: GEMINI_MODEL_INFO[id]?.label ?? id,
+              note: GEMINI_MODEL_INFO[id]?.note ?? "",
+            }))}
+            current={geminiModel}
           />
         </section>
 
