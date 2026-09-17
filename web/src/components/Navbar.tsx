@@ -61,6 +61,9 @@ export async function Navbar() {
                 Dashboard
               </Link>
             )}
+            <Link href="/tutorial" className="nav-btn" style={{ textDecoration: "none" }}>
+              Tutorial
+            </Link>
             <ProfileDrawer
               userName={user.name || ""}
               userEmail={user.email || ""}
@@ -73,6 +76,9 @@ export async function Navbar() {
         ) : (
           <>
             <AboutUs />
+            <Link href="/tutorial" className="nav-btn" style={{ textDecoration: "none" }}>
+              Tutorial
+            </Link>
             <SignInLink />
           </>
         )}
