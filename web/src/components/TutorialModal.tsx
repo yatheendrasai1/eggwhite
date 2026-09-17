@@ -2,6 +2,33 @@
 
 import { useState } from "react";
 
+const STEPS: { emoji: string; color: string; title: string; body: string }[] = [
+  {
+    emoji: "🆓",
+    color: "var(--steel)",
+    title: "Free vs. Pro",
+    body: "Free tests are exact-match — same answer, same score, always. Pro tests (Translation Drama, Framing the Situation) make you write real English, and an AI grades it like a strict-but-fair teacher.",
+  },
+  {
+    emoji: "🔑",
+    color: "var(--violet)",
+    title: "Unlocking Pro",
+    body: "Sweet-talk an admin into a pro code, drop it into your profile, and you're Pro for 30 days. No card, just charm.",
+  },
+  {
+    emoji: "🚩",
+    color: "var(--bad)",
+    title: "Score feels off?",
+    body: "Flag it, add a quick reason (100 characters or less), then hit Verify. Nothing's saved until then — leave without verifying and the flag just... vanishes.",
+  },
+  {
+    emoji: "⏳",
+    color: "var(--ochre)",
+    title: "The fine print",
+    body: "4 pro attempts a day. 3 verifies per test — flag one item or twenty, still 3.",
+  },
+];
+
 export function TutorialModal() {
   const [open, setOpen] = useState(false);
 
@@ -15,7 +42,7 @@ export function TutorialModal() {
           <div
             className="modal-card"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxHeight: "80vh", overflowY: "auto" }}
+            style={{ maxHeight: "80vh", overflowY: "auto", maxWidth: 460 }}
           >
             <button
               type="button"
@@ -25,28 +52,57 @@ export function TutorialModal() {
             >
               ×
             </button>
-            <p className="section-label" style={{ marginBottom: 12 }}>
-              Tutorial
+            <h2 className="drawer-title">
+              The 60-second <em>tour</em>
+            </h2>
+            <p style={{ margin: "0 0 18px", fontSize: 13.5, color: "var(--ink-soft)" }}>
+              No fine print. Just the four things worth knowing.
             </p>
-            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 14.5, lineHeight: 1.55 }}>
-              <li style={{ marginBottom: 12 }}>
-                <b>Regular vs. pro tests:</b> Regular tests are free and graded by fixed rules.
-                Pro tests (Translation Drama, Framing the Situation) are free-text, graded by AI.
-              </li>
-              <li style={{ marginBottom: 12 }}>
-                <b>Pro access:</b> Ask an admin for a pro code, then redeem it from your profile
-                to unlock pro tests for 30 days.
-              </li>
-              <li style={{ marginBottom: 12 }}>
-                <b>Flagging a score:</b> On pro results, flag a score you disagree with (+ a
-                short comment). It stays in your browser until you hit Verify — going back before
-                that discards it.
-              </li>
-              <li>
-                <b>Limits:</b> 4 pro test submissions a day, and 3 verifies per attempt no matter
-                how many items you flag.
-              </li>
-            </ul>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {STEPS.map((s) => (
+                <div key={s.title} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <span
+                    style={{
+                      fontSize: 20,
+                      lineHeight: 1,
+                      flex: "none",
+                      width: 36,
+                      height: 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 10,
+                      background: "var(--surface2)",
+                    }}
+                  >
+                    {s.emoji}
+                  </span>
+                  <div>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "var(--display)",
+                        fontWeight: 700,
+                        fontSize: 15.5,
+                        color: s.color,
+                      }}
+                    >
+                      {s.title}
+                    </p>
+                    <p
+                      style={{
+                        margin: "3px 0 0",
+                        fontSize: 13.5,
+                        lineHeight: 1.5,
+                        color: "var(--ink-soft)",
+                      }}
+                    >
+                      {s.body}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
