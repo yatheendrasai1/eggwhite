@@ -2,12 +2,9 @@ import { connectDB } from "@/lib/db";
 import { ResultModel } from "@/lib/models/Result";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { resolveDisplayNames } from "@/lib/users";
-import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import type { TestId } from "@/lib/models/Attempt";
 
 const LIMIT = 50;
-/** Archived tests are excluded from the leaderboard entirely. */
-const ACTIVE_TEST_IDS = ACTIVE_TESTS.map((t) => t.id);
 
 async function getHiddenUserIds(): Promise<string[]> {
   const docs = await UserProfileModel.find({ hideFromLeaderboard: true })
@@ -35,11 +32,18 @@ export type OverallLeaderboardRow = {
   isYou: boolean;
 };
 
+/**
+ * Ids of tests that count toward the leaderboard — archived tests are
+ * excluded via ACTIVE_TESTS upstream, and admin-disabled tests (see
+ * lib/tests/testSettings.ts) are excluded by the caller passing them in
+ * here, since that check needs a DB round-trip the caller already made.
+ */
 export async function getTestLeaderboard(
   testId: TestId,
+  enabledTestIds: TestId[],
   viewerId?: string
 ): Promise<TestLeaderboardRow[]> {
-  if (!ACTIVE_TEST_IDS.includes(testId)) return [];
+  if (!enabledTestIds.includes(testId)) return [];
   await connectDB();
   const hiddenUserIds = await getHiddenUserIds();
   const docs = await ResultModel.find({ testId, userId: { $nin: hiddenUserIds } })
@@ -61,6 +65,7 @@ export async function getTestLeaderboard(
 }
 
 export async function getOverallLeaderboard(
+  enabledTestIds: TestId[],
   viewerId?: string
 ): Promise<OverallLeaderboardRow[]> {
   await connectDB();
@@ -70,7 +75,7 @@ export async function getOverallLeaderboard(
     avgPct: number;
     testsCompleted: number;
   }>([
-    { $match: { testId: { $in: ACTIVE_TEST_IDS }, userId: { $nin: hiddenUserIds } } },
+    { $match: { testId: { $in: enabledTestIds }, userId: { $nin: hiddenUserIds } } },
     {
       $group: {
         _id: "$userId",

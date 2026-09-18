@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { ACTIVE_TESTS } from "@/lib/tests/registry";
+import { getDisabledTestIds } from "@/lib/tests/testSettings";
 import { getTestLeaderboard, getOverallLeaderboard } from "@/lib/leaderboard";
 import { LeaderboardTestPicker } from "@/components/LeaderboardTestPicker";
 import { BackHome } from "@/components/BackHome";
@@ -21,8 +22,12 @@ export default async function LeaderboardPage({
   const session = await auth();
   if (!session?.user?.id) redirect("/signin?callbackUrl=/leaderboard");
 
+  const disabledTestIds = await getDisabledTestIds();
+  const leaderboardTests = ACTIVE_TESTS.filter((t) => !disabledTestIds.has(t.id));
+  const enabledTestIds = leaderboardTests.map((t) => t.id);
+
   const { test } = await searchParams;
-  const activeTest = ACTIVE_TESTS.find((t) => t.id === test);
+  const activeTest = leaderboardTests.find((t) => t.id === test);
   const active = activeTest ? activeTest.id : "overall";
   const viewerId = session.user.id;
 
@@ -32,21 +37,33 @@ export default async function LeaderboardPage({
         <BackHome />
         <header className="masthead lb-header">
           <h1>Leaderboard</h1>
-          <LeaderboardTestPicker options={ACTIVE_TESTS} value={active} />
+          <LeaderboardTestPicker options={leaderboardTests} value={active} />
         </header>
 
         {activeTest ? (
-          <TestBoard testId={activeTest.id} viewerId={viewerId} />
+          <TestBoard testId={activeTest.id} enabledTestIds={enabledTestIds} viewerId={viewerId} />
         ) : (
-          <OverallBoard viewerId={viewerId} />
+          <OverallBoard
+            enabledTestIds={enabledTestIds}
+            totalTests={leaderboardTests.length}
+            viewerId={viewerId}
+          />
         )}
       </div>
     </main>
   );
 }
 
-async function OverallBoard({ viewerId }: { viewerId: string }) {
-  const rows = await getOverallLeaderboard(viewerId);
+async function OverallBoard({
+  enabledTestIds,
+  totalTests,
+  viewerId,
+}: {
+  enabledTestIds: TestId[];
+  totalTests: number;
+  viewerId: string;
+}) {
+  const rows = await getOverallLeaderboard(enabledTestIds, viewerId);
   if (rows.length === 0) {
     return <p className="filler">No completed tests yet — be the first on the board.</p>;
   }
@@ -59,7 +76,7 @@ async function OverallBoard({ viewerId }: { viewerId: string }) {
             {r.displayName}
             <br />
             <span className="lb-meta">
-              {r.testsCompleted}/{ACTIVE_TESTS.length} tests
+              {r.testsCompleted}/{totalTests} tests
             </span>
           </span>
           <span className="lb-score">
@@ -72,8 +89,16 @@ async function OverallBoard({ viewerId }: { viewerId: string }) {
   );
 }
 
-async function TestBoard({ testId, viewerId }: { testId: TestId; viewerId: string }) {
-  const rows = await getTestLeaderboard(testId, viewerId);
+async function TestBoard({
+  testId,
+  enabledTestIds,
+  viewerId,
+}: {
+  testId: TestId;
+  enabledTestIds: TestId[];
+  viewerId: string;
+}) {
+  const rows = await getTestLeaderboard(testId, enabledTestIds, viewerId);
   if (rows.length === 0) {
     return <p className="filler">No one has completed this test yet — be the first on the board.</p>;
   }
