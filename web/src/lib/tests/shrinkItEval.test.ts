@@ -45,6 +45,7 @@ function makeConfig(opts?: { sentenceCount?: number; synonymCount?: number }): S
     sentences: Array.from({ length: sentenceCount }, () => ({ original: TEN_WORD_SENTENCE })),
     synonyms: Array.from({ length: synonymCount }, (_, i) => ({
       word: `Word${i + 1}`,
+      example: `An example sentence using Word${i + 1}.`,
       options: ["Right", "Wrong1", "Wrong2", "Wrong3"],
       correct: 0,
       why: "because",

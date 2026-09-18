@@ -134,6 +134,7 @@ export async function evaluateShrinkIt(
     return {
       n: i + 1,
       word: it.word,
+      example: it.example,
       options: it.options,
       correct: it.correct,
       picked,

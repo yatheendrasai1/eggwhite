@@ -74,6 +74,7 @@ function SynonymCard({
       <span className="rev-i">{r.ok ? "✅" : "❌"}</span>
       <div className="rev-b" style={{ flex: 1 }}>
         <p style={{ margin: "0 0 4px", fontWeight: 600 }}>{r.word}</p>
+        <p style={{ margin: "0 0 4px", fontSize: 13, color: "var(--ink-soft)" }}>{r.example}</p>
         <span className="yours">
           You picked <b>{r.picked !== undefined ? r.options[r.picked] : "(nothing)"}</b>
           {!r.ok && (

@@ -246,7 +246,9 @@ export function ShrinkItRunner({
                 >
                   <div className="q-head">
                     <span className="q-num">{String(i + 1).padStart(2, "0")}</span>
-                    <p className="q-text">{s.original}</p>
+                    <p className="q-text" style={{ fontSize: "10.2px" }}>
+                      {s.original}
+                    </p>
                   </div>
                   <textarea
                     className="translate-input"
@@ -280,6 +282,9 @@ export function ShrinkItRunner({
                   <span className="q-num">{String(i + 1).padStart(2, "0")}</span>
                   <p className="q-text">{it.word}</p>
                 </div>
+                <p className="q-hint" style={{ margin: "0 0 10px", marginLeft: 0 }}>
+                  {it.example}
+                </p>
                 <div className="opts">
                   {it.options.map((o, j) => (
                     <button

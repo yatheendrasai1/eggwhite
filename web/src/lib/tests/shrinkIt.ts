@@ -27,6 +27,8 @@ export type ShrinkItSentence = {
 
 export type SynonymItem = {
   word: string;
+  /** The word used in a natural sentence — written to give context without spelling out the meaning. */
+  example: string;
   options: string[]; // exactly 4
   correct: number; // index into options
   why: string;
@@ -114,6 +116,7 @@ export type ShrinkItSentenceResult = {
 export type ShrinkItSynonymResult = {
   n: number;
   word: string;
+  example: string;
   options: string[];
   correct: number;
   picked: number | undefined;
