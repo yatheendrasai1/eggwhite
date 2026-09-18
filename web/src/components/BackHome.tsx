@@ -21,10 +21,8 @@ export function BackHome({ attemptId }: { attemptId?: string }) {
   }
 
   return (
-    <p className="foot" style={{ margin: "0 0 12px", textAlign: "left", fontSize: 16 }}>
-      <Link href="/" style={{ color: "var(--violet)" }} onClick={handleClick}>
-        ← Back to home page
-      </Link>
-    </p>
+    <Link href="/" className="back-home-btn" aria-label="Back to home page" onClick={handleClick}>
+      ←
+    </Link>
   );
 }
