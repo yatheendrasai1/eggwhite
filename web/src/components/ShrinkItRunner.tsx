@@ -246,9 +246,7 @@ export function ShrinkItRunner({
                 >
                   <div className="q-head">
                     <span className="q-num">{String(i + 1).padStart(2, "0")}</span>
-                    <p className="q-text" style={{ fontSize: "10.2px" }}>
-                      {s.original}
-                    </p>
+                    <p className="q-text">{s.original}</p>
                   </div>
                   <textarea
                     className="translate-input"

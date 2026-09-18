@@ -24,23 +24,23 @@ export const SHRINK_IT: ShrinkItConfig = {
   sentences: [
     {
       original:
-        "After reviewing the customer feedback collected over the past three months, the product team concluded that the onboarding flow was confusing for first-time users and decided to redesign the initial setup screens before the next release.",
+        "After reviewing months of customer feedback, the product team found the onboarding flow confusing and decided to redesign the setup screens.",
     },
     {
       original:
-        "Even though the deployment window was originally scheduled for Friday evening, the engineering lead pushed it to Monday morning after QA discovered a critical bug in the payment gateway that could have affected thousands of active transactions.",
+        "Even though deployment was scheduled for Friday evening, the engineering lead pushed it to Monday after QA found a critical payment gateway bug.",
     },
     {
       original:
-        "The finance department requested that all department heads submit their quarterly budget forecasts by the fifteenth of next month so that the annual planning committee can finalize resource allocation before the board meeting scheduled for early next quarter.",
+        "Finance asked all department heads to submit quarterly budget forecasts by the fifteenth so the planning committee can finalize allocation before the board meeting.",
     },
     {
       original:
-        "Since the client raised concerns about data privacy compliance during the last call, our legal team has been working closely with the engineering group to ensure that all customer information is encrypted both during transmission and while stored.",
+        "Since the client raised data privacy concerns, legal is working with engineering to encrypt customer information in transit and at rest.",
     },
     {
       original:
-        "Although the new intern had never worked with the company's internal tools before, she managed to complete the onboarding checklist, set up her development environment, and submit her first pull request within just two days of joining.",
+        "Although new to the company's tools, the intern finished onboarding, set up her dev environment, and submitted her first pull request in two days.",
     },
   ],
   synonyms: [
