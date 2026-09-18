@@ -218,7 +218,7 @@ body {
 }
 
 .page {
-  padding-top: calc(var(--nav-h) + 4px);
+  padding-top: calc(var(--nav-h) + 20px);
   padding-bottom: 64px;
 }
 /* Pages with a fixed submit-bar (Submit + Discontinue, stacked) need enough
