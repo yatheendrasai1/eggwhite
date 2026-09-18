@@ -6,6 +6,8 @@ import { getActiveAttempts, listAttempts } from "@/lib/attempts";
 import { getDisabledTestIds } from "@/lib/tests/testSettings";
 import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
+import { WordOfTheDay } from "@/components/WordOfTheDay";
+import { wordOfTheDay } from "@/lib/wordOfTheDay";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -20,12 +22,7 @@ export default async function LandingPage() {
     return (
       <main className="page">
         <div className="wrap">
-          <header className="masthead masthead-quiet">
-            <h1>
-              Test <em>your</em> English
-            </h1>
-            <p className="lede">A small collection of self-scoring tests for grammar and vocabulary.</p>
-          </header>
+          <WordOfTheDay entry={wordOfTheDay()} />
 
           <LandingHub
             active={await getActiveAttempts(session.user.id)}

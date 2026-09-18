@@ -1338,6 +1338,44 @@ a.test:active {
   font-size: 20px;
   margin: 0 0 14px;
 }
+.wotd-card {
+  margin-bottom: 24px;
+}
+.wotd-word-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.wotd-word {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0;
+  color: var(--violet);
+}
+.wotd-pos {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.wotd-reveal-btn {
+  width: auto;
+}
+.wotd-meaning {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.wotd-example {
+  margin: 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
 .levels {
   margin: 0;
   padding: 0;
