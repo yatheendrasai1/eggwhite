@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   title: "egvit — English Tests",
   description:
     "Self-scoring English grammar and vocabulary tests. Your progress is saved to your account.",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default async function RootLayout({
