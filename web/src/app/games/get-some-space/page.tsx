@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { BackHome } from "@/components/BackHome";
 import { GetSomeSpaceRunner } from "@/components/GetSomeSpaceRunner";
 import { canStartSession } from "@/lib/games/getSomeSpace";
 import { asGssStateLike, loadGameState, toStateDTO } from "@/lib/games/getSomeSpaceState";
@@ -8,6 +7,11 @@ import { getGssLeaderboard } from "@/lib/games/getSomeSpaceLeaderboard";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Deliberately no <main className="page"> / masthead chrome here — this
+ * game renders as a full-screen view (its own back button + HUD), not a
+ * page in the usual site layout. See GetSomeSpaceRunner.
+ */
 export default async function GetSomeSpacePage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/signin?callbackUrl=/games/get-some-space");
@@ -17,24 +21,12 @@ export default async function GetSomeSpacePage() {
   const leaderboard = await getGssLeaderboard(session.user.id);
 
   return (
-    <main className="page">
-      <div className="wrap">
-        <header className="masthead">
-          <BackHome />
-          <p className="eyebrow">Trivia · Ascent</p>
-          <h1>
-            Get Some <em>Space!</em>
-          </h1>
-        </header>
-
-        <GetSomeSpaceRunner
-          initialState={toStateDTO(doc)}
-          initialCanStart={check.ok}
-          initialBlockedReason={check.ok ? null : check.reason}
-          initialAvailableAt={check.ok ? null : check.availableAt.toISOString()}
-          leaderboard={leaderboard}
-        />
-      </div>
-    </main>
+    <GetSomeSpaceRunner
+      initialState={toStateDTO(doc)}
+      initialCanStart={check.ok}
+      initialBlockedReason={check.ok ? null : check.reason}
+      initialAvailableAt={check.ok ? null : check.availableAt.toISOString()}
+      leaderboard={leaderboard}
+    />
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { GssStateDTO } from "@/lib/games/getSomeSpaceState";
 import type { AnswerOutcome } from "@/lib/games/getSomeSpace";
 import type { GssLeaderboardRow } from "@/lib/games/getSomeSpaceLeaderboard";
@@ -23,6 +24,14 @@ function fmtCountdown(ms: number): string {
   return min > 0 ? `${hrs}h ${min}m` : `${hrs}h`;
 }
 
+/** Hides the site's fixed navbar and locks page scroll while this game is open, restoring both on unmount. */
+function useFullscreenChrome() {
+  useEffect(() => {
+    document.body.classList.add("gss-hide-chrome");
+    return () => document.body.classList.remove("gss-hide-chrome");
+  }, []);
+}
+
 export function GetSomeSpaceRunner({
   initialState,
   initialCanStart,
@@ -36,6 +45,8 @@ export function GetSomeSpaceRunner({
   initialAvailableAt: string | null;
   leaderboard: GssLeaderboardRow[];
 }) {
+  useFullscreenChrome();
+
   const [state, setState] = useState(initialState);
   const [canStart, setCanStart] = useState(initialCanStart);
   const [blockedReason, setBlockedReason] = useState<BlockedReason>(initialBlockedReason);
@@ -139,12 +150,17 @@ export function GetSomeSpaceRunner({
   const showStartGate = !reviewing && state.status !== "active";
 
   return (
-    <div className="gss-layout">
+    <div className="gss-fullscreen">
       <AltitudeScene state={state} lastOutcome={lastOutcome} outcomeSeq={outcomeSeq} />
 
-      <div className="gss-panel">
-        <GameHud state={state} />
+      <div className="gss-topbar">
+        <Link href="/" className="gss-back-btn" aria-label="Back to home page">
+          ←
+        </Link>
+        <GameHud state={state} compact />
+      </div>
 
+      <div className="gss-overlay">
         {error && <p className="gss-error">{error}</p>}
 
         {showStartGate ? (
@@ -178,6 +194,7 @@ export function GetSomeSpaceRunner({
                 )}
               </>
             )}
+            <GssLeaderboardCard rows={leaderboard} />
           </div>
         ) : (
           <QuestionPanel
@@ -191,8 +208,6 @@ export function GetSomeSpaceRunner({
             onContinue={handleContinue}
           />
         )}
-
-        <GssLeaderboardCard rows={leaderboard} />
       </div>
     </div>
   );
