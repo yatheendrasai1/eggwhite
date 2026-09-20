@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { auth } from "@/auth";
 import { gssAnswerSchema } from "@/lib/validation";
 import { submitAnswer } from "@/lib/games/getSomeSpace";
@@ -45,7 +45,18 @@ export async function POST(req: Request) {
   await doc.save();
 
   if (outcome.pointsAwarded > 0) {
-    await recordGssResultIfBetter({ userId: session.user.id, score: s.score, milestone: s.milestone });
+    // Doesn't block the response — the player doesn't need this write to
+    // resolve before seeing their answer's result, only before it's next read.
+    const userId = session.user.id;
+    const score = s.score;
+    const milestone = s.milestone;
+    after(async () => {
+      try {
+        await recordGssResultIfBetter({ userId, score, milestone });
+      } catch (err) {
+        console.error("get-some-space: leaderboard write failed", err);
+      }
+    });
   }
 
   return NextResponse.json({ outcome, state: toStateDTO(doc) });
