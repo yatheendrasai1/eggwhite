@@ -6,7 +6,7 @@ import type { AnswerOutcome } from "@/lib/games/getSomeSpace";
 import type { GssLeaderboardRow } from "@/lib/games/getSomeSpaceLeaderboard";
 import { startGssSession, submitGssAnswer } from "@/lib/client/getSomeSpaceApi";
 import { AltitudeScene } from "@/components/AltitudeScene";
-import { QuestionPanel } from "@/components/QuestionPanel";
+import { QuestionPanel, type ReviewInfo } from "@/components/QuestionPanel";
 import { GameHud } from "@/components/GameHud";
 import { GssLeaderboardCard } from "@/components/GssLeaderboardCard";
 
@@ -44,6 +44,7 @@ export function GetSomeSpaceRunner({
   const [error, setError] = useState<string | null>(null);
   const [lastOutcome, setLastOutcome] = useState<AnswerOutcome | null>(null);
   const [outcomeSeq, setOutcomeSeq] = useState(0);
+  const [reviewing, setReviewing] = useState<ReviewInfo | null>(null);
 
   // The 20s timer only starts once the player clicks "Next question" — a
   // reload discards it and re-shows the same question (spec §2.5). This is
@@ -110,6 +111,9 @@ export function GetSomeSpaceRunner({
     setError(null);
     try {
       const res = await submitGssAnswer(q.id, choiceIndex);
+      // Snapshot the question that was just answered — `res.state` already
+      // points at the NEXT question, so the review needs its own copy.
+      setReviewing({ question: q, selectedIndex: choiceIndex, outcome: res.outcome });
       setState(res.state);
       setLastOutcome(res.outcome);
       setOutcomeSeq((n) => n + 1);
@@ -125,7 +129,14 @@ export function GetSomeSpaceRunner({
     }
   }
 
-  const showStartGate = state.status !== "active";
+  function handleContinue() {
+    setReviewing(null);
+  }
+
+  // Reviewing takes priority over the gate: a life-loss or level-clear can
+  // flip state.status away from "active" the instant the answer lands, but
+  // the player still needs to see what just happened before that gate shows.
+  const showStartGate = !reviewing && state.status !== "active";
 
   return (
     <div className="gss-layout">
@@ -174,8 +185,10 @@ export function GetSomeSpaceRunner({
             timerRunning={timerRunning}
             secondsLeft={secondsLeft}
             busy={busy}
+            reviewing={reviewing}
             onNextQuestion={handleNextQuestion}
             onAnswer={handleAnswer}
+            onContinue={handleContinue}
           />
         )}
 

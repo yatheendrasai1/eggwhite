@@ -3080,6 +3080,38 @@ a.test:active {
   opacity: 0.6;
   cursor: default;
 }
+.gss-option-correct {
+  background: var(--good-soft);
+  border-color: var(--good);
+  color: var(--good);
+  opacity: 1;
+  font-weight: 700;
+}
+.gss-option-wrong {
+  background: var(--bad-soft);
+  border-color: var(--bad);
+  color: var(--bad);
+  opacity: 1;
+  font-weight: 700;
+}
+.gss-option-mark {
+  font-weight: 700;
+}
+
+.gss-review-summary {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+.gss-review-correct {
+  background: var(--good-soft);
+  color: var(--good);
+}
+.gss-review-wrong {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
 
 .gss-leaderboard {
   background: var(--card);

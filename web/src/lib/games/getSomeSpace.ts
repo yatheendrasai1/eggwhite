@@ -157,6 +157,8 @@ function computeCooldownUntil(state: GssStateLike, now: Date): Date {
 
 export type AnswerOutcome = {
   correct: boolean;
+  /** Safe to reveal only after the answer has been submitted. */
+  correctIndex: number;
   pointsAwarded: number;
   livesLost: number;
   milestoneReached: MilestoneKey | null;
@@ -179,6 +181,7 @@ export function submitAnswer(
 ): AnswerOutcome {
   const outcome: AnswerOutcome = {
     correct: false,
+    correctIndex: question.correctIndex,
     pointsAwarded: 0,
     livesLost: 0,
     milestoneReached: null,
