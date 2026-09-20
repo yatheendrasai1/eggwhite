@@ -2,6 +2,7 @@
 
 import type { GssPublicQuestion } from "@/lib/games/getSomeSpaceContent";
 import type { AnswerOutcome } from "@/lib/games/getSomeSpace";
+import { Spinner } from "@/components/Spinner";
 
 export type ReviewInfo = {
   question: GssPublicQuestion;
@@ -91,7 +92,13 @@ export function QuestionPanel({
       <div className="gss-question">
         <p className="gss-question-preview">Ready for the next question? You&rsquo;ll have 20 seconds once it appears.</p>
         <button type="button" className="btn" onClick={onNextQuestion} disabled={busy}>
-          Next question
+          {busy ? (
+            <>
+              <Spinner /> Loading…
+            </>
+          ) : (
+            "Next question"
+          )}
         </button>
       </div>
     );
@@ -130,6 +137,12 @@ export function QuestionPanel({
           </button>
         ))}
       </div>
+
+      {busy && (
+        <p className="gss-checking">
+          <Spinner /> Checking answer…
+        </p>
+      )}
     </div>
   );
 }

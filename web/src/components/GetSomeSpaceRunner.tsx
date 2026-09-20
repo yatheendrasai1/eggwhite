@@ -10,6 +10,7 @@ import { AltitudeScene } from "@/components/AltitudeScene";
 import { QuestionPanel, type ReviewInfo } from "@/components/QuestionPanel";
 import { GameHud } from "@/components/GameHud";
 import { GssLeaderboardCard } from "@/components/GssLeaderboardCard";
+import { Spinner } from "@/components/Spinner";
 
 const QUESTION_SECONDS = 20;
 
@@ -177,7 +178,13 @@ export function GetSomeSpaceRunner({
               <>
                 <p>Ready for another climb?</p>
                 <button type="button" className="btn" onClick={handleStart} disabled={busy}>
-                  Start session
+                  {busy ? (
+                    <>
+                      <Spinner /> Starting…
+                    </>
+                  ) : (
+                    "Start session"
+                  )}
                 </button>
               </>
             ) : (

@@ -37,6 +37,26 @@ function isLevelClear(key: MilestoneKey): boolean {
 }
 
 /**
+ * Cosmetic-only altitude readout (km) for the HUD — the game itself never
+ * gates on literal kilometers (see the spec's "real-world theming" note),
+ * this just maps each segment's progress onto its real-world altitude band
+ * so the number climbs meaningfully as the player advances.
+ */
+export const ALTITUDE_BAND_KM: Record<1 | 2 | 3, readonly [number, number]> = {
+  1: [0, 19], // ground -> Armstrong limit
+  2: [19, 50], // Armstrong limit -> mesosphere
+  3: [50, 100], // mesosphere -> Kármán line
+};
+
+export function currentAltitudeKm(s: { segmentIndex: number; correctInSegment: number }): number {
+  if (s.segmentIndex > 3) return 100;
+  const segment = Math.max(1, Math.min(3, s.segmentIndex)) as 1 | 2 | 3;
+  const [lo, hi] = ALTITUDE_BAND_KM[segment];
+  const frac = Math.max(0, Math.min(1, s.correctInSegment / SEGMENTS[segment].requiredCorrect));
+  return lo + frac * (hi - lo);
+}
+
+/**
  * Which milestone was just reached, given the CURRENT segment and its
  * correct-answer tally right after a correct answer. Note this is distinct
  * from each MILESTONES entry's `segmentIndex`/`correctBaseline`, which

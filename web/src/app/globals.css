@@ -3099,6 +3099,19 @@ body.gss-hide-chrome .navbar {
   line-height: 1;
   z-index: 3;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gss-marker-altitude {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--body);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 .gss-milestone-toast {
@@ -3306,6 +3319,14 @@ body.gss-hide-chrome .navbar {
 .gss-review-wrong {
   background: var(--bad-soft);
   color: var(--bad);
+}
+
+.gss-checking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .gss-leaderboard {

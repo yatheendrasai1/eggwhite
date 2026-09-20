@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { GssStateDTO } from "@/lib/games/getSomeSpaceState";
 import type { AnswerOutcome } from "@/lib/games/getSomeSpace";
-import { MILESTONES, SEGMENTS } from "@/lib/games/getSomeSpace";
+import { MILESTONES, SEGMENTS, currentAltitudeKm } from "@/lib/games/getSomeSpace";
 
 type LandmarkRef = { label: string; fraction: number };
 
@@ -176,9 +176,10 @@ export function AltitudeScene({
             className="gss-marker"
             animate={{ bottom: `${pct}%` }}
             transition={{ type: "spring", stiffness: 70, damping: 16 }}
-            aria-label="Current altitude within this layer"
+            aria-label={`Current altitude: ${currentAltitudeKm(state).toFixed(1)} km`}
           >
             🚀
+            <span className="gss-marker-altitude">{currentAltitudeKm(state).toFixed(1)} km</span>
           </motion.div>
         </motion.div>
       </AnimatePresence>
