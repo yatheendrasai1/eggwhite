@@ -74,6 +74,12 @@ export const updateGeminiModelSchema = z.object({
   model: z.enum(GEMINI_MODELS),
 });
 
+export const gssAnswerSchema = z.object({
+  questionId: z.string().trim().min(1).max(64),
+  /** -1 means "no answer" (timer ran out) — never matches a correctIndex, so it's scored as wrong. */
+  choiceIndex: z.number().int().min(-1).max(3),
+});
+
 export type StartAttemptInput = z.infer<typeof startAttemptSchema>;
 export type PatchAttemptInput = z.infer<typeof patchAttemptSchema>;
 export type MigrateInput = z.infer<typeof migrateSchema>;
@@ -84,3 +90,4 @@ export type UpdateTestSettingInput = z.infer<typeof updateTestSettingSchema>;
 export type UpdateUserLeaderboardInput = z.infer<typeof updateUserLeaderboardSchema>;
 export type VerifyFlagsInput = z.infer<typeof verifyFlagsSchema>;
 export type UpdateGeminiModelInput = z.infer<typeof updateGeminiModelSchema>;
+export type GssAnswerInput = z.infer<typeof gssAnswerSchema>;

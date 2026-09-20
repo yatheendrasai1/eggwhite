@@ -74,6 +74,12 @@ export function SideMenu({
                 </li>
               )}
               <li>
+                <Link href="/games/get-some-space" className="side-menu-item" onClick={close}>
+                  Get Some Space!
+                  <span className="side-menu-chevron">→</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/archive" className="side-menu-item" onClick={close}>
                   Archived tests
                   <span className="side-menu-chevron">→</span>
