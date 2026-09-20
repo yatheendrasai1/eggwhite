@@ -24,7 +24,7 @@ export function QuestionPanel({
   if (!timerRunning) {
     return (
       <div className="gss-question">
-        <p className="gss-question-preview">{question.prompt}</p>
+        <p className="gss-question-preview">Ready for the next question? You&rsquo;ll have 20 seconds once it appears.</p>
         <button type="button" className="btn" onClick={onNextQuestion} disabled={busy}>
           Next question
         </button>
