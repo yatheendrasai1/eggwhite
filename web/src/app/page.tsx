@@ -39,27 +39,28 @@ export default async function LandingPage() {
   return (
     <main className="page">
       <div className="wrap">
-        <header className="login-masthead">
-          <div className="login-logo-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="login-logo" src="/egvit-icon.png" alt="" />
-            <span className="login-bubble">Hey there! 👋</span>
-          </div>
-          <p className="login-name">egvit</p>
-          <p className="login-caption">
-            Whisk up your grammar and vocabulary with a few playful, self-scoring tests.
-          </p>
-        </header>
+        <div className="hero-card">
+          <header className="login-masthead">
+            <div className="login-logo-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="login-logo" src="/egvit-icon.png" alt="" />
+              <span className="login-bubble">Hey there! 👋</span>
+            </div>
+            <p className="login-name">egvit</p>
+            <p className="login-caption">
+              Better English. Brighter opportunities. Build your grammar and vocabulary with
+              short, focused tests — and watch your progress grow.
+            </p>
+          </header>
 
-        <div className="auth-card">
-          <p className="section-label" style={{ marginBottom: 12 }}>
-            Let&rsquo;s get cracking!
-          </p>
-          <SignInButtons />
-          <p className="foot" style={{ margin: "16px 0 0" }}>
-            We store your name, email and test results. Nothing else — promise. 🤞
-          </p>
+          <div style={{ marginTop: 28 }}>
+            <SignInButtons />
+          </div>
         </div>
+
+        <p className="foot" style={{ margin: "0 0 16px" }}>
+          We store your name, email and test results. Nothing else — promise. 🤞
+        </p>
       </div>
     </main>
   );

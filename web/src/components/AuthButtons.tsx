@@ -50,11 +50,8 @@ export function SignInButtons({ callbackUrl = "/" }: { callbackUrl?: string }) {
       <a href="/guest/index.html" className="oauth-btn guest-btn">
         Be My Guest! 🤗
       </a>
-      <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "2px 0 0", textAlign: "center" }}>
-        Have a username instead?{" "}
-        <Link href="/account/login" style={{ color: "var(--violet)" }}>
-          Sign in
-        </Link>
+      <p className="auth-fineprint">
+        Have a username instead? <Link href="/account/login">Sign in</Link>
       </p>
     </div>
   );
