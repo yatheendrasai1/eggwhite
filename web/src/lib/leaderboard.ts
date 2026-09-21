@@ -64,32 +64,48 @@ export async function getTestLeaderboard(
   }));
 }
 
+/** Tests-worth of shrinkage toward the global average — a user's own average is
+ *  trusted more as testsCompleted grows past this, and pulled toward the global
+ *  mean when it's below it. Keeps a single lucky test from outranking a
+ *  consistently strong average built over many tests. */
+const SHRINKAGE_TESTS = 3;
+
 export async function getOverallLeaderboard(
   enabledTestIds: TestId[],
   viewerId?: string
 ): Promise<OverallLeaderboardRow[]> {
   await connectDB();
   const hiddenUserIds = await getHiddenUserIds();
-  const agg = await ResultModel.aggregate<{
-    _id: string;
-    avgPct: number;
-    testsCompleted: number;
+  const [agg] = await ResultModel.aggregate<{
+    perUser: { _id: string; avgPct: number; testsCompleted: number }[];
+    overall: { avgPct: number }[];
   }>([
     { $match: { testId: { $in: enabledTestIds }, userId: { $nin: hiddenUserIds } } },
     {
-      $group: {
-        _id: "$userId",
-        avgPct: { $avg: "$pct" },
-        testsCompleted: { $sum: 1 },
+      $facet: {
+        perUser: [
+          { $group: { _id: "$userId", avgPct: { $avg: "$pct" }, testsCompleted: { $sum: 1 } } },
+        ],
+        overall: [{ $group: { _id: null, avgPct: { $avg: "$pct" } } }],
       },
     },
-    { $sort: { avgPct: -1, testsCompleted: -1 } },
-    { $limit: LIMIT },
   ]);
 
-  const names = await resolveDisplayNames(agg.map((a) => a._id));
+  const globalAvgPct = agg.overall[0]?.avgPct ?? 0;
 
-  return agg.map((a, i) => ({
+  const ranked = agg.perUser
+    .map((u) => {
+      const k = SHRINKAGE_TESTS;
+      const weightedPct =
+        (u.testsCompleted / (u.testsCompleted + k)) * u.avgPct + (k / (u.testsCompleted + k)) * globalAvgPct;
+      return { ...u, weightedPct };
+    })
+    .sort((a, b) => b.weightedPct - a.weightedPct || b.testsCompleted - a.testsCompleted)
+    .slice(0, LIMIT);
+
+  const names = await resolveDisplayNames(ranked.map((a) => a._id));
+
+  return ranked.map((a, i) => ({
     rank: i + 1,
     userId: a._id,
     displayName: names[a._id] ?? "Anonymous",
