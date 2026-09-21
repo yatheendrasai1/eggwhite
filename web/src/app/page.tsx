@@ -9,6 +9,13 @@ import { SignInButtons } from "@/components/AuthButtons";
 import { WordOfTheDay } from "@/components/WordOfTheDay";
 import { wordOfTheDay } from "@/lib/wordOfTheDay";
 
+function greeting(): { line: string; icon: string } {
+  const hour = new Date().getHours();
+  if (hour < 12) return { line: "Good morning", icon: "☀️" };
+  if (hour < 18) return { line: "Good afternoon", icon: "🌤️" };
+  return { line: "Good evening", icon: "🌙" };
+}
+
 export default async function LandingPage() {
   const session = await auth();
 
@@ -18,10 +25,19 @@ export default async function LandingPage() {
       .select("proExpiresAt")
       .lean();
     const isPro = isProActive(profile);
+    const firstName = (session.user.name || "").trim().split(/\s+/)[0] || "there";
+    const { line, icon } = greeting();
 
     return (
       <main className="page">
         <div className="wrap">
+          <header className="greeting">
+            <p className="greeting-line">{line},</p>
+            <p className="greeting-name">
+              {firstName} <span aria-hidden="true">{icon}</span>
+            </p>
+          </header>
+
           <WordOfTheDay entry={wordOfTheDay()} />
 
           <LandingHub

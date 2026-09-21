@@ -11,6 +11,22 @@ import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
 import { useToast } from "@/components/Toast";
 
+const KIND_ICON: Record<string, string> = {
+  v: "📖",
+  o: "💼",
+  g: "✍️",
+  t: "🎯",
+  p: "⭐",
+};
+
+function TestIcon({ kind }: { kind: string }) {
+  return (
+    <span className={`test-icon test-icon-${kind}`} aria-hidden="true">
+      {KIND_ICON[kind] ?? "📝"}
+    </span>
+  );
+}
+
 function fmtWhen(iso: string): string {
   const d = new Date(iso);
   const now = new Date();
@@ -68,6 +84,7 @@ export function LandingHub({
                 <li key={a.id}>
                   <Link className="test test-active" href={meta.href}>
                     <div className="test-top">
+                      <TestIcon kind={meta.kind} />
                       <span className="badge badge-open">Open</span>
                       <h3 className="test-title">{meta.title}</h3>
                     </div>
@@ -129,6 +146,7 @@ export function LandingHub({
                       }}
                     >
                       <div className="test-top">
+                        <TestIcon kind={t.kind} />
                         <span className="test-idx">{n}</span>
                         <h3 className="test-title">{t.title}</h3>
                         {pro && <span className="pro-badge">PRO</span>}
