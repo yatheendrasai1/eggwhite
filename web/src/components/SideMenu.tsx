@@ -6,9 +6,11 @@ import Link from "next/link";
 export function SideMenu({
   showDashboard = false,
   showLeaderboard = false,
+  showGetSomeSpace = false,
 }: {
   showDashboard?: boolean;
   showLeaderboard?: boolean;
+  showGetSomeSpace?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -73,12 +75,14 @@ export function SideMenu({
                   </Link>
                 </li>
               )}
-              <li>
-                <Link href="/games/get-some-space" className="side-menu-item" onClick={close}>
-                  Get Some Space!
-                  <span className="side-menu-chevron">→</span>
-                </Link>
-              </li>
+              {showGetSomeSpace && (
+                <li>
+                  <Link href="/games/get-some-space" className="side-menu-item" onClick={close}>
+                    Get Some Space!
+                    <span className="side-menu-chevron">→</span>
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/archive" className="side-menu-item" onClick={close}>
                   Archived tests

@@ -4,6 +4,7 @@ import { GetSomeSpaceRunner } from "@/components/GetSomeSpaceRunner";
 import { canStartSession } from "@/lib/games/getSomeSpace";
 import { asGssStateLike, loadGameState, toStateDTO } from "@/lib/games/getSomeSpaceState";
 import { getGssLeaderboard } from "@/lib/games/getSomeSpaceLeaderboard";
+import { isGssEnabled } from "@/lib/games/getSomeSpaceSettings";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,12 @@ export default async function GetSomeSpacePage() {
   if (!session?.user?.id) redirect("/signin?callbackUrl=/games/get-some-space");
 
   const doc = await loadGameState(session.user.id);
+
+  // An admin-disabled game can't be started fresh, but a session already in
+  // progress when it was disabled can still be finished — same policy as
+  // disabling one of the regular tests (see ensureAttempt.ts).
+  if (doc.status !== "active" && !(await isGssEnabled())) redirect("/");
+
   const check = canStartSession(asGssStateLike(doc), new Date());
   const leaderboard = await getGssLeaderboard(session.user.id);
 

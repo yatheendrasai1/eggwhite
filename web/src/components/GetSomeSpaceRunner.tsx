@@ -14,7 +14,7 @@ import { Spinner } from "@/components/Spinner";
 
 const QUESTION_SECONDS = 20;
 
-type BlockedReason = "daily_limit" | "cooldown" | null;
+type BlockedReason = "daily_limit" | "cooldown" | "disabled" | null;
 
 function fmtCountdown(ms: number): string {
   if (ms <= 0) return "now";
@@ -192,7 +192,9 @@ export function GetSomeSpaceRunner({
                 <p>
                   {blockedReason === "daily_limit"
                     ? "You've used all 4 sessions for today."
-                    : "Cooling off before your next session."}
+                    : blockedReason === "disabled"
+                      ? "This game is currently unavailable."
+                      : "Cooling off before your next session."}
                 </p>
                 {availableAt && (
                   <p className="gss-availat">

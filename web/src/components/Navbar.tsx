@@ -9,6 +9,7 @@ import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive, isTiv } from "@/lib/pro";
 import type { Theme } from "@/lib/theme";
+import { isGssEnabled } from "@/lib/games/getSomeSpaceSettings";
 
 export async function Navbar() {
   const session = await auth();
@@ -19,6 +20,7 @@ export async function Navbar() {
   let proExpiresAt: string | null = null;
   let showDashboard = false;
   let theme: Theme = "system";
+  const showGetSomeSpace = !!user && (await isGssEnabled());
   if (user?.id) {
     await connectDB();
     const profile = await UserProfileModel.findOne({ userId: user.id })
@@ -33,7 +35,7 @@ export async function Navbar() {
 
   return (
     <nav className="navbar">
-      <SideMenu showDashboard={showDashboard} showLeaderboard={!!user} />
+      <SideMenu showDashboard={showDashboard} showLeaderboard={!!user} showGetSomeSpace={showGetSomeSpace} />
       <Link
         href="/"
         style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}

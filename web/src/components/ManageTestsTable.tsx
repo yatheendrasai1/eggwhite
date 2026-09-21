@@ -11,14 +11,21 @@ export type ManageTestRow = {
   enabled: boolean;
 };
 
-export function ManageTestsTable({ tests }: { tests: ManageTestRow[] }) {
+export function ManageTestsTable({
+  tests,
+  endpointBase = "/api/admin/tests",
+}: {
+  tests: ManageTestRow[];
+  /** Base path each row PATCHes as `${endpointBase}/${id}` — lets this table manage things other than the test registry (e.g. a standalone game's on/off flag). */
+  endpointBase?: string;
+}) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
 
   async function toggle(id: string, enabled: boolean) {
     setBusyId(id);
     try {
-      const res = await fetch(`/api/admin/tests/${id}`, {
+      const res = await fetch(`${endpointBase}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ enabled }),
@@ -26,7 +33,7 @@ export function ManageTestsTable({ tests }: { tests: ManageTestRow[] }) {
       if (!res.ok) throw new Error("update failed");
       router.refresh();
     } catch {
-      alert("Failed to update test.");
+      alert("Failed to update.");
     } finally {
       setBusyId(null);
     }

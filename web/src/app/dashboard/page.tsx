@@ -9,6 +9,7 @@ import { resolveDisplayNames } from "@/lib/users";
 import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import { getDisabledTestIds } from "@/lib/tests/testSettings";
 import { getGeminiModel, GEMINI_MODELS } from "@/lib/gemini";
+import { isGssEnabled } from "@/lib/games/getSomeSpaceSettings";
 import { BackHome } from "@/components/BackHome";
 import { GeneratePasscodeButton } from "@/components/GeneratePasscodeButton";
 import { PasscodesTable } from "@/components/PasscodesTable";
@@ -54,7 +55,7 @@ export default async function DashboardPage() {
   if (!isTiv(profile)) notFound();
 
   const client = await getMongoClient();
-  const [passcodes, proProfiles, pendingSignups, disabledTestIds, accounts, geminiModel] =
+  const [passcodes, proProfiles, pendingSignups, disabledTestIds, accounts, geminiModel, gssEnabled] =
     await Promise.all([
       PasscodeModel.find().sort({ createdAt: -1 }).lean(),
       UserProfileModel.find({ proExpiresAt: { $ne: null } })
@@ -75,6 +76,7 @@ export default async function DashboardPage() {
         .project({ name: 1, email: 1, username: 1 })
         .toArray(),
       getGeminiModel(),
+      isGssEnabled(),
     ]);
 
   const namesFor = Array.from(
@@ -115,6 +117,21 @@ export default async function DashboardPage() {
               tag: t.tag,
               enabled: !disabledTestIds.has(t.id),
             }))}
+          />
+        </section>
+
+        <section className="dash-section">
+          <h2>Games</h2>
+          <p className="filler" style={{ marginBottom: 12 }}>
+            Disabling a game hides its link from the menu and blocks starting a new
+            session. A session already in progress when it&rsquo;s disabled can still be
+            finished.
+          </p>
+          <ManageTestsTable
+            tests={[
+              { id: "get-some-space", title: "Get Some Space!", tag: "Trivia · Ascent", enabled: gssEnabled },
+            ]}
+            endpointBase="/api/admin/games"
           />
         </section>
 
