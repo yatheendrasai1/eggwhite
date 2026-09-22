@@ -58,7 +58,7 @@ beforeEach(() => {
 });
 
 describe("evaluateRightOrWrong", () => {
-  it("scores a correct verdict as +1 and a wrong verdict as -1, with no Gemini call when nothing was attempted", async () => {
+  it("scores a correct verdict as +1 and a wrong verdict as -0.5, with no Gemini call when nothing was attempted", async () => {
     const config = makeConfig([
       { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
       { phrase: "Please find the attached report.", correct: true },
@@ -73,9 +73,28 @@ describe("evaluateRightOrWrong", () => {
 
     expect(mockCallGemini).not.toHaveBeenCalled();
     expect(result.rows[0]).toMatchObject({ basePts: 1, attemptedBonus: false, bonusEarned: false });
-    expect(result.rows[1]).toMatchObject({ basePts: -1, attemptedBonus: false });
-    expect(result.total).toBe(0); // +1 - 1
+    expect(result.rows[1]).toMatchObject({ basePts: -0.5, attemptedBonus: false });
+    expect(result.total).toBe(0.5); // +1 - 0.5
     expect(result.maxScore).toBe(3); // 2 items + 1 bonus slot (one actually-wrong item)
+  });
+
+  it("scores a skipped item (no verdict) as 0, not a wrong-call penalty", async () => {
+    const config = makeConfig([
+      { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
+      { phrase: "Please find the attached report.", correct: true },
+    ]);
+    const answers: RightOrWrongAnswers = {
+      verdicts: { 1: "correct" }, // item 0 left blank
+      issues: {},
+      fixes: {},
+    };
+
+    const result = await evaluateRightOrWrong(config, answers);
+
+    expect(mockCallGemini).not.toHaveBeenCalled();
+    expect(result.rows[0]).toMatchObject({ basePts: 0, verdict: undefined, attemptedBonus: false });
+    expect(result.rows[1]).toMatchObject({ basePts: 1 });
+    expect(result.total).toBe(1);
   });
 
   it("awards the bonus point only when the item was actually wrong, correctly convicted, and Gemini grades the explanation correct", async () => {
@@ -139,7 +158,7 @@ describe("evaluateRightOrWrong", () => {
     const result = await evaluateRightOrWrong(config, answers);
 
     expect(mockCallGemini).not.toHaveBeenCalled();
-    expect(result.rows[0]).toMatchObject({ basePts: -1, attemptedBonus: false, bonusEarned: false });
+    expect(result.rows[0]).toMatchObject({ basePts: -0.5, attemptedBonus: false, bonusEarned: false });
   });
 
   it("does not attempt the bonus when the issue or fix field is left blank", async () => {
@@ -171,7 +190,7 @@ describe("evaluateRightOrWrong", () => {
 
     const result = await evaluateRightOrWrong(config, answers);
 
-    expect(result.total).toBe(-2);
+    expect(result.total).toBe(-1);
     expect(result.pct).toBe(0);
     expect(result.band.code).toBe("D");
   });

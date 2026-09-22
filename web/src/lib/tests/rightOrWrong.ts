@@ -1,10 +1,11 @@
 /* =========================================================================
    "Right or Wrong" — 20 workplace phrases, some clean and some wrong. The
-   test taker delivers a verdict (Correct/Incorrect) on each; a correct call
-   is worth +1, a wrong call costs -1. Convicting a genuinely wrong phrase
-   and then naming the issue + writing a fix earns a bonus +1, graded by an
-   LLM against a rubric (free text, so it can't be scored by exact match) —
-   a wrong explanation just forfeits the bonus, no extra penalty.
+   test taker delivers a verdict (Correct/Incorrect) on each, or leaves it
+   blank; a correct call is worth +1, a wrong call costs -0.5, and a skipped
+   item scores 0. Convicting a genuinely wrong phrase and then naming the
+   issue + writing a fix earns a bonus +1, graded by an LLM against a
+   rubric (free text, so it can't be scored by exact match) — a wrong
+   explanation just forfeits the bonus, no extra penalty.
 
    Client-safe types + pure helpers only — no server-only imports (Gemini,
    Mongo/mongoose). RightOrWrongRunner/RightOrWrongResults import from here;
@@ -58,7 +59,7 @@ export type RightOrWrongItemResult = {
   phrase: string;
   actual: boolean; // ground truth
   verdict: RightOrWrongVerdict | undefined;
-  basePts: number; // +1 or -1
+  basePts: number; // +1, -0.5, or 0 if skipped
   attemptedBonus: boolean;
   bonusEarned: boolean;
   bonusFeedback: string;
