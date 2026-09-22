@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
+import { Portal } from "@/components/Portal";
 
 const RAW_COLOR = "#3d63e8";
 const WEIGHTED_COLOR = "#d6497e";
@@ -167,45 +168,47 @@ export function LeaderboardInfo() {
         i
       </button>
       {open && (
-        <div className="modal-overlay" onClick={() => setOpen(false)}>
-          <div
-            className="modal-card"
-            onClick={(e) => e.stopPropagation()}
-            style={{ maxHeight: "85vh", overflowY: "auto", maxWidth: 460 }}
-          >
-            <button
-              type="button"
-              className="modal-close"
-              aria-label="Close"
-              onClick={() => setOpen(false)}
+        <Portal>
+          <div className="modal-overlay" onClick={() => setOpen(false)}>
+            <div
+              className="modal-card"
+              onClick={(e) => e.stopPropagation()}
+              style={{ maxHeight: "85vh", overflowY: "auto", maxWidth: 460 }}
             >
-              ×
-            </button>
-            <h2 className="drawer-title" style={{ fontSize: 22 }}>
-              How the <em>overall</em> ranking works
-            </h2>
-            <p style={{ margin: "0 0 6px", fontSize: 13.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
-              The Overall board doesn&rsquo;t rank by raw average score. It uses a
-              &ldquo;shrinkage&rdquo; average that pulls a score toward the site-wide
-              average until you&rsquo;ve taken enough tests to trust it &mdash; so one
-              lucky test can&rsquo;t outrank a consistently strong record.
-            </p>
-            <p style={{ margin: "0 0 18px", fontSize: 13.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
-              The fewer tests you&rsquo;ve taken, the more your score gets pulled toward
-              the global average; the more tests you take, the more it reflects your
-              real average.
-            </p>
+              <button
+                type="button"
+                className="modal-close"
+                aria-label="Close"
+                onClick={() => setOpen(false)}
+              >
+                ×
+              </button>
+              <h2 className="drawer-title" style={{ fontSize: 22 }}>
+                How the <em>overall</em> ranking works
+              </h2>
+              <p style={{ margin: "0 0 6px", fontSize: 13.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
+                The Overall board doesn&rsquo;t rank by raw average score. It uses a
+                &ldquo;shrinkage&rdquo; average that pulls a score toward the site-wide
+                average until you&rsquo;ve taken enough tests to trust it &mdash; so one
+                lucky test can&rsquo;t outrank a consistently strong record.
+              </p>
+              <p style={{ margin: "0 0 18px", fontSize: 13.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
+                The fewer tests you&rsquo;ve taken, the more your score gets pulled toward
+                the global average; the more tests you take, the more it reflects your
+                real average.
+              </p>
 
-            <ShrinkageChart />
+              <ShrinkageChart />
 
-            <p style={{ margin: "16px 0 0", fontSize: 12.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
-              Example: with a global average of {GLOBAL_AVG}%, Student 2&rsquo;s single
-              90% test gets shrunk more than Student 1&rsquo;s two-test average of
-              86.5% &mdash; so Student 1 edges ahead on the leaderboard despite the
-              lower raw score.
-            </p>
+              <p style={{ margin: "16px 0 0", fontSize: 12.5, color: "var(--ink-soft)", lineHeight: 1.5 }}>
+                Example: with a global average of {GLOBAL_AVG}%, Student 2&rsquo;s single
+                90% test gets shrunk more than Student 1&rsquo;s two-test average of
+                86.5% &mdash; so Student 1 edges ahead on the leaderboard despite the
+                lower raw score.
+              </p>
+            </div>
           </div>
-        </div>
+        </Portal>
       )}
     </>
   );

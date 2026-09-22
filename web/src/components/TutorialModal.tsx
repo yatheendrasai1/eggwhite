@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
+import { Portal } from "@/components/Portal";
 
 const STEPS: { emoji: string; color: string; title: string; body: string }[] = [
   {
@@ -40,6 +41,7 @@ export function TutorialModal() {
         Tutorial
       </button>
       {open && (
+        <Portal>
         <div className="modal-overlay" onClick={() => setOpen(false)}>
           <div
             className="modal-card"
@@ -107,6 +109,7 @@ export function TutorialModal() {
             </div>
           </div>
         </div>
+        </Portal>
       )}
     </>
   );
