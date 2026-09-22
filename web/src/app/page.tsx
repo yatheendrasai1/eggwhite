@@ -21,9 +21,12 @@ export default async function LandingPage() {
 
   if (session?.user?.id) {
     await connectDB();
-    const profile = await UserProfileModel.findOne({ userId: session.user.id })
-      .select("proExpiresAt")
-      .lean();
+    const [profile, active, attempts, disabledTestIds] = await Promise.all([
+      UserProfileModel.findOne({ userId: session.user.id }).select("proExpiresAt").lean(),
+      getActiveAttempts(session.user.id),
+      listAttempts(session.user.id),
+      getDisabledTestIds(),
+    ]);
     const isPro = isProActive(profile);
     const firstName = (session.user.name || "").trim().split(/\s+/)[0] || "there";
     const { line, icon } = greeting();
@@ -41,11 +44,11 @@ export default async function LandingPage() {
           <WordOfTheDay entry={wordOfTheDay()} />
 
           <LandingHub
-            active={await getActiveAttempts(session.user.id)}
-            attempts={await listAttempts(session.user.id)}
+            active={active}
+            attempts={attempts}
             userName={session.user.name || ""}
             isPro={isPro}
-            disabledTestIds={Array.from(await getDisabledTestIds())}
+            disabledTestIds={Array.from(disabledTestIds)}
           />
         </div>
       </main>
