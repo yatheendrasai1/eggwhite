@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Edu_NSW_ACT_Hand_Pre } from "next/font/google";
+import { Google_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { LoadingProvider } from "@/components/LoadingOverlay";
@@ -8,11 +8,11 @@ import { ToastProvider } from "@/components/Toast";
 import { ConfirmProvider } from "@/components/ConfirmDialog";
 import { getSessionTheme } from "@/lib/theme";
 
-/** Logo + main headings. */
-const eduHand = Edu_NSW_ACT_Hand_Pre({
+/** Logo wordmark. */
+const googleSans = Google_Sans({
   subsets: ["latin"],
   weight: "variable",
-  variable: "--font-edu-hand",
+  variable: "--font-brand",
   display: "swap",
 });
 
@@ -47,7 +47,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${eduHand.variable} ${googleSansFlex.variable}`}
+      className={`${googleSans.variable} ${googleSansFlex.variable}`}
       data-theme={theme === "system" ? undefined : theme}
     >
       <body>

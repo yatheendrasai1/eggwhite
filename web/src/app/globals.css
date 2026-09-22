@@ -38,7 +38,7 @@
   --hero-grad: linear-gradient(160deg, #4d6fe8 0%, #6f5be0 46%, #a06adf 100%);
   --nav-h: 52px;
   --display: var(--font-google-sans-flex), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --brand: var(--font-edu-hand), Georgia, cursive;
+  --brand: var(--font-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --body: var(--font-google-sans-flex), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --mono: var(--font-google-sans-flex), ui-monospace, "SF Mono", Menlo, monospace;
 }
@@ -211,11 +211,11 @@ body {
 }
 .nav-name {
   font-family: var(--brand);
-  font-size: 23px;
+  font-weight: 700;
+  font-size: 22px;
   line-height: 1;
-  letter-spacing: 0.045em;
+  letter-spacing: -0.01em;
   color: var(--violet);
-  padding-top: 3px;
 }
 .pro-badge {
   font-family: var(--mono);
@@ -407,8 +407,9 @@ body {
 }
 .login-name {
   font-family: var(--brand);
-  font-size: 38px;
-  letter-spacing: 0.045em;
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -0.01em;
   color: #fff;
   margin: 0 0 10px;
 }
