@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Edu_NSW_ACT_Hand_Pre } from "next/font/google";
 import "./globals.css";
@@ -32,6 +32,10 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#3d63e8",
 };
 
 export default async function RootLayout({

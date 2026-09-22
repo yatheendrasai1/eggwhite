@@ -3,8 +3,8 @@
   "short_name": "egvit",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#f2b60c",
+  "background_color": "#eef2fc",
+  "theme_color": "#3d63e8",
   "icons": [
     {
       "src": "/icon-192.png",

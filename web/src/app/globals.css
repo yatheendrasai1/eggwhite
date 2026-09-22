@@ -568,8 +568,8 @@ body {
   text-decoration: none;
   color: inherit;
   box-shadow: var(--glass-shadow);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s;
 }
 a.test:hover,
@@ -854,8 +854,8 @@ a.test:active {
   top: var(--nav-h);
   z-index: 20;
   background: rgba(var(--paper-rgb), 0.94);
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
   margin-top: 24px;
 }
@@ -1239,8 +1239,8 @@ a.test:active {
   bottom: 0;
   z-index: 30;
   background: rgba(var(--paper-rgb), 0.95);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border-top: 1px solid var(--line);
   padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
 }
@@ -1808,8 +1808,8 @@ button.wotd-icon-btn:focus-visible {
   position: fixed;
   inset: 0;
   background: rgba(15, 19, 42, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2021,6 +2021,8 @@ button.wotd-icon-btn:focus-visible {
   position: fixed;
   inset: 0;
   background: rgba(15, 19, 42, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   z-index: 70;
   display: flex;
   justify-content: flex-end;
@@ -3888,8 +3890,8 @@ body.gss-hide-chrome .navbar {
 .gss-hud,
 .opt,
 .chip {
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border-color: var(--glass-border);
   box-shadow: var(--glass-shadow);
 }
@@ -3897,8 +3899,8 @@ body.gss-hide-chrome .navbar {
 .progress,
 .submit-bar {
   background: rgba(var(--card-rgb), 0.5);
-  backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   border-color: var(--glass-border);
 }
 
