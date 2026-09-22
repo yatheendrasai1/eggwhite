@@ -215,6 +215,13 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.nav-spacer::-webkit-scrollbar {
+  display: none;
 }
 .nav-user {
   font-family: var(--mono);
@@ -232,11 +239,13 @@ body {
   color: var(--violet);
   cursor: pointer;
   text-decoration: none;
+  flex: none;
+  white-space: nowrap;
 }
 .nav-btn.solid {
   background: var(--yolk);
   border-color: var(--yolk);
-  color: var(--ink);
+  color: #fff;
 }
 
 .page {
