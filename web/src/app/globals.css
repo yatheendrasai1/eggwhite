@@ -6,11 +6,15 @@
 :root {
   --paper: #eef2fc;
   --paper-rgb: 238, 242, 252;
-  --card: #ffffff;
-  --surface2: #f4f6fd;
+  --card: rgba(255, 255, 255, 0.55);
+  --card-rgb: 255, 255, 255;
+  --surface2: rgba(255, 255, 255, 0.4);
   --ink: #1a2140;
   --ink-soft: #6b7794;
-  --line: #e1e6f6;
+  --line: #dfe4f4;
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: blur(22px) saturate(180%);
+  --glass-shadow: 0 8px 32px rgba(31, 41, 102, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   --violet: #3d63e8;
   --violet-soft: #e8edfd;
   --ochre: #8457ee;
@@ -39,11 +43,14 @@
   :root:not([data-theme="light"]) {
     --paper: #12162a;
     --paper-rgb: 18, 22, 42;
-    --card: #1c2138;
-    --surface2: #232945;
+    --card: rgba(28, 33, 56, 0.55);
+    --card-rgb: 28, 33, 56;
+    --surface2: rgba(35, 41, 69, 0.5);
     --ink: #eef1fb;
     --ink-soft: #9aa4c4;
     --line: #2e3554;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     --violet: #7b96f5;
     --violet-soft: #263258;
     --ochre: #a98af5;
@@ -64,11 +71,14 @@
 :root[data-theme="dark"] {
   --paper: #12162a;
   --paper-rgb: 18, 22, 42;
-  --card: #1c2138;
-  --surface2: #232945;
+  --card: rgba(28, 33, 56, 0.55);
+  --card-rgb: 28, 33, 56;
+  --surface2: rgba(35, 41, 69, 0.5);
   --ink: #eef1fb;
   --ink-soft: #9aa4c4;
   --line: #2e3554;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --violet: #7b96f5;
   --violet-soft: #263258;
   --ochre: #a98af5;
@@ -135,8 +145,11 @@ body {
 body {
   background: var(--paper);
   background-image:
-    radial-gradient(560px 380px at 8% -6%, rgba(120, 140, 245, 0.16), transparent 60%),
-    radial-gradient(520px 360px at 100% 0%, rgba(160, 106, 223, 0.14), transparent 60%);
+    radial-gradient(620px 460px at 10% -8%, rgba(96, 126, 245, 0.32), transparent 62%),
+    radial-gradient(560px 440px at 100% 2%, rgba(163, 106, 227, 0.28), transparent 60%),
+    radial-gradient(520px 420px at 8% 55%, rgba(120, 187, 240, 0.22), transparent 60%),
+    radial-gradient(600px 480px at 95% 60%, rgba(214, 120, 190, 0.18), transparent 62%),
+    radial-gradient(560px 460px at 45% 100%, rgba(122, 148, 245, 0.24), transparent 62%);
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--body);
@@ -494,11 +507,14 @@ body {
 .test {
   display: block;
   background: var(--card);
-  border: 1px solid var(--line);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
   padding: 20px 18px;
   text-decoration: none;
   color: inherit;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s;
 }
 a.test:hover,
@@ -3543,6 +3559,45 @@ body.gss-hide-chrome .navbar {
   border-radius: 8px;
   padding: 4px 6px;
   margin: -4px -6px;
+}
+
+/* ---------- liquid glass surfaces ----------
+   One shared frosted-glass treatment for every card-like surface. Placed
+   last so it wins the cascade without having to touch each component's
+   own background/border declaration (those still set the base colors via
+   the --card / --line tokens; this just layers the blur + glass edge on
+   top). */
+.howto,
+.filler,
+.q,
+.mail,
+.scorecard,
+.tile,
+.panel,
+.auth-card,
+.modal-card,
+.side-menu-item,
+.drawer-panel,
+.profile-info,
+.hist a,
+.lb-row,
+.tr-card,
+.dash-row,
+.gss-hud,
+.opt,
+.chip {
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+.navbar,
+.progress,
+.submit-bar {
+  background: rgba(var(--card-rgb), 0.5);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-color: var(--glass-border);
 }
 
 @media (prefers-reduced-motion: reduce) {
