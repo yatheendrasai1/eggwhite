@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WORDS, type WordEntry } from "@/lib/wordOfTheDay";
 
 function randomOtherWord(current: WordEntry): WordEntry {
@@ -12,8 +12,40 @@ function randomOtherWord(current: WordEntry): WordEntry {
   return next;
 }
 
+/** Prefers an Indian-English voice, falling back to the en-IN locale (which
+ *  most engines still pick a sensible voice for) if none is installed. */
+function pickIndianVoice(): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  return (
+    voices.find((v) => v.lang === "en-IN") ??
+    voices.find((v) => v.lang.toLowerCase().startsWith("en-in")) ??
+    null
+  );
+}
+
 export function WordOfTheDay({ entry }: { entry: WordEntry }) {
   const [current, setCurrent] = useState(entry);
+  const [speaking, setSpeaking] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    // Voice lists load asynchronously in most browsers; this just warms the
+    // cache so the first click already has en-IN voices to pick from.
+    window.speechSynthesis.getVoices();
+  }, []);
+
+  function handleSpeak() {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    setSpeaking(true);
+    const utterance = new SpeechSynthesisUtterance(current.word);
+    utterance.lang = "en-IN";
+    const voice = pickIndianVoice();
+    if (voice) utterance.voice = voice;
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }
 
   return (
     <section className="panel wotd-card">
@@ -30,9 +62,14 @@ export function WordOfTheDay({ entry }: { entry: WordEntry }) {
           >
             🔀
           </button>
-          <span className="wotd-icon-btn" aria-hidden="true">
+          <button
+            type="button"
+            className={`wotd-icon-btn${speaking ? " speaking" : ""}`}
+            aria-label={`Pronounce "${current.word}" (Indian English)`}
+            onClick={handleSpeak}
+          >
             🔊
-          </span>
+          </button>
         </div>
       </div>
       <div className="wotd-word-center">

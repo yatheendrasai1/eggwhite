@@ -59,7 +59,10 @@ export function LandingHub({
   const disabled = new Set(disabledTestIds);
   const activeIds = new Set(active.map((a) => a.testId));
   const history = attempts.filter((a) => a.status === "completed");
-  const available = ACTIVE_TESTS.filter((t) => !activeIds.has(t.id) && !disabled.has(t.id));
+  const submittedTestIds = new Set(history.map((a) => a.testId));
+  const notSubmitted = ACTIVE_TESTS.filter(
+    (t) => !activeIds.has(t.id) && !disabled.has(t.id) && !submittedTestIds.has(t.id)
+  );
 
   async function discontinue(id: string) {
     if (
@@ -81,58 +84,66 @@ export function LandingHub({
 
   return (
     <>
-      {active.length > 0 && (
-        <>
-          <p className="section-label">In progress</p>
-          <ul className="tests">
-            {active.map((a) => {
-              const meta = byId(a.testId);
-              if (!meta) return null;
-              return (
-                <li key={a.id}>
-                  <Link className="test test-active" href={meta.href}>
-                    <div className="test-top">
-                      <TestIcon kind={meta.kind} />
-                      <span className="badge badge-open">Open</span>
-                      <h3 className="test-title">{meta.title}</h3>
-                    </div>
-                    <p className="test-desc">
-                      {a.progress.done}/{a.progress.total} answered · started{" "}
-                      {fmtWhen(a.startedAt)}
-                    </p>
-                    <div className="test-foot">
-                      {userName ? <span className="tag tag-v">{userName}</span> : null}
-                      <span className="go">Resume &rarr;</span>
-                    </div>
-                  </Link>
-                  <button
-                    type="button"
-                    className="discont"
-                    onClick={() => discontinue(a.id)}
-                    disabled={busyId === a.id}
-                  >
-                    {busyId === a.id ? (
-                      <>
-                        <Spinner /> Discontinuing…
-                      </>
-                    ) : (
-                      "Discontinue test"
-                    )}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </>
-      )}
+      <details className="section-acc" open={active.length > 0}>
+        <summary className="section-acc-summary">
+          <span className="section-label">In progress</span>
+          <span className="section-acc-count">{active.length}</span>
+          <span className="section-acc-chevron" aria-hidden="true">
+            ⌄
+          </span>
+        </summary>
+        <div className="section-acc-body">
+          {active.length > 0 ? (
+            <ul className="tests">
+              {active.map((a) => {
+                const meta = byId(a.testId);
+                if (!meta) return null;
+                return (
+                  <li key={a.id}>
+                    <Link className="test test-active" href={meta.href}>
+                      <div className="test-top">
+                        <TestIcon kind={meta.kind} />
+                        <span className="badge badge-open">Open</span>
+                        <h3 className="test-title">{meta.title}</h3>
+                      </div>
+                      <p className="test-desc">
+                        {a.progress.done}/{a.progress.total} answered · started{" "}
+                        {fmtWhen(a.startedAt)}
+                      </p>
+                      <div className="test-foot">
+                        {userName ? <span className="tag tag-v">{userName}</span> : null}
+                        <span className="go">Resume &rarr;</span>
+                      </div>
+                    </Link>
+                    <button
+                      type="button"
+                      className="discont"
+                      onClick={() => discontinue(a.id)}
+                      disabled={busyId === a.id}
+                    >
+                      {busyId === a.id ? (
+                        <>
+                          <Spinner /> Discontinuing…
+                        </>
+                      ) : (
+                        "Discontinue test"
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="filler">Nothing in progress right now.</p>
+          )}
+        </div>
+      </details>
 
-      {available.length > 0 ? (
+      {notSubmitted.length > 0 ? (
         <>
-          <p className={`section-label${active.length > 0 ? " second" : ""}`}>
-            Available tests
-          </p>
+          <p className="section-label second">Available tests</p>
           <ul className="tests">
-            {available.map((t, i) => {
+            {notSubmitted.map((t, i) => {
               const n = String(i + 1).padStart(2, "0");
               const locked = isProTest(t.id) && !isPro;
               const pro = isProTest(t.id);
@@ -194,32 +205,42 @@ export function LandingHub({
           </ul>
         </>
       ) : (
-        <p className={`filler${active.length > 0 ? " second" : ""}`}>
+        <p className="filler second">
           No new tests right now — browse older ones from the Archive in the menu.
         </p>
       )}
 
-      {history.length > 0 && (
-        <>
-          <p className="section-label second">Your history</p>
-          <ul className="hist">
-            {history.map((a) => {
-              const meta = byId(a.testId);
-              return (
-                <li key={a.id}>
-                  <Link href={`/results/${a.id}`}>
-                    <p className="h-t">{meta?.title ?? a.testId}</p>
-                    <span className="h-m">
-                      {a.summary?.line ?? "Completed"} ·{" "}
-                      {fmtWhen(a.completedAt ?? a.updatedAt)}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </>
-      )}
+      <details className="section-acc second" open={notSubmitted.length === 0}>
+        <summary className="section-acc-summary">
+          <span className="section-label">Already submitted</span>
+          <span className="section-acc-count">{history.length}</span>
+          <span className="section-acc-chevron" aria-hidden="true">
+            ⌄
+          </span>
+        </summary>
+        <div className="section-acc-body">
+          {history.length > 0 ? (
+            <ul className="hist">
+              {history.map((a) => {
+                const meta = byId(a.testId);
+                return (
+                  <li key={a.id}>
+                    <Link href={`/results/${a.id}`}>
+                      <p className="h-t">{meta?.title ?? a.testId}</p>
+                      <span className="h-m">
+                        {a.summary?.line ?? "Completed"} ·{" "}
+                        {fmtWhen(a.completedAt ?? a.updatedAt)}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="filler">You haven&rsquo;t submitted any tests yet.</p>
+          )}
+        </div>
+      </details>
     </>
   );
 }

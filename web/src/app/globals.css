@@ -504,6 +504,52 @@ body {
   margin-top: 32px;
 }
 
+/* ---------- collapsible landing sections (in progress / already submitted) ---------- */
+.section-acc {
+  margin: 0;
+}
+.section-acc.second {
+  margin-top: 32px;
+}
+.section-acc-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  padding: 2px 0 14px;
+  user-select: none;
+}
+.section-acc-summary::-webkit-details-marker {
+  display: none;
+}
+.section-acc-summary .section-label {
+  margin: 0;
+}
+.section-acc-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--slate);
+  background: var(--surface2);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.section-acc-chevron {
+  margin-left: auto;
+  color: var(--violet);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+.section-acc[open] > .section-acc-summary .section-acc-chevron {
+  transform: rotate(180deg);
+}
+.section-acc-body {
+  padding-bottom: 4px;
+}
+
 /* ---------- test cards (landing) ---------- */
 .tests {
   list-style: none;
@@ -1493,6 +1539,24 @@ button.wotd-icon-btn:hover {
 }
 button.wotd-icon-btn:active {
   transform: rotate(-14deg) scale(0.92);
+}
+button.wotd-icon-btn.speaking {
+  background: var(--violet);
+  animation: wotd-speaking-pulse 0.7s ease-in-out infinite;
+}
+@keyframes wotd-speaking-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(61, 99, 232, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(61, 99, 232, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  button.wotd-icon-btn.speaking {
+    animation: none;
+  }
 }
 button.wotd-icon-btn:focus-visible {
   outline: 3px solid var(--violet);
