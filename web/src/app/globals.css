@@ -1505,7 +1505,7 @@ button.wotd-icon-btn:focus-visible {
 .wotd-word {
   font-family: var(--display);
   font-weight: 800;
-  font-size: 38px;
+  font-size: 49px;
   margin: 0;
   color: var(--violet);
   line-height: 1.15;
@@ -1516,6 +1516,29 @@ button.wotd-icon-btn:focus-visible {
   font-size: 12.5px;
   color: var(--ink-soft);
   margin-top: 2px;
+}
+.wotd-sentiment {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.wotd-sentiment-positive {
+  background: var(--good-soft);
+  color: var(--good);
+}
+.wotd-sentiment-negative {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+.wotd-sentiment-neutral {
+  background: var(--line);
+  color: var(--ink-soft);
 }
 .wotd-meaning {
   margin: 0 0 14px;

@@ -38,10 +38,13 @@ export function WordOfTheDay({ entry }: { entry: WordEntry }) {
       <div className="wotd-word-center">
         <h3 className="wotd-word">{current.word}</h3>
         <span className="wotd-pos">{current.partOfSpeech}</span>
+        <span className={`wotd-sentiment wotd-sentiment-${current.sentiment}`}>
+          {current.sentiment} tone
+        </span>
       </div>
       <p className="wotd-meaning">{current.meaning}</p>
       <div className="wotd-example-box">
-        <p className="wotd-example-label">Example</p>
+        <p className="wotd-example-label">Corporate style example</p>
         <p className="wotd-example">&ldquo;{current.example}&rdquo;</p>
       </div>
     </section>
