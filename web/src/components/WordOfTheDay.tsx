@@ -12,6 +12,21 @@ function randomOtherWord(current: WordEntry): WordEntry {
   return next;
 }
 
+const POS_ABBREVIATIONS: Record<string, string> = {
+  noun: "n.",
+  verb: "v.",
+  adjective: "adj.",
+  adverb: "adv.",
+  pronoun: "pron.",
+  preposition: "prep.",
+  conjunction: "conj.",
+  interjection: "interj.",
+};
+
+function abbreviatePartOfSpeech(partOfSpeech: string): string {
+  return POS_ABBREVIATIONS[partOfSpeech.toLowerCase()] ?? partOfSpeech;
+}
+
 /** Prefers an Indian-English voice, falling back to the en-IN locale (which
  *  most engines still pick a sensible voice for) if none is installed. */
 function pickIndianVoice(): SpeechSynthesisVoice | null {
@@ -51,7 +66,7 @@ export function WordOfTheDay({ entry }: { entry: WordEntry }) {
     <section className="panel wotd-card">
       <div className="wotd-top">
         <p className="section-label" style={{ margin: 0 }}>
-          Word of the day
+          Word bank
         </p>
         <div className="wotd-top-actions">
           <button
@@ -60,7 +75,13 @@ export function WordOfTheDay({ entry }: { entry: WordEntry }) {
             aria-label="Show a different word"
             onClick={() => setCurrent((c) => randomOtherWord(c))}
           >
-            🔀
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="16 3 21 3 21 8" />
+              <line x1="4" y1="20" x2="21" y2="3" />
+              <polyline points="21 16 21 21 16 21" />
+              <line x1="15" y1="15" x2="21" y2="21" />
+              <line x1="4" y1="4" x2="9" y2="9" />
+            </svg>
           </button>
           <button
             type="button"
@@ -68,20 +89,26 @@ export function WordOfTheDay({ entry }: { entry: WordEntry }) {
             aria-label={`Pronounce "${current.word}" (Indian English)`}
             onClick={handleSpeak}
           >
-            🔊
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polygon points="4 9 8 9 13 4 13 20 8 15 4 15 4 9" />
+              <path d="M16 8a5 5 0 0 1 0 8" />
+              <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+            </svg>
           </button>
         </div>
       </div>
       <div className="wotd-word-center">
-        <h3 className="wotd-word">{current.word}</h3>
-        <span className="wotd-pos">{current.partOfSpeech}</span>
-        <span className={`wotd-sentiment wotd-sentiment-${current.sentiment}`}>
-          {current.sentiment} tone
-        </span>
+        <div className="wotd-word-row">
+          <h3 className="wotd-word">{current.word}</h3>
+          <span className="wotd-pos">{abbreviatePartOfSpeech(current.partOfSpeech)}</span>
+        </div>
       </div>
       <p className="wotd-meaning">{current.meaning}</p>
+      <span className={`wotd-sentiment wotd-sentiment-${current.sentiment}`}>
+        {current.sentiment} tone
+      </span>
       <div className="wotd-example-box">
-        <p className="wotd-example-label">Corporate style example</p>
+        <p className="wotd-example-label">Usage</p>
         <p className="wotd-example">&ldquo;{current.example}&rdquo;</p>
       </div>
     </section>
