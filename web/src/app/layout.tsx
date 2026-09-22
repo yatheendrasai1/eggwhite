@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Edu_NSW_ACT_Hand_Pre } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { LoadingProvider } from "@/components/LoadingOverlay";
@@ -8,8 +9,9 @@ import { ConfirmProvider } from "@/components/ConfirmDialog";
 import { getSessionTheme } from "@/lib/theme";
 
 /** Logo + main headings. */
-const eduHand = localFont({
-  src: "../fonts/EduNSWACTHandPre.ttf",
+const eduHand = Edu_NSW_ACT_Hand_Pre({
+  subsets: ["latin"],
+  weight: "variable",
   variable: "--font-edu-hand",
   display: "swap",
 });
