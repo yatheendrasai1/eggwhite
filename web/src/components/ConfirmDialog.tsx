@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useRef, useState } from "react";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 type ConfirmOptions = {
   title?: string;
@@ -22,6 +23,7 @@ const ConfirmContext = createContext<ConfirmContextValue | null>(null);
 export function ConfirmProvider({ children }: { children: React.ReactNode }) {
   const [pending, setPending] = useState<PendingConfirm | null>(null);
   const resolver = useRef<((ok: boolean) => void) | null>(null);
+  useBodyScrollLock(pending !== null);
 
   const confirm = useCallback((message: string, options?: ConfirmOptions) => {
     return new Promise<boolean>((resolve) => {

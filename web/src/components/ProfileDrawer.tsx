@@ -6,6 +6,7 @@ import { RedeemCodeForm } from "@/components/RedeemCodeForm";
 import { SignOutButton } from "@/components/AuthButtons";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import type { Theme } from "@/lib/theme";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 function fmtDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -27,6 +28,7 @@ export function ProfileDrawer({
   initialTheme: Theme;
 }) {
   const [open, setOpen] = useState(false);
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) return;
@@ -34,10 +36,8 @@ export function ProfileDrawer({
       if (e.key === "Escape") setOpen(false);
     }
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
     };
   }, [open]);
 

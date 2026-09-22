@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 const STEPS: { emoji: string; color: string; title: string; body: string }[] = [
   {
@@ -31,6 +32,7 @@ const STEPS: { emoji: string; color: string; title: string; body: string }[] = [
 
 export function TutorialModal() {
   const [open, setOpen] = useState(false);
+  useBodyScrollLock(open);
 
   return (
     <>

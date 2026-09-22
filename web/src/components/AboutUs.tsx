@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 export function AboutUs() {
   const [open, setOpen] = useState(false);
+  useBodyScrollLock(open);
 
   return (
     <>

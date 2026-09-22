@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 
 export function SideMenu({
   showDashboard = false,
@@ -13,6 +14,7 @@ export function SideMenu({
   showGetSomeSpace?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  useBodyScrollLock(open);
 
   function close() {
     setOpen(false);
@@ -24,10 +26,8 @@ export function SideMenu({
       if (e.key === "Escape") close();
     }
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
     };
   }, [open]);
 
