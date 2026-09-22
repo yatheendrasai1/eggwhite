@@ -13,6 +13,7 @@ export const TEST_IDS = [
   "framing-the-situation",
   "right-or-wrong",
   "shrink-it",
+  "jargons-idioms",
 ] as const;
 export type TestId = (typeof TEST_IDS)[number];
 

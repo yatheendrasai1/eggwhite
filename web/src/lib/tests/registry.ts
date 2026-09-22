@@ -161,6 +161,17 @@ export const TESTS: TestMeta[] = [
     kind: "p",
     total: 15,
   },
+  {
+    id: "jargons-idioms",
+    slug: "jargons-idioms",
+    href: "/tests/jargons-idioms",
+    title: "Jargons & Idioms",
+    desc: "20 corporate idioms and jargon terms — pick the right one for a workplace situation, then decode one you're hearing for the first time from context.",
+    meta: "20 items",
+    tag: "Pro · Idioms",
+    kind: "p",
+    total: 20,
+  },
 ];
 
 export const byId = (id: string) => TESTS.find((t) => t.id === id);
