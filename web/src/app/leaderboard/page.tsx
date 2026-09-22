@@ -4,6 +4,7 @@ import { ACTIVE_TESTS } from "@/lib/tests/registry";
 import { getDisabledTestIds } from "@/lib/tests/testSettings";
 import { getTestLeaderboard, getOverallLeaderboard } from "@/lib/leaderboard";
 import { LeaderboardTestPicker } from "@/components/LeaderboardTestPicker";
+import { LeaderboardInfo } from "@/components/LeaderboardInfo";
 import { BackHome } from "@/components/BackHome";
 import type { TestId } from "@/lib/models/Attempt";
 
@@ -36,7 +37,10 @@ export default async function LeaderboardPage({
       <div className="wrap">
         <BackHome />
         <header className="masthead lb-header">
-          <h1>Leaderboard</h1>
+          <div className="lb-title-row">
+            <h1>Leaderboard</h1>
+            <LeaderboardInfo />
+          </div>
           <LeaderboardTestPicker options={leaderboardTests} value={active} />
         </header>
 
