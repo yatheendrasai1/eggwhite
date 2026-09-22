@@ -10,6 +10,7 @@ import { deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
 import { useToast } from "@/components/Toast";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 const KIND_ICON: Record<string, string> = {
   v: "📖",
@@ -53,6 +54,7 @@ export function LandingHub({
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const { withLoading } = useLoading();
   const { showToast } = useToast();
+  const confirm = useConfirm();
 
   const disabled = new Set(disabledTestIds);
   const activeIds = new Set(active.map((a) => a.testId));
@@ -60,7 +62,13 @@ export function LandingHub({
   const available = ACTIVE_TESTS.filter((t) => !activeIds.has(t.id) && !disabled.has(t.id));
 
   async function discontinue(id: string) {
-    if (!confirm("Discontinue this test? The saved answers and result for it will be erased."))
+    if (
+      !(await confirm("Discontinue this test? The saved answers and result for it will be erased.", {
+        title: "Discontinue test?",
+        confirmLabel: "Discontinue",
+        danger: true,
+      }))
+    )
       return;
     setBusyId(id);
     try {

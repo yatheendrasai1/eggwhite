@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { LoadingProvider } from "@/components/LoadingOverlay";
 import { ToastProvider } from "@/components/Toast";
+import { ConfirmProvider } from "@/components/ConfirmDialog";
 import { getSessionTheme } from "@/lib/theme";
 
 /** Logo + main headings. */
@@ -45,10 +46,12 @@ export default async function RootLayout({
     >
       <body>
         <ToastProvider>
-          <LoadingProvider>
-            <Navbar />
-            {children}
-          </LoadingProvider>
+          <ConfirmProvider>
+            <LoadingProvider>
+              <Navbar />
+              {children}
+            </LoadingProvider>
+          </ConfirmProvider>
         </ToastProvider>
       </body>
     </html>

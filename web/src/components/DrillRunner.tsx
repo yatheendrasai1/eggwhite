@@ -13,6 +13,7 @@ import { DrillResults } from "@/components/DrillResults";
 import { patchAttempt, deleteAttempt } from "@/lib/client/attemptsApi";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -44,6 +45,7 @@ export function DrillRunner({
   const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { withLoading } = useLoading();
+  const confirm = useConfirm();
 
   const done = countDoneDrill(answers);
 
@@ -116,7 +118,13 @@ export function DrillRunner({
   }
 
   async function discontinue() {
-    if (!confirm("Discontinue this test? Your saved answers and result for it will be erased."))
+    if (
+      !(await confirm("Your saved answers and result for it will be erased.", {
+        title: "Discontinue this test?",
+        confirmLabel: "Discontinue",
+        danger: true,
+      }))
+    )
       return;
     setBusy("discontinue");
     try {
@@ -132,7 +140,8 @@ export function DrillRunner({
   }
 
   async function retake() {
-    if (!confirm("Clear this attempt and start the test over?")) return;
+    if (!(await confirm("This clears your saved answers so you can start fresh.", { title: "Retake this test?", confirmLabel: "Retake" })))
+      return;
     setBusy("retake");
     try {
       await withLoading(() => deleteAttempt(attemptId));

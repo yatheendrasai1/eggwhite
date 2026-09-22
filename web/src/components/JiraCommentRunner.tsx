@@ -14,6 +14,7 @@ import type { AttemptDTO } from "@/lib/attempts";
 import { hasActiveFlags, clearFlagsFromStorage } from "@/lib/client/flagStorage";
 import { Spinner } from "@/components/Spinner";
 import { useLoading } from "@/components/LoadingOverlay";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 type ResultAttempt = Pick<AttemptDTO, "id" | "detail" | "verifyCount">;
 
@@ -70,6 +71,7 @@ export function JiraCommentRunner({
   const [saving, setSaving] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { withLoading } = useLoading();
+  const confirm = useConfirm();
 
   const words = countWords(answers.response);
   const [minWords, maxWords] = config.scenario.wordRange;
@@ -119,7 +121,13 @@ export function JiraCommentRunner({
   }
 
   async function discontinue() {
-    if (!confirm("Discontinue this test? Your saved answer and result for it will be erased."))
+    if (
+      !(await confirm("Your saved answer and result for it will be erased.", {
+        title: "Discontinue this test?",
+        confirmLabel: "Discontinue",
+        danger: true,
+      }))
+    )
       return;
     setBusy("discontinue");
     try {
@@ -130,16 +138,23 @@ export function JiraCommentRunner({
     }
   }
 
-  function goHome() {
+  async function goHome() {
     if (hasActiveFlags(attemptId)) {
-      if (!confirm("If you go back, the flagged comments will be discarded.")) return;
+      if (
+        !(await confirm("If you go back, the flagged comments will be discarded.", {
+          title: "Discard flagged comments?",
+          confirmLabel: "Go back",
+        }))
+      )
+        return;
       clearFlagsFromStorage(attemptId);
     }
     router.push("/");
   }
 
   async function retake() {
-    if (!confirm("Clear this attempt and start the test over?")) return;
+    if (!(await confirm("This clears your saved answer so you can start fresh.", { title: "Retake this test?", confirmLabel: "Retake" })))
+      return;
     setBusy("retake");
     try {
       await withLoading(() => deleteAttempt(attemptId));

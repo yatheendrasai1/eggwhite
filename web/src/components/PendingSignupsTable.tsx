@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/Spinner";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 export type PendingSignupRow = {
   id: string;
@@ -24,11 +25,19 @@ function fmt(d: string | null): string {
 
 export function PendingSignupsTable({ pending }: { pending: PendingSignupRow[] }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   async function handleReject(id: string) {
-    if (!confirm("Reject this signup? This can't be undone.")) return;
+    if (
+      !(await confirm("This can't be undone.", {
+        title: "Reject this signup?",
+        confirmLabel: "Reject",
+        danger: true,
+      }))
+    )
+      return;
     setDeletingId(id);
     try {
       const res = await fetch(`/api/admin/pending-signups/${id}`, { method: "DELETE" });

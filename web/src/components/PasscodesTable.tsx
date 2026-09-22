@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/Spinner";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 export type PasscodeRow = {
   id: string;
@@ -33,11 +34,19 @@ export function PasscodesTable({
   names: Record<string, string>;
 }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   async function handleDelete(id: string) {
-    if (!confirm("Delete this passcode? This can't be undone.")) return;
+    if (
+      !(await confirm("This can't be undone.", {
+        title: "Delete this passcode?",
+        confirmLabel: "Delete",
+        danger: true,
+      }))
+    )
+      return;
     setDeletingId(id);
     try {
       const res = await fetch(`/api/admin/passcodes/${id}`, { method: "DELETE" });
