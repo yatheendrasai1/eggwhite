@@ -78,25 +78,6 @@ describe("evaluateRightOrWrong", () => {
     expect(result.maxScore).toBe(3); // 2 items + 1 bonus slot (one actually-wrong item)
   });
 
-  it("scores a skipped item (no verdict) as 0, not a wrong-call penalty", async () => {
-    const config = makeConfig([
-      { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },
-      { phrase: "Please find the attached report.", correct: true },
-    ]);
-    const answers: RightOrWrongAnswers = {
-      verdicts: { 1: "correct" }, // item 0 left blank
-      issues: {},
-      fixes: {},
-    };
-
-    const result = await evaluateRightOrWrong(config, answers);
-
-    expect(mockCallGemini).not.toHaveBeenCalled();
-    expect(result.rows[0]).toMatchObject({ basePts: 0, verdict: undefined, attemptedBonus: false });
-    expect(result.rows[1]).toMatchObject({ basePts: 1 });
-    expect(result.total).toBe(1);
-  });
-
   it("awards the bonus point only when the item was actually wrong, correctly convicted, and Gemini grades the explanation correct", async () => {
     const config = makeConfig([
       { phrase: "He explained me the process.", correct: false, issue: "missing 'to'", fix: "He explained the process to me." },

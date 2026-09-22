@@ -4,10 +4,9 @@
    in the Gemini client or the Mongo-backed prompt lookup.
 
    The base +1/-0.5 verdict score is plain rule-based comparison against the
-   item's ground truth — no LLM needed for that part. Leaving an item
-   unanswered scores 0, not -0.5 — skipping is always safer than guessing.
-   Only the free-text "where's the issue / what's the fix" bonus needs
-   grading, and only for items where the candidate actually attempted it.
+   item's ground truth — no LLM needed for that part. Only the free-text
+   "where's the issue / what's the fix" bonus needs grading, and only for
+   items where the candidate actually attempted it.
    ========================================================================= */
 
 import { callGemini } from "@/lib/gemini";
@@ -109,9 +108,7 @@ export async function evaluateRightOrWrong(
   const rows: RightOrWrongItemResult[] = config.items.map((it, i) => {
     const verdict = verdicts[i];
     const wantVerdict: RightOrWrongVerdict = it.correct ? "correct" : "incorrect";
-    // Skipped items (no verdict given) score 0 — only an actual wrong call
-    // costs points, so there's no reason to force a guess under penalty.
-    const basePts = verdict === undefined ? 0 : verdict === wantVerdict ? 1 : -0.5;
+    const basePts = verdict === wantVerdict ? 1 : -0.5;
     const attemptedBonus =
       !it.correct &&
       verdict === "incorrect" &&

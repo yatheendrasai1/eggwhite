@@ -108,16 +108,13 @@ export function RightOrWrongRunner({
       if (!answers.verdicts[i]) miss.push(i);
     });
     if (miss.length) {
-      const ok = await confirm(
-        `${miss.length} phrase${miss.length > 1 ? "s" : ""} still ${
-          miss.length > 1 ? "have" : "has"
-        } no call. Skipped phrases score 0 — submit anyway?`,
-        { title: "Some calls left blank", confirmLabel: "Submit anyway" }
+      setWarn(
+        `${miss.length} phrase${miss.length > 1 ? "s" : ""} still need${
+          miss.length > 1 ? "" : "s"
+        } a call.`
       );
-      if (!ok) {
-        setFlagKey("rowq" + miss[0]);
-        return;
-      }
+      setFlagKey("rowq" + miss[0]);
+      return;
     }
     setWarn("");
     setSubmitting(true);
@@ -224,7 +221,7 @@ export function RightOrWrongRunner({
           </div>
           <NegativeScoringNote
             applicable
-            details="Calling a phrase right earns +1; calling it wrong costs -0.5. Not sure? Leave it blank — a skipped call scores 0, so there's no reason to guess. The bonus round for naming the issue and fix never subtracts: get it wrong and you just miss the bonus point."
+            details="Calling a phrase right earns +1; calling it wrong costs -0.5 — there's no free pass for guessing. The bonus round for naming the issue and fix never subtracts: get it wrong and you just miss the bonus point."
           />
           {userName ? <p className="taking">Taking this as {userName}.</p> : null}
         </header>

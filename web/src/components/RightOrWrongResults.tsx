@@ -22,28 +22,16 @@ function ReviewCard({
   onFlag: (itemKey: string, comment: string) => void;
   onUnflag: (itemKey: string) => void;
 }) {
-  const skipped = r.verdict === undefined;
   const verdictRight = r.basePts > 0;
-  const icon = skipped ? "⏭️" : verdictRight ? "✅" : "❌";
-  const ptsLabel = skipped ? "0" : verdictRight ? "+1" : "-0.5";
-  const ptsClass = skipped ? "pts-n" : verdictRight ? "pts-1" : "pts-0";
   return (
     <li className="rev">
       <span className="rev-n">{String(r.n).padStart(2, "0")}</span>
-      <span className="rev-i">{icon}</span>
+      <span className="rev-i">{verdictRight ? "✅" : "❌"}</span>
       <div className="rev-b" style={{ flex: 1 }}>
         <p style={{ margin: "0 0 4px", fontWeight: 600 }}>&ldquo;{r.phrase}&rdquo;</p>
         <span className="yours">
-          {skipped ? (
-            <>
-              You left this one blank — it was actually <b>{r.actual ? "right" : "wrong"}</b>.
-            </>
-          ) : (
-            <>
-              You called it <b>{r.verdict === "correct" ? "right" : "wrong"}</b> — it was actually{" "}
-              <b>{r.actual ? "right" : "wrong"}</b>.
-            </>
-          )}
+          You called it <b>{r.verdict === "correct" ? "right" : "wrong"}</b> — it was actually{" "}
+          <b>{r.actual ? "right" : "wrong"}</b>.
         </span>
         {!r.actual && r.correctFix && <em>Fix: {r.correctFix}</em>}
         {r.attemptedBonus && (
@@ -57,7 +45,9 @@ function ReviewCard({
         <FlagItemButton itemKey={`item:${r.n}`} flag={flag} onFlag={onFlag} onUnflag={onUnflag} />
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 4, alignItems: "flex-end" }}>
-        <span className={`pts ${ptsClass}`}>{ptsLabel}</span>
+        <span className={`pts ${verdictRight ? "pts-1" : "pts-0"}`}>
+          {verdictRight ? "+1" : "-0.5"}
+        </span>
         {r.attemptedBonus && (
           <span className={`pts ${r.bonusEarned ? "pts-h" : "pts-n"}`}>
             {r.bonusEarned ? "+1 bonus" : "no bonus"}
@@ -100,8 +90,7 @@ export function RightOrWrongResults({ attempt: initialAttempt }: { attempt: Resu
   }
 
   const result = attempt.detail as RightOrWrongResult;
-  const skipped = result.rows.filter((r) => r.verdict === undefined);
-  const wrong = result.rows.filter((r) => r.verdict !== undefined && r.basePts < 0);
+  const wrong = result.rows.filter((r) => r.basePts < 0);
   const correct = result.rows.filter((r) => r.basePts > 0);
   const flagFor = (n: number) => flags.find((f) => f.itemKey === `item:${n}`);
 
@@ -125,13 +114,6 @@ export function RightOrWrongResults({ attempt: initialAttempt }: { attempt: Resu
         {wrong.length > 0 && (
           <ul className="review">
             {wrong.map((r) => (
-              <ReviewCard key={r.n} r={r} flag={flagFor(r.n)} onFlag={handleFlag} onUnflag={handleUnflag} />
-            ))}
-          </ul>
-        )}
-        {skipped.length > 0 && (
-          <ul className="review">
-            {skipped.map((r) => (
               <ReviewCard key={r.n} r={r} flag={flagFor(r.n)} onFlag={handleFlag} onUnflag={handleUnflag} />
             ))}
           </ul>
