@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackHome } from "@/components/BackHome";
+import { NegativeScoringNote } from "@/components/NegativeScoringNote";
 import {
   countDoneMcqPair,
   totalMcqPair,
@@ -250,6 +251,7 @@ export function McqPairRunner({
               <p key={i} dangerouslySetInnerHTML={{ __html: p }} />
             ))}
           </div>
+          <NegativeScoringNote applicable={false} />
           {userName ? <p className="taking">Taking this as {userName}.</p> : null}
         </header>
       </div>

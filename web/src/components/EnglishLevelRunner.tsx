@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackHome } from "@/components/BackHome";
+import { NegativeScoringNote } from "@/components/NegativeScoringNote";
 import {
   VOCAB,
   GRAM,
@@ -228,6 +229,7 @@ export function EnglishLevelRunner({
               </dd>
             </dl>
           </div>
+          <NegativeScoringNote applicable={false} />
           {userName ? <p className="taking">Taking this as {userName}.</p> : null}
         </header>
       </div>

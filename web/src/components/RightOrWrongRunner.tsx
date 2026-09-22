@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackHome } from "@/components/BackHome";
+import { NegativeScoringNote } from "@/components/NegativeScoringNote";
 import {
   countDoneRightOrWrong,
   type RightOrWrongConfig,
@@ -218,6 +219,10 @@ export function RightOrWrongRunner({
               <p key={i} dangerouslySetInnerHTML={{ __html: p }} />
             ))}
           </div>
+          <NegativeScoringNote
+            applicable
+            details="Calling a phrase right earns +1; calling it wrong costs -1 — there's no free pass for guessing. The bonus round for naming the issue and fix never subtracts: get it wrong and you just miss the bonus point."
+          />
           {userName ? <p className="taking">Taking this as {userName}.</p> : null}
         </header>
       </div>

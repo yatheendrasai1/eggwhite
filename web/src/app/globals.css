@@ -29,6 +29,12 @@
   --steel-soft: #dff4f8;
   --rose: #d6497e;
   --rose-soft: #fbe4ee;
+  --tone-positive-bg: #dcf2e3;
+  --tone-positive-fg: #3f8a5c;
+  --tone-negative-bg: #fbe0e2;
+  --tone-negative-fg: #b8555f;
+  --tone-neutral-bg: #eae6f7;
+  --tone-neutral-fg: #7c74a3;
   --hero-grad: linear-gradient(160deg, #4d6fe8 0%, #6f5be0 46%, #a06adf 100%);
   --nav-h: 52px;
   --display: var(--font-google-sans-flex), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -65,6 +71,12 @@
     --steel-soft: #16333d;
     --rose: #f28ab0;
     --rose-soft: #3a2338;
+    --tone-positive-bg: #223a2d;
+    --tone-positive-fg: #8fd6a8;
+    --tone-negative-bg: #402530;
+    --tone-negative-fg: #ec9aa4;
+    --tone-neutral-bg: #2c2a48;
+    --tone-neutral-fg: #b3aad8;
     --hero-grad: linear-gradient(160deg, #2c3a80 0%, #47358f 46%, #6a3f96 100%);
   }
 }
@@ -93,6 +105,12 @@
   --steel-soft: #16333d;
   --rose: #f28ab0;
   --rose-soft: #3a2338;
+  --tone-positive-bg: #223a2d;
+  --tone-positive-fg: #8fd6a8;
+  --tone-negative-bg: #402530;
+  --tone-negative-fg: #ec9aa4;
+  --tone-neutral-bg: #2c2a48;
+  --tone-neutral-fg: #b3aad8;
   --hero-grad: linear-gradient(160deg, #2c3a80 0%, #47358f 46%, #6a3f96 100%);
 }
 
@@ -477,6 +495,55 @@ body {
 }
 .key-n {
   background: var(--line);
+  color: var(--ink-soft);
+}
+.neg-score {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin: 12px 0 0;
+}
+.neg-score-line {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.neg-score-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+.neg-score-no {
+  background: var(--surface2);
+}
+.neg-score-no .neg-score-badge {
+  background: var(--line);
+  color: var(--ink-soft);
+}
+.neg-score-yes {
+  background: var(--tone-negative-bg);
+  border-color: transparent;
+}
+.neg-score-yes .neg-score-line {
+  color: var(--tone-negative-fg);
+}
+.neg-score-yes .neg-score-badge {
+  background: var(--tone-negative-fg);
+  color: var(--tone-negative-bg);
+}
+.neg-score-details {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
   color: var(--ink-soft);
 }
 .taking {
@@ -1528,10 +1595,14 @@ a.test:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  color: var(--violet);
   padding: 0;
   cursor: pointer;
-  transition: background 0.12s, transform 0.12s;
+  transition: background 0.12s, transform 0.12s, color 0.12s;
+}
+button.wotd-icon-btn:hover,
+button.wotd-icon-btn.speaking {
+  color: #fff;
 }
 button.wotd-icon-btn:hover {
   background: var(--violet);
@@ -1564,7 +1635,13 @@ button.wotd-icon-btn:focus-visible {
 }
 .wotd-word-center {
   text-align: center;
-  padding: 6px 0 16px;
+  padding: 6px 0 12px;
+}
+.wotd-word-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
 }
 .wotd-word {
   font-family: var(--display);
@@ -1575,15 +1652,14 @@ button.wotd-icon-btn:focus-visible {
   line-height: 1.15;
 }
 .wotd-pos {
-  display: block;
   font-style: italic;
-  font-size: 12.5px;
+  font-size: 15px;
   color: var(--ink-soft);
-  margin-top: 2px;
 }
 .wotd-sentiment {
-  display: inline-block;
-  margin-top: 8px;
+  display: block;
+  width: fit-content;
+  margin: 10px auto 14px;
   font-family: var(--mono);
   font-size: 10.5px;
   font-weight: 600;
@@ -1593,19 +1669,19 @@ button.wotd-icon-btn:focus-visible {
   padding: 3px 10px;
 }
 .wotd-sentiment-positive {
-  background: var(--good-soft);
-  color: var(--good);
+  background: var(--tone-positive-bg);
+  color: var(--tone-positive-fg);
 }
 .wotd-sentiment-negative {
-  background: var(--bad-soft);
-  color: var(--bad);
+  background: var(--tone-negative-bg);
+  color: var(--tone-negative-fg);
 }
 .wotd-sentiment-neutral {
-  background: var(--line);
-  color: var(--ink-soft);
+  background: var(--tone-neutral-bg);
+  color: var(--tone-neutral-fg);
 }
 .wotd-meaning {
-  margin: 0 0 14px;
+  margin: 0;
   font-size: 15px;
   line-height: 1.5;
   text-align: center;

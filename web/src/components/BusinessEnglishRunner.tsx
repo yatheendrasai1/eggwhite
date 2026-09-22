@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BackHome } from "@/components/BackHome";
+import { NegativeScoringNote } from "@/components/NegativeScoringNote";
 import {
   MAILS,
   VOCAB,
@@ -216,6 +217,10 @@ export function BusinessEnglishRunner({
               medium, ten advanced.
             </p>
           </div>
+          <NegativeScoringNote
+            applicable
+            details="Part I only: flagging a phrase that's actually correct costs 1 point off the editing score. Leaving a real mistake unflagged just scores 0 — no deduction. Part II vocabulary has no penalty for wrong picks."
+          />
           {userName ? <p className="taking">Taking this as {userName}.</p> : null}
         </header>
       </div>
