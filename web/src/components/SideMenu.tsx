@@ -9,10 +9,12 @@ export function SideMenu({
   showDashboard = false,
   showLeaderboard = false,
   showGetSomeSpace = false,
+  showMalayalam = false,
 }: {
   showDashboard?: boolean;
   showLeaderboard?: boolean;
   showGetSomeSpace?: boolean;
+  showMalayalam?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   useBodyScrollLock(open);
@@ -85,12 +87,35 @@ export function SideMenu({
                     </Link>
                   </li>
                 )}
-                <li>
-                  <Link href="/archive" className="side-menu-item" onClick={close}>
-                    Archived tests
-                    <span className="side-menu-chevron">→</span>
-                  </Link>
-                </li>
+                {showMalayalam ? (
+                  <>
+                    <li>
+                      <Link href="/malayalam/revise" className="side-menu-item" onClick={close}>
+                        Revise sentences
+                        <span className="side-menu-chevron">→</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/malayalam/reference" className="side-menu-item" onClick={close}>
+                        Grammar reference
+                        <span className="side-menu-chevron">→</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/malayalam/vocab" className="side-menu-item" onClick={close}>
+                        Vocabulary
+                        <span className="side-menu-chevron">→</span>
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <Link href="/archive" className="side-menu-item" onClick={close}>
+                      Archived tests
+                      <span className="side-menu-chevron">→</span>
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

@@ -4,11 +4,13 @@ import { SignInLink } from "@/components/AuthButtons";
 import { AboutUs } from "@/components/AboutUs";
 import { ProfileDrawer } from "@/components/ProfileDrawer";
 import { SideMenu } from "@/components/SideMenu";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { TutorialModal } from "@/components/TutorialModal";
 import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { isProActive, isTiv } from "@/lib/pro";
 import type { Theme } from "@/lib/theme";
+import { effectiveLanguage, type Language } from "@/lib/language";
 import { isGssEnabled } from "@/lib/games/getSomeSpaceSettings";
 
 export async function Navbar() {
@@ -20,22 +22,30 @@ export async function Navbar() {
   let proExpiresAt: string | null = null;
   let showDashboard = false;
   let theme: Theme = "system";
+  let language: Language = "english";
   const showGetSomeSpace = !!user && (await isGssEnabled());
   if (user?.id) {
     await connectDB();
     const profile = await UserProfileModel.findOne({ userId: user.id })
-      .select("nickname proExpiresAt isTiv theme")
+      .select("nickname proExpiresAt isTiv theme language")
       .lean();
     nickname = profile?.nickname || null;
     isPro = isProActive(profile);
     proExpiresAt = profile?.proExpiresAt ? profile.proExpiresAt.toISOString() : null;
     showDashboard = isTiv(profile);
     theme = (profile?.theme as Theme) || "system";
+    language = effectiveLanguage(profile);
   }
+  const isMalayalam = language === "malayalam";
 
   return (
     <nav className="navbar">
-      <SideMenu showDashboard={showDashboard} showLeaderboard={!!user} showGetSomeSpace={showGetSomeSpace} />
+      <SideMenu
+        showDashboard={showDashboard}
+        showLeaderboard={!!user && !isMalayalam}
+        showGetSomeSpace={showGetSomeSpace && !isMalayalam}
+        showMalayalam={isMalayalam}
+      />
       <Link
         href="/"
         style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
@@ -48,13 +58,16 @@ export async function Navbar() {
       <div className="nav-spacer">
         {user ? (
           <>
-            <Link
-              href="/leaderboard"
-              className="nav-btn nav-btn-wide"
-              style={{ textDecoration: "none" }}
-            >
-              Leaderboard
-            </Link>
+            {showDashboard && <LanguageSwitcher initialLanguage={language} />}
+            {!isMalayalam && (
+              <Link
+                href="/leaderboard"
+                className="nav-btn nav-btn-wide"
+                style={{ textDecoration: "none" }}
+              >
+                Leaderboard
+              </Link>
+            )}
             {showDashboard && (
               <Link
                 href="/dashboard"

@@ -8,6 +8,8 @@ import { LandingHub } from "@/components/LandingHub";
 import { SignInButtons } from "@/components/AuthButtons";
 import { WordOfTheDay } from "@/components/WordOfTheDay";
 import { wordOfTheDay } from "@/lib/wordOfTheDay";
+import { effectiveLanguage } from "@/lib/language";
+import { MalayalamHome } from "@/components/malayalam/MalayalamHome";
 
 function greeting(): { line: string; icon: string } {
   const hour = new Date().getHours();
@@ -22,13 +24,15 @@ export default async function LandingPage() {
   if (session?.user?.id) {
     await connectDB();
     const [profile, active, attempts, disabledTestIds] = await Promise.all([
-      UserProfileModel.findOne({ userId: session.user.id }).select("proExpiresAt").lean(),
+      UserProfileModel.findOne({ userId: session.user.id }).select("proExpiresAt isTiv language").lean(),
       getActiveAttempts(session.user.id),
       listAttempts(session.user.id),
       getDisabledTestIds(),
     ]);
     const isPro = isProActive(profile);
     const firstName = (session.user.name || "").trim().split(/\s+/)[0] || "there";
+
+    if (effectiveLanguage(profile) === "malayalam") return <MalayalamHome firstName={firstName} />;
     const { line, icon } = greeting();
 
     return (

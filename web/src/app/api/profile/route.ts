@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { connectDB } from "@/lib/db";
 import { UserProfileModel } from "@/lib/models/UserProfile";
 import { updateProfileSchema } from "@/lib/validation";
+import { isTiv } from "@/lib/pro";
 
 export async function GET() {
   const session = await auth();
@@ -11,7 +12,11 @@ export async function GET() {
   }
   await connectDB();
   const doc = await UserProfileModel.findOne({ userId: session.user.id }).lean();
-  return NextResponse.json({ nickname: doc?.nickname || null, theme: doc?.theme || "system" });
+  return NextResponse.json({
+    nickname: doc?.nickname || null,
+    theme: doc?.theme || "system",
+    language: doc?.language || "english",
+  });
 }
 
 export async function PATCH(req: Request) {
@@ -36,9 +41,18 @@ export async function PATCH(req: Request) {
   }
 
   await connectDB();
+  if (parsed.data.language === "malayalam") {
+    // The Malayalam module is tiv-only for now.
+    const profile = await UserProfileModel.findOne({ userId: session.user.id })
+      .select("isTiv")
+      .lean();
+    if (!isTiv(profile)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+
   const update: Record<string, unknown> = {};
   if (parsed.data.nickname !== undefined) update.nickname = parsed.data.nickname.trim();
   if (parsed.data.theme !== undefined) update.theme = parsed.data.theme;
+  if (parsed.data.language !== undefined) update.language = parsed.data.language;
 
   const doc = await UserProfileModel.findOneAndUpdate(
     { userId: session.user.id },
@@ -46,5 +60,9 @@ export async function PATCH(req: Request) {
     { upsert: true, new: true }
   );
 
-  return NextResponse.json({ nickname: doc.nickname || null, theme: doc.theme || "system" });
+  return NextResponse.json({
+    nickname: doc.nickname || null,
+    theme: doc.theme || "system",
+    language: doc.language || "english",
+  });
 }

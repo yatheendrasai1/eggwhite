@@ -16,6 +16,8 @@ const UserProfileSchema = new Schema(
     hideFromLeaderboard: { type: Boolean, default: false },
     /** UI theme preference. "system" defers to the OS/browser setting. */
     theme: { type: String, enum: ["light", "dark", "system"], default: "system" },
+    /** Which learning module the app shows. "malayalam" is tiv-only for now. */
+    language: { type: String, enum: ["english", "malayalam"], default: "english" },
   },
   { timestamps: true }
 );

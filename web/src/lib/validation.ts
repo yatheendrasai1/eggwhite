@@ -35,6 +35,7 @@ export const updateProfileSchema = z.object({
   /** Empty string clears the nickname. */
   nickname: z.string().trim().max(32).optional(),
   theme: themeSchema.optional(),
+  language: z.enum(["english", "malayalam"]).optional(),
 });
 
 export const redeemPasscodeSchema = z.object({
